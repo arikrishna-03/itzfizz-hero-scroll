@@ -46,9 +46,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable}`}
     >
-      <body className="bg-background text-neutral-100 min-h-screen selection:bg-accent selection:text-white">
+      <body
+        suppressHydrationWarning
+        className="bg-background text-neutral-100 min-h-screen selection:bg-accent selection:text-white"
+      >
         <SmoothScroll>
           <ScrollProgress />
           <Navbar />

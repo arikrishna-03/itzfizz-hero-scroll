@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import Headline from "./Headline";
 import StatsGrid, { STATS_DATA } from "./StatsGrid";
 import CarVisual from "./CarVisual";
@@ -19,7 +19,7 @@ export default function Hero() {
   const carWrapperRef = useRef<HTMLDivElement>(null);
   const scrollCueRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
