@@ -69,3 +69,67 @@ html.lenis, html.lenis body {
 .lenis.lenis-stopped {
   overflow: hidden;
 }
+
+/* Automotive Motion Keyframes */
+@keyframes carRumble {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-0.8px) rotate(-0.1deg);
+  }
+  50% {
+    transform: translateY(0.6px) rotate(0.08deg);
+  }
+  75% {
+    transform: translateY(-0.4px) rotate(0.06deg);
+  }
+}
+
+@keyframes flameFlicker {
+  0%, 100% {
+    transform: scaleY(1) scaleX(1);
+    opacity: 0.88;
+  }
+  25% {
+    transform: scaleY(1.3) scaleX(1.15);
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(255, 94, 20, 0.9));
+  }
+  50% {
+    transform: scaleY(0.9) scaleX(0.95);
+    opacity: 0.8;
+  }
+  75% {
+    transform: scaleY(1.4) scaleX(1.2);
+    opacity: 1;
+    filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.8));
+  }
+}
+
+@keyframes streamlineFlow {
+  0% {
+    stroke-dashoffset: 40;
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    stroke-dashoffset: -40;
+    opacity: 0.2;
+  }
+}
+
+.animate-car-rumble {
+  animation: carRumble 0.18s infinite ease-in-out;
+}
+
+.animate-flame-flicker {
+  animation: flameFlicker 0.12s infinite ease-in-out;
+}
+
+.animate-streamline {
+  animation: streamlineFlow 1.2s infinite linear;
+}
+
