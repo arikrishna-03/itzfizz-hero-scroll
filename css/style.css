@@ -1,0 +1,1028 @@
+/* ==========================================================================
+   ITZFIZZ — Scroll-Driven Automotive Hero Section
+   Modern CSS3 Styling with Bootstrap 5 Integration
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Variables & Design Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  --bg-primary: #07080c;
+  --bg-surface: #0e111a;
+  --bg-surface-elevated: #151926;
+  --bg-surface-card: rgba(14, 17, 26, 0.75);
+  
+  --accent-papaya: #ff5e14;
+  --accent-glow: #ff8438;
+  --accent-cyan: #00f0ff;
+  --accent-green: #00e676;
+  --accent-purple: #9d4edd;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(255, 94, 20, 0.4);
+  --border-cyan: rgba(0, 240, 255, 0.4);
+  
+  --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  --shadow-glow: 0 0 35px -5px rgba(255, 94, 20, 0.35);
+  --shadow-cyan: 0 0 35px -5px rgba(0, 240, 255, 0.35);
+  --shadow-card: 0 16px 40px -10px rgba(0, 0, 0, 0.6);
+  --glass-blur: blur(16px);
+}
+
+/* --------------------------------------------------------------------------
+   2. Base Reset & Typography
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: #202534;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-papaya);
+}
+
+/* Typography Helpers */
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.text-accent-papaya { color: var(--accent-papaya) !important; }
+.text-accent-cyan { color: var(--accent-cyan) !important; }
+.text-accent-green { color: var(--accent-green) !important; }
+
+/* --------------------------------------------------------------------------
+   3. Navigation Bar
+   -------------------------------------------------------------------------- */
+.itz-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(7, 8, 12, 0.75);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--accent-papaya), #ff3000);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(255, 94, 20, 0.5);
+}
+
+.telemetry-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.btn-telemetry {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-telemetry:hover {
+  background: rgba(255, 94, 20, 0.15);
+  border-color: var(--accent-papaya);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-launch {
+  background: linear-gradient(135deg, var(--accent-papaya), #e64a00);
+  border: none;
+  color: #fff;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 0 0 15px rgba(255, 94, 20, 0.4);
+  transition: all 0.2s ease;
+}
+.btn-launch:hover {
+  box-shadow: 0 0 25px rgba(255, 94, 20, 0.7);
+  transform: translateY(-1px);
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   4. Pinned Hero & Road Experience
+   -------------------------------------------------------------------------- */
+.hero-scroll-container {
+  position: relative;
+  width: 100%;
+  height: 480vh; /* Scroll runway length */
+}
+
+.hero-sticky-stage {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background-color: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Camera Shake Wrapper */
+.camera-shake-box {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  transition: transform 0.05s linear;
+}
+
+/* --------------------------------------------------------------------------
+   5. Asphalt Road, Curbs & Markings
+   -------------------------------------------------------------------------- */
+.road-perspective-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(20, 24, 38, 0.4) 0%, rgba(7, 8, 12, 0.95) 75%, #07080c 100%);
+}
+
+.road-tarmac {
+  position: relative;
+  width: min(850px, 94vw);
+  height: 100%;
+  background-color: #11131a;
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to right, rgba(0, 0, 0, 0.7), transparent 15%, transparent 85%, rgba(0, 0, 0, 0.7));
+  background-size: 24px 24px, 100% 100%;
+  box-shadow: 
+    inset 0 0 80px rgba(0, 0, 0, 0.9),
+    0 0 60px rgba(0, 0, 0, 0.8);
+  border-left: 2px solid rgba(255, 255, 255, 0.12);
+  border-right: 2px solid rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+/* Racing Curbs (Left & Right alternating red/white/papaya) */
+.road-curb {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--accent-papaya) 0px,
+    var(--accent-papaya) 30px,
+    #ffffff 30px,
+    #ffffff 60px,
+    #0c0d12 60px,
+    #0c0d12 90px
+  );
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+.road-curb-left { left: 0; }
+.road-curb-right { right: 0; }
+
+/* Road Center Dashed Lines */
+.road-center-strip {
+  position: absolute;
+  left: 50%;
+  top: -100%;
+  bottom: -100%;
+  width: 6px;
+  transform: translateX(-50%);
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.85) 0px,
+    rgba(255, 255, 255, 0.85) 55px,
+    transparent 55px,
+    transparent 110px
+  );
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
+}
+
+/* Road Secondary Lane Lines */
+.road-lane-left, .road-lane-right {
+  position: absolute;
+  top: -100%;
+  bottom: -100%;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.25) 0px,
+    rgba(255, 255, 255, 0.25) 30px,
+    transparent 30px,
+    transparent 80px
+  );
+}
+.road-lane-left { left: 26%; }
+.road-lane-right { right: 26%; }
+
+/* Asphalt Night Ambient Overlay */
+.road-night-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(7, 8, 12, 0.1) 0%, rgba(7, 8, 12, 0.7) 70%, #07080c 95%);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* --------------------------------------------------------------------------
+   6. Parallax Scenery (Billboards & Street Lamps)
+   -------------------------------------------------------------------------- */
+.scenery-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.scenery-item {
+  position: absolute;
+  transition: transform 0.1s linear;
+}
+
+/* Neon Billboard */
+.neon-billboard {
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(14, 17, 26, 0.9);
+  border: 1px solid var(--border-cyan);
+  box-shadow: var(--shadow-cyan);
+  color: var(--accent-cyan);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Street Light Cone */
+.street-lamp {
+  width: 80px;
+  height: 180px;
+  background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(0, 240, 255, 0.35) 0%, rgba(0, 240, 255, 0.08) 50%, transparent 80%);
+  filter: blur(4px);
+}
+
+/* --------------------------------------------------------------------------
+   7. Intro Stagger Headline: "W E L C O M E   I T Z F I Z Z"
+   -------------------------------------------------------------------------- */
+.hero-headline-wrap {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.hero-super-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 5.5vw, 4.8rem);
+  font-weight: 900;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #ffffff;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 94, 20, 0.25);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: clamp(0.5rem, 1.8vw, 1.6rem);
+}
+
+.headline-word {
+  display: inline-flex;
+}
+
+.headline-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px) scale(0.9);
+  filter: blur(10px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.headline-char.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.headline-subtitle {
+  margin-top: 12px;
+  font-size: clamp(0.85rem, 1.4vw, 1.1rem);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.8s ease 0.8s, transform 0.8s ease 0.8s;
+}
+
+.headline-subtitle.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   8. Checkpoint Stat Gates (The 4 Impact Gates)
+   -------------------------------------------------------------------------- */
+.checkpoint-gate {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(720px, 88vw);
+  z-index: 15;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.gate-overhead-beam {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-radius: 18px;
+  background: rgba(14, 17, 26, 0.85);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.gate-side-pylon {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 50px;
+  transform: translateY(-50%);
+  border-radius: 4px;
+  background: #232738;
+}
+.gate-side-pylon-left { left: -14px; }
+.gate-side-pylon-right { right: -14px; }
+
+.checkpoint-gate.active-gate .gate-overhead-beam {
+  border-color: var(--accent-papaya);
+  box-shadow: 0 0 35px rgba(255, 94, 20, 0.5), 0 12px 36px rgba(0, 0, 0, 0.7);
+  transform: scale(1.02);
+}
+
+.checkpoint-gate.passed-gate .gate-overhead-beam {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 25px rgba(0, 230, 118, 0.4);
+}
+
+.gate-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.gate-stat-number {
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: -0.03em;
+}
+
+.checkpoint-gate.passed-gate .gate-stat-number {
+  color: var(--accent-papaya);
+  text-shadow: 0 0 25px rgba(255, 94, 20, 0.6);
+}
+
+.gate-stat-desc {
+  font-size: clamp(0.75rem, 1.2vw, 0.95rem);
+  color: var(--text-secondary);
+  font-weight: 500;
+  max-width: 300px;
+}
+
+/* --------------------------------------------------------------------------
+   9. Interactive Traffic Cones (Easter Egg)
+   -------------------------------------------------------------------------- */
+.traffic-cone {
+  position: absolute;
+  width: 32px;
+  height: 42px;
+  transform-origin: center bottom;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 12;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.traffic-cone-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.7));
+}
+
+.traffic-cone.knocked {
+  transform: translateY(20px) rotate(85deg) scale(0.9) !important;
+  opacity: 0.65;
+  filter: grayscale(0.3);
+}
+
+/* --------------------------------------------------------------------------
+   10. Canvas FX Layer (Particles, Skid Marks, Speed Lines)
+   -------------------------------------------------------------------------- */
+.canvas-fx-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 18;
+}
+
+/* --------------------------------------------------------------------------
+   11. The Supercar Chassis & Visuals
+   -------------------------------------------------------------------------- */
+.car-anchor {
+  position: absolute;
+  left: 50%;
+  bottom: 22%;
+  width: 140px;
+  height: 280px;
+  transform: translate(-50%, 0);
+  z-index: 20;
+  pointer-events: none;
+  transform-origin: center 60%;
+  will-change: transform;
+}
+
+.car-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: center 60%;
+}
+
+.car-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.9));
+  z-index: 3;
+}
+
+/* Ground Underglow Aura */
+.car-underglow {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 180px;
+  height: 240px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse 65% 70% at 50% 50%, rgba(255, 94, 20, 0.45) 0%, rgba(255, 94, 20, 0.15) 50%, transparent 80%);
+  filter: blur(14px);
+  z-index: 1;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.car-underglow.nitro {
+  background: radial-gradient(ellipse 70% 75% at 50% 50%, rgba(0, 240, 255, 0.6) 0%, rgba(0, 240, 255, 0.2) 50%, transparent 80%);
+  filter: blur(18px);
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Volumetric Laser Headlight Cones */
+.headlight-beam-wrapper {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  width: 440px;
+  height: 480px;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.headlight-beam-left, .headlight-beam-right {
+  position: absolute;
+  bottom: 0;
+  width: 160px;
+  height: 100%;
+  background: radial-gradient(ellipse 70% 100% at 50% 100%, rgba(210, 245, 255, 0.6) 0%, rgba(0, 240, 255, 0.22) 35%, rgba(0, 180, 255, 0.05) 70%, transparent 95%);
+  filter: blur(8px);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 15%, transparent 95%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 15%, transparent 95%);
+}
+.headlight-beam-left { left: 55px; transform-origin: bottom center; transform: rotate(-5deg); }
+.headlight-beam-right { right: 55px; transform-origin: bottom center; transform: rotate(5deg); }
+
+/* Twin Exhaust Flames */
+.exhaust-flames-box {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.exhaust-flame {
+  width: 12px;
+  height: 38px;
+  transform-origin: center top;
+  background: linear-gradient(to bottom, #ffffff 0%, var(--accent-papaya) 40%, transparent 100%);
+  border-radius: 50% 50% 60% 60%;
+  filter: drop-shadow(0 0 10px var(--accent-papaya));
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.exhaust-flame.active {
+  opacity: 0.95;
+  animation: flameRumble 0.08s infinite alternate ease-in-out;
+}
+
+.exhaust-flame.nitro {
+  background: linear-gradient(to bottom, #ffffff 0%, var(--accent-cyan) 35%, #0077ff 75%, transparent 100%);
+  filter: drop-shadow(0 0 14px var(--accent-cyan));
+  height: 52px;
+  animation: flameRumbleNitro 0.05s infinite alternate ease-in-out;
+}
+
+@keyframes flameRumble {
+  0% { transform: scaleY(0.8) scaleX(0.9); }
+  100% { transform: scaleY(1.3) scaleX(1.1); }
+}
+
+@keyframes flameRumbleNitro {
+  0% { transform: scaleY(1.1) scaleX(0.95); }
+  100% { transform: scaleY(1.7) scaleX(1.3); }
+}
+
+/* --------------------------------------------------------------------------
+   12. HUD (Heads-Up Display)
+   -------------------------------------------------------------------------- */
+.race-hud-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(10px, 2.5vw, 24px);
+  padding-top: 75px; /* Navbar clearance */
+}
+
+/* Checkpoint Banner Toast */
+.checkpoint-toast {
+  align-self: center;
+  background: rgba(14, 17, 26, 0.92);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--accent-papaya);
+  box-shadow: var(--shadow-glow);
+  padding: 10px 22px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(-20px) scale(0.95);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.checkpoint-toast.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.checkpoint-toast-badge {
+  background: var(--accent-papaya);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+/* Track Progress Route Bar */
+.track-progress-container {
+  align-self: center;
+  width: min(520px, 86vw);
+  background: rgba(14, 17, 26, 0.85);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 10px 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.track-progress-bar {
+  position: relative;
+  height: 8px;
+  background: #1e2230;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.track-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-papaya), var(--accent-cyan));
+  box-shadow: 0 0 10px var(--accent-papaya);
+  border-radius: 999px;
+  transition: width 0.1s linear;
+}
+
+.gate-marker {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+  background: #3a4156;
+  border: 2px solid #1e2230;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+.gate-marker.cleared {
+  background: var(--accent-green);
+  box-shadow: 0 0 8px var(--accent-green);
+}
+
+/* HUD Bottom Telemetry Panels */
+.hud-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+}
+
+/* Analog Speedometer & Gear Shifter */
+.speedometer-card {
+  background: rgba(14, 17, 26, 0.85);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 16px 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.speed-dial-svg {
+  width: 86px;
+  height: 86px;
+  transform: rotate(-90deg);
+}
+
+.speed-needle-line {
+  transition: transform 0.08s linear;
+  transform-origin: 50px 50px;
+}
+
+.speed-digital-val {
+  font-family: var(--font-heading);
+  font-size: 2.8rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: -0.04em;
+}
+
+.gear-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: #191c28;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--accent-papaya);
+}
+
+/* Nitro & Quick Controls */
+.nitro-card {
+  background: rgba(14, 17, 26, 0.85);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 16px 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.nitro-btn {
+  pointer-events: auto;
+  cursor: pointer;
+  background: linear-gradient(135deg, #0088ff, var(--accent-cyan));
+  color: #07080c;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+  transition: all 0.15s ease;
+}
+.nitro-btn:active, .nitro-btn.active {
+  transform: scale(0.96);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.8);
+}
+
+.nitro-bar-wrap {
+  height: 6px;
+  background: #1e2230;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.nitro-bar-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan);
+  transition: width 0.1s linear;
+}
+
+/* Mobile Steer Pad */
+.mobile-steer-pad {
+  display: none;
+  pointer-events: auto;
+  gap: 12px;
+}
+@media (max-width: 768px) {
+  .mobile-steer-pad {
+    display: flex;
+  }
+}
+
+.steer-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: #fff;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+.steer-btn:active {
+  background: var(--accent-papaya);
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   13. Telemetry Showcase & About Section (Below Hero)
+   -------------------------------------------------------------------------- */
+.telemetry-section {
+  position: relative;
+  background-color: var(--bg-primary);
+  padding: 120px 0 80px;
+  z-index: 30;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.section-tag {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 94, 20, 0.12);
+  border: 1px solid var(--border-highlight);
+  color: var(--accent-papaya);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.telemetry-card {
+  background: var(--bg-surface-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 30px 26px;
+  height: 100%;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.telemetry-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--border-highlight);
+  box-shadow: var(--shadow-glow);
+}
+
+.telemetry-icon-box {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--accent-papaya);
+  margin-bottom: 20px;
+  transition: all 0.2s ease;
+}
+.telemetry-card:hover .telemetry-icon-box {
+  background: var(--accent-papaya);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(255, 94, 20, 0.5);
+}
+
+.metric-big-num {
+  font-family: var(--font-heading);
+  font-size: 3.2rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   14. Controls Reference Modal & Buttons
+   -------------------------------------------------------------------------- */
+.modal-content.dark-modal {
+  background-color: #0e111a;
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  color: var(--text-primary);
+}
+
+.modal-header.dark-modal-header {
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 20px 24px;
+}
+
+.modal-footer.dark-modal-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: 16px 24px;
+}
+
+.key-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #1e2230;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   15. Footer
+   -------------------------------------------------------------------------- */
+.itz-footer {
+  background-color: #050608;
+  border-top: 1px solid var(--border-subtle);
+  padding: 60px 0 40px;
+  color: var(--text-secondary);
+}
+
+.tech-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   16. Accessibility & Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

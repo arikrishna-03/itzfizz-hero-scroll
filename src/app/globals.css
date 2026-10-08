@@ -3,9 +3,44 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Dark Asphalt Racing Theme (Default) */
+  --bg-primary: #08090d;
+  --bg-secondary: #0f1118;
+  --asphalt: #0d1017;
+  --road-curb-red: #ff2a2a;
+  --road-curb-white: #ffffff;
+  --accent-papaya: #ff5e14;
+  --accent-cyan: #00f0ff;
+  --accent-glow: rgba(255, 94, 20, 0.45);
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --hud-bg: rgba(15, 17, 24, 0.85);
+  --hud-border: rgba(255, 255, 255, 0.12);
+  --glass-specular: rgba(255, 255, 255, 0.08);
+
+  /* Typography Fallbacks */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-heading: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+}
+
+[data-theme="light"] {
+  /* Light Trackside Theme Tokens */
+  --bg-primary: #f3f4f8;
+  --bg-secondary: #ffffff;
+  --asphalt: #181c26;
+  --road-curb-red: #e02424;
+  --road-curb-white: #f8fafc;
+  --accent-papaya: #f95700;
+  --accent-cyan: #0088cc;
+  --accent-glow: rgba(249, 87, 0, 0.35);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --hud-bg: rgba(255, 255, 255, 0.92);
+  --hud-border: rgba(0, 0, 0, 0.12);
+  --glass-specular: rgba(0, 0, 0, 0.04);
 }
 
 * {
@@ -15,22 +50,22 @@
 }
 
 html {
-  scroll-behavior: initial !important; /* Managed by Lenis & ScrollTrigger */
-  background-color: #08090d;
-  color: #f3f4f6;
+  scroll-behavior: initial !important; /* Controlled by Lenis & ScrollTrigger */
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   overflow-x: hidden;
 }
 
 body {
   overflow-x: hidden;
-  background-color: #08090d;
-  color: #f3f4f6;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom sleek scrollbar */
+/* Custom sleek high-performance scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -53,7 +88,7 @@ body {
   will-change: transform;
 }
 
-/* Hide scrollbars during Lenis operation if desired, or keep neat */
+/* Lenis smooth scrolling rules */
 html.lenis, html.lenis body {
   height: auto;
 }
@@ -70,66 +105,91 @@ html.lenis, html.lenis body {
   overflow: hidden;
 }
 
-/* Automotive Motion Keyframes */
-@keyframes carRumble {
+/* Automotive Keyframes */
+@keyframes engineIdleVibe {
   0%, 100% {
     transform: translateY(0px) rotate(0deg);
   }
   25% {
-    transform: translateY(-0.8px) rotate(-0.1deg);
+    transform: translateY(-0.7px) rotate(-0.08deg);
   }
   50% {
-    transform: translateY(0.6px) rotate(0.08deg);
+    transform: translateY(0.5px) rotate(0.06deg);
   }
   75% {
-    transform: translateY(-0.4px) rotate(0.06deg);
+    transform: translateY(-0.3px) rotate(0.04deg);
   }
 }
 
-@keyframes flameFlicker {
+@keyframes flamePulse {
   0%, 100% {
     transform: scaleY(1) scaleX(1);
-    opacity: 0.88;
-  }
-  25% {
-    transform: scaleY(1.3) scaleX(1.15);
-    opacity: 1;
-    filter: drop-shadow(0 0 12px rgba(255, 94, 20, 0.9));
+    opacity: 0.9;
   }
   50% {
-    transform: scaleY(0.9) scaleX(0.95);
-    opacity: 0.8;
-  }
-  75% {
-    transform: scaleY(1.4) scaleX(1.2);
+    transform: scaleY(1.35) scaleX(1.15);
     opacity: 1;
-    filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.8));
   }
 }
 
-@keyframes streamlineFlow {
-  0% {
-    stroke-dashoffset: 40;
-    opacity: 0.2;
+@keyframes nitroFlicker {
+  0%, 100% {
+    transform: scaleY(1.6) scaleX(1.1);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.9));
   }
   50% {
-    opacity: 0.85;
+    transform: scaleY(2.2) scaleX(1.25);
+    opacity: 1;
+    filter: drop-shadow(0 0 25px rgba(0, 240, 255, 1));
+  }
+}
+
+@keyframes gateShockwave {
+  0% {
+    transform: scale(0.95);
+    opacity: 1;
   }
   100% {
-    stroke-dashoffset: -40;
-    opacity: 0.2;
+    transform: scale(1.6);
+    opacity: 0;
   }
 }
 
-.animate-car-rumble {
-  animation: carRumble 0.18s infinite ease-in-out;
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
 }
 
-.animate-flame-flicker {
-  animation: flameFlicker 0.12s infinite ease-in-out;
+.animate-engine-idle {
+  animation: engineIdleVibe 0.16s infinite ease-in-out;
 }
 
-.animate-streamline {
-  animation: streamlineFlow 1.2s infinite linear;
+.animate-flame {
+  animation: flamePulse 0.12s infinite ease-in-out;
 }
 
+.animate-nitro-flame {
+  animation: nitroFlicker 0.08s infinite ease-in-out;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-engine-idle,
+  .animate-flame,
+  .animate-nitro-flame {
+    animation: none !important;
+  }
+}

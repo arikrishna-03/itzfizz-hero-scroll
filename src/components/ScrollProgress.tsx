@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ScrollTrigger } from "@/lib/gsap";
 
 export default function ScrollProgress() {
   const [progress, setProgress] = useState(0);
@@ -29,8 +28,8 @@ export default function ScrollProgress() {
         />
       </div>
 
-      {/* Floating HUD telemetry chip */}
-      <div className="absolute top-4 right-4 sm:right-8 flex items-center gap-2 px-3 py-1 rounded-full bg-surface/80 backdrop-blur-md border border-white/10 text-[10px] font-mono text-neutral-400">
+      {/* Floating HUD telemetry chip positioned cleanly without clashing with navbar */}
+      <div className="hidden sm:flex absolute top-4 right-28 sm:right-36 items-center gap-2 px-3 py-1 rounded-full bg-surface/80 backdrop-blur-md border border-white/10 text-[10px] font-mono text-neutral-400">
         <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
         <span>STAGE TRACK: {Math.round(progress)}%</span>
       </div>

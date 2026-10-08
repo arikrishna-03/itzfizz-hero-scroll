@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-const isProd = process.env.NODE_ENV === "production";
 const repoName = process.env.GITHUB_REPOSITORY
   ? `/${process.env.GITHUB_REPOSITORY.split("/")[1]}`
   : process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -17,4 +16,4 @@ const nextConfig = {
   trailingSlash: true,
 };
 
-export default nextConfig;
+module.exports = nextConfig;

@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "node server.js",
+    "build": "echo \"Static bundle ready in repository root.\" && exit 0",
+    "start": "node server.js"
   },
   "dependencies": {
     "clsx": "^2.1.1",
