@@ -1,195 +1,166 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
+/* =========================================================================
+   CSS DESIGN TOKENS & SYSTEM VARIABLES
+   ========================================================================= */
 :root {
-  /* Dark Asphalt Racing Theme (Default) */
-  --bg-primary: #08090d;
-  --bg-secondary: #0f1118;
-  --asphalt: #0d1017;
-  --road-curb-red: #ff2a2a;
-  --road-curb-white: #ffffff;
-  --accent-papaya: #ff5e14;
-  --accent-cyan: #00f0ff;
-  --accent-glow: rgba(255, 94, 20, 0.45);
-  --text-primary: #f3f4f6;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
-  --hud-bg: rgba(15, 17, 24, 0.85);
-  --hud-border: rgba(255, 255, 255, 0.12);
-  --glass-specular: rgba(255, 255, 255, 0.08);
+  --bg-color: #0A0A0A;
+  --text-primary: #F5F5F7;
+  --text-muted: rgba(245, 245, 247, 0.6);
+  --text-subtle: rgba(245, 245, 247, 0.35);
 
-  /* Typography Fallbacks */
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-heading: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+  /* Primary Accent: High-voltage Lime (#C6FF3D) */
+  --accent-color: #C6FF3D;
+  --accent-rgb: 198, 255, 61;
+  --accent-glow: rgba(198, 255, 61, 0.25);
+  --accent-glow-bright: rgba(198, 255, 61, 0.85);
+
+  --divider-color: rgba(255, 255, 255, 0.12);
+  --divider-hover-glow: rgba(198, 255, 61, 0.85);
+
+  /* Mathematical Curves */
+  --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-power2-inout: cubic-bezier(0.45, 0, 0.55, 1);
+
+  /* Letter Spacing States */
+  --letter-spacing-initial: 0.2em;
+  --letter-spacing-final: 0.5em;
+  --letter-spacing-scroll: 0.9em;
 }
 
-[data-theme="light"] {
-  /* Light Trackside Theme Tokens */
-  --bg-primary: #f3f4f8;
-  --bg-secondary: #ffffff;
-  --asphalt: #181c26;
-  --road-curb-red: #e02424;
-  --road-curb-white: #f8fafc;
-  --accent-papaya: #f95700;
-  --accent-cyan: #0088cc;
-  --accent-glow: rgba(249, 87, 0, 0.35);
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  --hud-bg: rgba(255, 255, 255, 0.92);
-  --hud-border: rgba(0, 0, 0, 0.12);
-  --glass-specular: rgba(0, 0, 0, 0.04);
+/* Electric Blue Alternative Theme */
+[data-theme="blue"] {
+  --accent-color: #00E5FF;
+  --accent-rgb: 0, 229, 255;
+  --accent-glow: rgba(0, 229, 255, 0.28);
+  --accent-glow-bright: rgba(0, 229, 255, 0.85);
+  --divider-hover-glow: rgba(0, 229, 255, 0.85);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+/* =========================================================================
+   BASE RESET & VIEWPORT
+   ========================================================================= */
 html {
-  scroll-behavior: initial !important; /* Controlled by Lenis & ScrollTrigger */
-  background-color: var(--bg-primary);
+  background-color: var(--bg-color);
   color: var(--text-primary);
-  overflow-x: hidden;
-}
-
-body {
-  overflow-x: hidden;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  scroll-behavior: auto !important; /* Managed cleanly by ScrollTrigger */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom sleek high-performance scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  overflow-x: clip;
+  min-height: 100vh;
 }
 
-::-webkit-scrollbar-track {
-  background: #08090d;
+/* =========================================================================
+   PRE-LOAD STATE (NO FOUC - REVEAL VIA GSAP ONLY)
+   ========================================================================= */
+.is-preloading .hero-char {
+  opacity: 0;
+  transform: translateY(100%);
 }
 
-::-webkit-scrollbar-thumb {
-  background: #232733;
-  border-radius: 9999px;
+.is-preloading .hero-accent-line {
+  transform: scaleX(0);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #ff5e14;
+.is-preloading .hero-stat-block {
+  opacity: 0;
+  transform: translateY(32px);
+  filter: blur(8px);
 }
 
-/* GPU acceleration helpers */
-.will-change-transform {
-  will-change: transform;
+.is-preloading .hero-stat-divider {
+  transform: scaleY(0);
 }
 
-/* Lenis smooth scrolling rules */
-html.lenis, html.lenis body {
-  height: auto;
+.is-preloading .hero-visual-obj {
+  opacity: 0;
+  transform: scale(0.92);
 }
 
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
+/* =========================================================================
+   FILM GRAIN TEXTURE (4% Opacity)
+   ========================================================================= */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 900;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
+/* Tabular figures to prevent layout shift during count-ups */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }
 
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-/* Automotive Keyframes */
-@keyframes engineIdleVibe {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  25% {
-    transform: translateY(-0.7px) rotate(-0.08deg);
-  }
-  50% {
-    transform: translateY(0.5px) rotate(0.06deg);
-  }
-  75% {
-    transform: translateY(-0.3px) rotate(0.04deg);
-  }
-}
-
-@keyframes flamePulse {
-  0%, 100% {
-    transform: scaleY(1) scaleX(1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scaleY(1.35) scaleX(1.15);
-    opacity: 1;
-  }
-}
-
-@keyframes nitroFlicker {
-  0%, 100% {
-    transform: scaleY(1.6) scaleX(1.1);
-    opacity: 0.95;
-    filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.9));
-  }
-  50% {
-    transform: scaleY(2.2) scaleX(1.25);
-    opacity: 1;
-    filter: drop-shadow(0 0 25px rgba(0, 240, 255, 1));
-  }
-}
-
-@keyframes gateShockwave {
-  0% {
-    transform: scale(0.95);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.6);
-    opacity: 0;
-  }
-}
-
-@keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-.animate-engine-idle {
-  animation: engineIdleVibe 0.16s infinite ease-in-out;
-}
-
-.animate-flame {
-  animation: flamePulse 0.12s infinite ease-in-out;
-}
-
-.animate-nitro-flame {
-  animation: nitroFlicker 0.08s infinite ease-in-out;
-}
-
-/* Reduced Motion Override */
+/* =========================================================================
+   ACCESSIBILITY & PREFERS-REDUCED-MOTION
+   ========================================================================= */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .animate-engine-idle,
-  .animate-flame,
-  .animate-nitro-flame {
-    animation: none !important;
+
+  .hero-char {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
+
+  .hero-headline {
+    letter-spacing: var(--letter-spacing-final) !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero-accent-line {
+    transform: scaleX(1) !important;
+  }
+
+  .hero-stat-block {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .hero-stat-divider {
+    transform: scaleY(1) !important;
+  }
+
+  .hero-visual-obj {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* NoScript Fallback: shows complete final composition */
+noscript .hero-char,
+noscript .hero-stat-block,
+noscript .hero-visual-obj {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+noscript .hero-accent-line {
+  transform: scaleX(1) !important;
+}
+
+noscript .hero-stat-divider {
+  transform: scaleY(1) !important;
 }

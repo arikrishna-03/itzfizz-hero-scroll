@@ -1,13 +1,13 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-  // Configure GSAP defaults for silky 60fps rendering
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
   gsap.config({
     autoSleep: 60,
     force3D: true,
   });
 }
 
-export { gsap, ScrollTrigger };
+export { gsap, ScrollTrigger, useGSAP };

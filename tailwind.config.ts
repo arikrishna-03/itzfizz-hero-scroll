@@ -9,54 +9,35 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--bg-primary, #08090d)",
-        asphalt: {
-          DEFAULT: "var(--asphalt, #0d1017)",
-          dark: "#06070a",
-          light: "#161922",
-          track: "#0a0c12",
-        },
+        background: "var(--bg-color, #0A0A0A)",
+        offwhite: "var(--text-primary, #F5F5F7)",
+        muted: "var(--text-muted, rgba(245, 245, 247, 0.6))",
+        subtle: "rgba(245, 245, 247, 0.35)",
         surface: {
-          light: "#1a1d27",
-          DEFAULT: "var(--bg-secondary, #0f1118)",
-          dark: "#0a0b10",
+          DEFAULT: "rgba(18, 18, 20, 0.7)",
+          card: "rgba(255, 255, 255, 0.03)",
         },
+        divider: "var(--divider-color, rgba(255, 255, 255, 0.12))",
         accent: {
-          DEFAULT: "var(--accent-papaya, #ff5e14)", // McLaren Papaya
-          glow: "#ff8438",
-          hot: "#ff3b00",
-          cyan: "var(--accent-cyan, #00f0ff)",
-          electric: "#00d4ff",
+          DEFAULT: "var(--accent-color, #C6FF3D)",
+          lime: "#C6FF3D",
+          blue: "#00E5FF",
+          glow: "var(--accent-glow, rgba(198, 255, 61, 0.25))",
+          bright: "var(--accent-glow-bright, rgba(198, 255, 61, 0.8))",
         },
-        nitro: {
-          DEFAULT: "#00f0ff",
-          glow: "#70f5ff",
-          purple: "#a855f7",
-        },
-        gate: {
-          flash: "#ffffff",
-          active: "#ff5e14",
-          success: "#10b981",
-        },
-        border: "rgba(255, 255, 255, 0.08)",
-        borderHighlight: "rgba(255, 94, 20, 0.4)",
       },
       fontFamily: {
         heading: ["var(--font-heading)", "Space Grotesk", "sans-serif"],
         mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
         sans: ["var(--font-sans)", "Inter", "sans-serif"],
       },
-      boxShadow: {
-        glow: "0 0 40px -10px rgba(255, 94, 20, 0.45)",
-        glowCyan: "0 0 40px -10px rgba(0, 240, 255, 0.45)",
-        carGlow: "0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px -5px rgba(255, 94, 20, 0.25)",
-        cardGlass: "0 8px 32px 0 rgba(0, 0, 0, 0.45)",
-        hudGlass: "0 10px 40px -10px rgba(0, 0, 0, 0.65), 0 0 1px 1px rgba(255, 255, 255, 0.1)",
-        gateGlow: "0 0 50px rgba(255, 94, 20, 0.6)",
+      transitionTimingFunction: {
+        "expo-out": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "power2-inout": "cubic-bezier(0.45, 0, 0.55, 1)",
       },
-      backgroundImage: {
-        "radial-dark": "radial-gradient(circle at 50% 40%, rgba(30, 36, 54, 0.45) 0%, rgba(8, 9, 13, 0.95) 70%, #08090d 100%)",
-        "grid-pattern": "linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px)",
+      letterSpacing: {
+        "ultra-wide": "0.5em",
+        "scroll-wide": "0.9em",
       },
     },
   },

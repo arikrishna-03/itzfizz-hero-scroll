@@ -1,40 +1,32 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, JetBrains_Mono, Inter } from "next/font/google";
+import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "@/components/SmoothScroll";
-import Navbar from "@/components/Navbar";
-import ScrollProgress from "@/components/ScrollProgress";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
+  weight: ["500", "600", "700"],
 });
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  weight: ["400", "500", "600"],
 });
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
-  themeColor: "#08090d",
+  themeColor: "#0A0A0A",
 };
 
 export const metadata: Metadata = {
-  title: "WELCOME ITZFIZZ — Scroll-Driven Automotive Hero",
+  title: "WELCOME ITZFIZZ — Cinematic Hero Experience",
   description:
-    "High-performance scroll-driven automotive hero section animation built with Next.js, Tailwind CSS, and GSAP ScrollTrigger.",
-  keywords: ["GSAP", "ScrollTrigger", "Next.js", "Tailwind CSS", "Scroll Animation", "ITZFIZZ"],
+    "A production-grade, scroll-animated cinematic hero section for ITZFIZZ engineered with GSAP, ScrollTrigger, and Next.js.",
+  keywords: ["GSAP", "ScrollTrigger", "Next.js", "Hero Section", "Cinematic", "ITZFIZZ"],
   authors: [{ name: "ITZFIZZ Architecture Team" }],
 };
 
@@ -47,17 +39,23 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable}`}
+      className={`${spaceGrotesk.variable} ${inter.variable}`}
     >
+      <head>
+        <noscript>
+          <style>{`
+            .hero-char, .hero-stat-block, .hero-visual-obj { opacity: 1 !important; transform: none !important; filter: none !important; }
+            .hero-accent-line { transform: scaleX(1) !important; }
+            .hero-stat-divider { transform: scaleY(1) !important; }
+          `}</style>
+        </noscript>
+      </head>
       <body
         suppressHydrationWarning
-        className="bg-background text-neutral-100 min-h-screen selection:bg-accent selection:text-white"
+        className="bg-[#0A0A0A] text-[#F5F5F7] min-h-screen selection:bg-[#C6FF3D] selection:text-[#0A0A0A]"
       >
-        <SmoothScroll>
-          <ScrollProgress />
-          <Navbar />
-          <main>{children}</main>
-        </SmoothScroll>
+        <div className="film-grain" aria-hidden="true" />
+        <main>{children}</main>
       </body>
     </html>
   );

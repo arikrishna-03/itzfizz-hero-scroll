@@ -1,136 +1,162 @@
-# ITZFIZZ — Scroll-Driven Automotive Hero Section Animation
+# ITZFIZZ — Hyper-Cinematic Animated Hero Section
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.svg)](https://nextjs.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
-[![GSAP](https://img.shields.io/badge/GSAP-3.12-green?logo=greensock)](https://greensock.com/gsap/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-A reproduction and elevated implementation of the scroll-driven hero section inspired by [paraschaturvedi.github.io/car-scroll-animation](https://paraschaturvedi.github.io/car-scroll-animation).
-
-Built with **Next.js App Router**, **TypeScript**, **Tailwind CSS**, and **GSAP ScrollTrigger**, integrated with **Lenis** smooth momentum scrolling, and optimized for **GitHub Pages Static Export**.
+A production-grade, scroll-driven interactive hero section built for **ITZFIZZ**. Engineered with sub-millisecond motion choreography, GPU-accelerated compositing pipelines, and WCAG AA accessibility standards.
 
 ---
 
-## 🏎️ Key Features
+## 1. Deliverables Overview
 
-1. **First-Screen Layout (`100svh`)**:
-   - Spaced, responsive headline: `W E L C O M E   I T Z F I Z Z` rendered with individual character `<span>` tokens for staggered animation.
-   - 4 impact metrics below the fold line:
-     - **58%** — *Increase in pick up point use*
-     - **23%** — *Decrease in customer phone calls*
-     - **27%** — *Increase in pick up point use*
-     - **40%** — *Decrease in customer phone calls*
-   - Top-down supercar visual with dual forward headlight illumination, papaya underglow aura, and rear exhausts.
+This project includes three production-ready implementations matching the identical choreography and timing constants:
 
-2. **Initial Load Sequence (~2s Timeline)**:
-   - Headline letters fade in from `translateY(40px)` with optical blur-to-sharp settling (`power3.out`).
-   - Car glides into starting position on the tarmac.
-   - Stat cards stagger into view (`opacity: 0 -> 1`, `y: 35 -> 0`), and numbers count up smoothly from `0` to their respective targets.
-
-3. **Deterministic Scroll-Driven Kinematics (Core Feature)**:
-   - Hero pinned with `ScrollTrigger` across `350vh` of virtual travel distance.
-   - Fully scrubbed timeline (`scrub: 1.2` with Lenis lerp smoothing): **Zero time-based autoplay**.
-   - The supercar follows a multi-phase S-curve trajectory:
-     - **Stage 1 (0% - 30%)**: Forward acceleration with banking tilt (-5°). Left stat cards elevate and glow.
-     - **Stage 2 (30% - 65%)**: Sweeping cross-center drift (7°), passing by the right stat cards with dynamic highlight traces. Road lines rush backward at velocity.
-     - **Stage 3 (65% - 100%)**: High-speed realign, downward exit, and seamless transition into the subsequent content section.
-   - **Reversible**: Scrolling up exactly and faithfully reverses the animation at every frame.
-
-4. **Performance & Standards**:
-   - Animates exclusively GPU-composited properties: `transform` (`x`, `y`, `rotate`, `scale`) and `opacity`.
-   - `will-change: transform` and `force3D: true`.
-   - Fully accessible: `aria-label` on headline, respects `prefers-reduced-motion` media queries.
-   - Clean lifecycle management: `gsap.context()` ensures zero memory leaks on unmount.
+| Deliverable | Technology Stack | Entry Points & Key Files |
+| :--- | :--- | :--- |
+| **A) Next.js + Tailwind (Primary)** | Next.js 15 (App Router), React 19, `@gsap/react` `useGSAP`, Tailwind CSS | `src/app/page.tsx`<br>`src/app/layout.tsx`<br>`src/components/Hero.tsx`<br>`src/components/StatCounter.tsx`<br>`src/lib/gsap.ts` |
+| **B) Plain HTML + CSS + JS (Fallback)** | HTML5, Vanilla CSS3, Modern ES2022, GSAP 3 CDN, Bootstrap 5.3 Grid | `index.html`<br>`server.js` |
+| **C) WordPress Theme Template (Optional)** | PHP 8+, WordPress Template Hierarchy, Bootstrap 5 Grid, GSAP 3 | `wordpress/template-parts/hero.php`<br>`wordpress/functions.php`<br>`wordpress/assets/css/hero.css`<br>`wordpress/assets/js/hero.js` |
 
 ---
 
-## 🛠️ Tech Stack
+## 2. Quick Start & Running Locally
 
-- **Framework**: [Next.js](https://nextjs.org/) (App Router, Static Export `output: 'export'`)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Animation Engine**: [GSAP](https://greensock.com/gsap/) + [ScrollTrigger](https://greensock.com/scrolltrigger/)
-- **Smooth Momentum**: [Lenis](https://lenis.darkroom.engineering/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-
----
-
-## 📂 Project Architecture
-
-```
-├── .github/
-│   └── workflows/
-│       └── deploy.yml         # GitHub Actions automated Pages deployment
-├── public/
-│   ├── car-top.png            # High-res top-view supercar asset
-│   └── car-top.jpg            # Optimized asset fallback
-├── src/
-│   ├── app/
-│   │   ├── globals.css        # Tailwind directives, fonts, GPU tokens
-│   │   ├── layout.tsx         # Root layout, Google fonts, metadata
-│   │   └── page.tsx           # Assembled page
-│   ├── components/
-│   │   ├── Hero.tsx           # Pinned scroll hero, GSAP master timelines
-│   │   ├── Headline.tsx       # Character-wrapped fluid headline
-│   │   ├── StatsGrid.tsx      # Responsive metrics grid
-│   │   ├── StatCard.tsx       # Glassmorphism stat card & counter hooks
-│   │   ├── CarVisual.tsx      # Supercar visual + headlights + SVG fallback
-│   │   ├── Navbar.tsx         # HUD telemetry header
-│   │   ├── ScrollProgress.tsx # Realtime scroll bar + percentage indicator
-│   │   ├── AboutSection.tsx   # Subsequent telemetry showcase
-│   │   ├── Footer.tsx         # Footer with reference links & top jump
-│   │   └── SmoothScroll.tsx   # Lenis integration with GSAP ticker
-│   ├── hooks/
-│   │   └── useReducedMotion.ts# Accessible motion detection hook
-│   └── lib/
-│       └── gsap.ts            # Client-side GSAP & ScrollTrigger registration
-├── next.config.mjs            # Static export configuration & basePath resolution
-├── tailwind.config.ts         # Automotive noir theme tokens
-└── tsconfig.json              # TypeScript compilation rules
-```
-
----
-
-## 🚀 Getting Started Locally
-
-### Prerequisites
-- Node.js 18.x or 20.x
-- npm / pnpm / yarn
-
-### Installation
+### Running the Next.js Production App
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/itzfizz-scroll-animation.git
-cd itzfizz-scroll-animation
-
-# Install dependencies
+# Install dependencies (including GSAP and @gsap/react)
 npm install
 
-# Run the development server
-npm run dev
+# Start Next.js development server
+npx next dev -p 3000
+
+# Run static production build & export
+npx next build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-## 🏗️ Production Static Build & Testing
-
-To test the GitHub Pages static export locally:
-
+### Running the Plain HTML / Static Variant
 ```bash
-# Generate the static HTML/CSS/JS export in /out
-npm run build
+# Run lightweight Node HTTP static server
+node server.js
+# Access at: http://localhost:3000
 ```
-
-The output directory `./out` contains the completely static, zero-server bundle ready to be hosted on GitHub Pages, Cloudflare Pages, Vercel, or Netlify.
 
 ---
 
-## 🌐 Deploying to GitHub Pages
+## 3. Architecture & Choreography Specification
 
-1. Push your repository to GitHub (`main` branch).
-2. Go to **Settings** > **Pages** in your repository.
-3. Under **Build and deployment** > **Source**, choose **GitHub Actions**.
-4. The workflow in `.github/workflows/deploy.yml` will automatically build and deploy your site on every push to `main`.
+### A. Layout (Above the Fold)
+- **Viewport Lock:** Hero fills exactly the initial screen (`min-height: 100svh`, utilizing modern `svh` units to prevent mobile browser URL bar reflows).
+- **Dark Theme:** Near-black `#0A0A0A` background, off-white `#F5F5F7` typography, high-voltage Lime `#C6FF3D` primary accent (with Electric Blue `#00E5FF` toggle).
+- **Headline:** `"W E L C O M E   I T Z F I Z Z"` rendered with individual letter `<span>` masks, bold geometric sans (`Space Grotesk`), starting at `0.2em` letter-spacing and easing to `0.5em`.
+- **Main Visual Object:** Large transparent PNG (`/car-transparent.png`) centered between the ambient pulsing radial glow and the metrics panel.
+- **Impact Metrics:** 4 impact stats (58%, 23%, 27%, 40%) in a 4-column desktop layout and automatic 2x2 grid on mobile screens.
+
+### B. Master Load Timeline (~3.5s sequence)
+```
+0.00s  [Background & Glow]  Fades in from black (0.6s). Radial glow begins 8s loop pulse.
+0.20s  [Visual Object]     Main hero object scales and arrives smoothly.
+0.30s  [Headline Reveal]   Label "headline": Letters rise from mask (yPercent 100 -> 0, blur 6px -> 0).
+       [Letter Spacing]    Letter-spacing breathes outward from 0.2em to 0.5em (1.3s duration).
+1.60s  [Accent Line]       Thin accent line draws left-to-right beneath headline (scaleX 0 -> 1, 0.8s).
+2.00s  [Stats Sequence]    Label "stats": Blocks rise in staggered sequence (0.18s apart).
+       [Dividers]          Vertical divider lines draw in (scaleY 0 -> 1, 0.6s) before numbers.
+       [Counters]          Numbers count up 0 to target over 1.6s with easeOutExpo (tabular-nums).
+3.50s  [Settled State]     Everything settled; scroll-based scrubbing enabled.
+```
+
+### C. 300% Pinned Scroll Choreography
+Intro animations control each element's **OUTER wrapper**, while scroll scrub controls the **INNER wrapper**. This architectural separation prevents transform collisions.
+
+- **0.00 - 0.10 (HOLD):** Dead zone for micro-scrolls; composition holds steady at rest.
+- **0.10 - 0.55 (PHASE 1 - TRAVEL):**
+  - **Visual Object:** Travels horizontally from `-30vw` to `+30vw` with a `4vh` upward arc at midpoint, banking rotation `-4deg` to `+4deg`, scaling `0.9` to `1.15`.
+  - **Headline:** Letter-spacing widens dynamically from `0.5em` to `0.9em`.
+  - **Radial Glow:** Tracks behind the visual object at `0.4x` parallax speed.
+- **0.55 - 0.90 (PHASE 2 - DEPTH):**
+  - **Visual Object:** Scales `1.15` to `1.4`, settles back to center, applies subtle `3px` camera blur (desktop only).
+  - **Headline:** Lifts `-60px` and fades `1` to `0`.
+  - **Stats:** Drifts down with `0.6x` parallax, opacity easing to `0.4`.
+  - **Glow:** Scales `1.0` to `1.5` and disperses.
+- **0.90 - 1.00 (RELEASE):** Pinned container cleanly releases into subsequent narrative content.
+
+---
+
+## 4. Configuration & Tweak Guide
+
+All timing, distance, and easing parameters are exposed at the top of the animation files (`src/components/Hero.tsx` and `index.html`):
+
+```typescript
+export const INTRO = {
+  letterStagger: 0.045,  // Stagger per letter (seconds)
+  letterDuration: 1.0,   // Entrance duration per letter
+  statGap: 0.18,         // Delay between subsequent stat cards
+  statDuration: 0.9,     // Rise duration of stat cards
+  countDuration: 1.6,    // Numeric count-up duration
+  ease: "expo.out",      // Mathematical easeOutExpo
+  startDelay: 0.3,       // Delay before headline unmasking starts
+};
+
+export const SCROLL = {
+  pinDistance: { desktop: "300%", tablet: "250%", mobile: "200%" },
+  scrub: 1.2,            // Inertial catch-up smoothness
+  travelX: { desktop: 30, tablet: 24, mobile: 16 }, // Horizontal travel distance in vw
+  scaleRange: [0.9, 1.4],
+  rotateRange: [-4, 4],
+  letterSpacingRange: [0.5, 0.9],
+  holdStart: 0.10,
+  ease: "power2.inOut",
+};
+```
+
+### Swapping Impact Metrics Data
+In `src/components/StatCounter.tsx`:
+```typescript
+export const STATS_DATA: StatItem[] = [
+  { id: "stat-1", value: 58, suffix: "%", label: "Increase in user interaction", ariaLabel: "58 percent..." },
+  { id: "stat-2", value: 23, suffix: "%", label: "Increase in revenue", ariaLabel: "23 percent..." },
+  { id: "stat-3", value: 27, suffix: "%", label: "Boost in engagement", ariaLabel: "27 percent..." },
+  { id: "stat-4", value: 40, suffix: "%", label: "Decrease in bounce rate", ariaLabel: "40 percent..." },
+];
+```
+
+### Swapping the Visual Object Asset
+Place your transparent WebP/PNG image in `public/` (e.g. `public/my-product.png`) and update the `<Image>` tag in `src/components/Hero.tsx`:
+```tsx
+<Image
+  src="/my-product.png"
+  alt=""
+  priority
+  aria-hidden="true"
+  width={800}
+  height={400}
+  className="hero-visual-obj w-[clamp(240px,46vw,680px)] h-auto object-contain"
+/>
+```
+
+---
+
+## 5. Micro-Interactions & Features
+
+- **Stat Card Hover:** Hovering a stat block shifts the number to pure white with luminous drop shadow, illuminates the adjacent divider line in accent color, and translates the card `-6px` upward.
+- **Letter Hover:** Hovering any headline character applies a pop animation, highlighting the letter in accent tone with soft glow.
+- **Desktop Glow Follower:** On pointer-fine devices, the ambient radial glow gently tracks mouse movement (interpolated using `gsap.quickTo` for zero garbage collection).
+- **Debug HUD:** Append `?debug` to the URL (e.g., `http://localhost:3000/?debug`) to activate a real-time HUD displaying scroll progress (`0.000` to `1.000`), active choreography phases, and ScrollTrigger visual markers.
+- **Window Replay Method:** Call `window.replayIntro()` in the browser console or click the `REPLAY` button in the navigation bar to replay the entrance sequence.
+
+---
+
+## 6. Accessibility & Performance Verification
+
+- **Prefers-Reduced-Motion:** Fully respects user OS accessibility settings. Skips letter stagger, scrubbing, and pinning; immediately presents the final settled composition with a simple 0.3s fade and target figures.
+- **No-JS / Noscript Fallback:** Native `<noscript>` styles guarantee immediate display of the headline, car object, and final statistics if scripts are disabled.
+- **Screen Reader Clarity:** `<h1 aria-label="Welcome Itzfizz">` ensures screen readers read the full headline naturally, ignoring masked spans (`aria-hidden="true"`). Numeric counters expose complete `aria-label="58 percent"` values so intermediate count-up numbers are never read out loud.
+- **GPU-First Pipelines:** Only `transform` and `opacity` are animated during scroll. `will-change` is applied exclusively while animating and removed on completion.
+
+---
+
+## 7. Verification Checklist
+
+- [x] Headline and stats visible above the fold at both 1440x900 and 390x844 viewports
+- [x] Entrance timeline executes in ~3.5s with zero Flash of Unstyled Content (FOUC)
+- [x] Scroll reverses smoothly and freezes when scrolling ceases
+- [x] Strict adherence to composited transforms (`x`, `y`, `scale`, `rotate`, `opacity`)
+- [x] Zero memory leaks: `@gsap/react` `useGSAP` hook automatically cleans up triggers on unmount
+- [x] WordPress theme integration provided in `wordpress/` directory
+- [x] Lighthouse-ready performance with WCAG AA contrast compliance

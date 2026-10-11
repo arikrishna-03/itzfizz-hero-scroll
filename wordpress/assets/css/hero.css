@@ -1,0 +1,259 @@
+/* ===========================================================================
+   ITZFIZZ WORDPRESS HERO STYLES (Bootstrap 5 Integrated Variant)
+   =========================================================================== */
+
+:root {
+  --bg-color: #0A0A0A;
+  --text-primary: #F5F5F7;
+  --text-muted: rgba(245, 245, 247, 0.6);
+  --accent-color: #C6FF3D;
+  --accent-glow: rgba(198, 255, 61, 0.25);
+  --accent-glow-bright: rgba(198, 255, 61, 0.85);
+  --divider-color: rgba(255, 255, 255, 0.12);
+  --font-heading: 'Space Grotesk', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+}
+
+[data-theme="blue"] {
+  --accent-color: #00E5FF;
+  --accent-glow: rgba(0, 229, 255, 0.28);
+  --accent-glow-bright: rgba(0, 229, 255, 0.85);
+}
+
+.itz-hero-scroll-wrapper {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  position: relative;
+  width: 100%;
+}
+
+.itz-hero-stage {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 100svh;
+  max-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  padding: 4.5rem 1rem 1.5rem;
+}
+
+.itz-glow-outer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.itz-glow-inner {
+  width: clamp(320px, 60vw, 800px);
+  height: clamp(240px, 40vh, 500px);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, var(--accent-glow) 0%, rgba(198, 255, 61, 0.04) 50%, transparent 72%);
+  filter: blur(60px);
+}
+
+.itz-film-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 900;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.itz-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--accent-color);
+  background: rgba(198, 255, 61, 0.1);
+  color: var(--accent-color);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.75rem;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.itz-brand-title {
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  font-size: 0.95rem;
+}
+
+.itz-btn-glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  font-family: monospace;
+  font-size: 0.75rem;
+  border-radius: 20px;
+}
+.itz-btn-glass:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.itz-btn-accent {
+  background: rgba(198, 255, 61, 0.1);
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  font-family: monospace;
+  font-size: 0.75rem;
+  border-radius: 20px;
+}
+
+.itz-kicker {
+  font-size: clamp(0.68rem, 1.1vw, 0.8rem);
+  letter-spacing: 0.28em;
+  color: rgba(245, 245, 247, 0.4);
+}
+
+.itz-headline {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(2.4rem, 7vw, 6.5rem);
+  line-height: 1.05;
+  color: var(--text-primary);
+  letter-spacing: 0.2em;
+  margin: 0;
+  user-select: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.itz-word-wrap {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+.itz-char-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.itz-char {
+  display: inline-block;
+  cursor: default;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.itz-char:hover {
+  color: var(--accent-color);
+  text-shadow: 0 0 16px var(--accent-glow-bright);
+}
+
+.itz-accent-line-track {
+  width: min(80%, 420px);
+  height: 2px;
+  overflow: hidden;
+}
+
+.itz-accent-line {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  box-shadow: 0 0 12px var(--accent-glow-bright);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+.itz-hero-image {
+  max-height: 26vh;
+  width: clamp(240px, 46vw, 680px);
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.8));
+}
+
+.itz-stats-outer {
+  position: relative;
+  z-index: 20;
+}
+
+.itz-stats-row {
+  background: rgba(18, 18, 20, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(14px);
+}
+
+.itz-stat-block {
+  cursor: default;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+}
+.itz-stat-block:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.itz-stat-divider {
+  position: absolute;
+  right: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 1px;
+  background: var(--divider-color);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.itz-stat-block:hover .itz-stat-divider {
+  background: var(--accent-color);
+  box-shadow: 0 0 12px var(--accent-glow-bright);
+}
+
+.itz-stat-number-wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  color: var(--accent-color);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.itz-stat-block:hover .itz-stat-number-wrap {
+  color: #FFFFFF;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+}
+
+.itz-stat-number {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(1.85rem, 4.5vw, 3.6rem);
+  line-height: 1;
+}
+
+.itz-stat-suffix {
+  font-size: 0.6em;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.itz-stat-label {
+  font-size: clamp(0.75rem, 1.1vw, 0.9rem);
+  color: var(--text-muted);
+  max-width: 160px;
+  margin: 0 auto;
+}
+
+.itz-scroll-hint {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: rgba(245, 245, 247, 0.3);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
