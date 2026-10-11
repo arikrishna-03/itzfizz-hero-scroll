@@ -52,9 +52,8 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className="bg-[#0A0A0A] text-[#F5F5F7] min-h-screen selection:bg-[#C6FF3D] selection:text-[#0A0A0A]"
+        className="bg-[#060709] text-[#FFFFFF] min-h-screen selection:bg-[#C6FF3D] selection:text-[#060709]"
       >
-        <div className="film-grain" aria-hidden="true" />
         <main>{children}</main>
       </body>
     </html>

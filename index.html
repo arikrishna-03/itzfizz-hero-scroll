@@ -24,15 +24,15 @@
        1. DESIGN TOKENS & COLOR THEMES
        ========================================================================= */
     :root {
-      --bg-color: #0A0A0A;
-      --text-primary: #F5F5F7;
-      --text-muted: rgba(245, 245, 247, 0.65);
-      --text-subtle: rgba(245, 245, 247, 0.38);
+      --bg-color: #060709;
+      --text-primary: #FFFFFF;
+      --text-muted: rgba(255, 255, 255, 0.72);
+      --text-subtle: rgba(255, 255, 255, 0.42);
 
       --accent-color: #C6FF3D;
       --accent-rgb: 198, 255, 61;
-      --accent-glow: rgba(198, 255, 61, 0.28);
-      --accent-glow-bright: rgba(198, 255, 61, 0.85);
+      --accent-glow: rgba(198, 255, 61, 0.35);
+      --accent-glow-bright: rgba(198, 255, 61, 0.95);
 
       --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -44,8 +44,8 @@
     [data-theme="blue"] {
       --accent-color: #00E5FF;
       --accent-rgb: 0, 229, 255;
-      --accent-glow: rgba(0, 229, 255, 0.32);
-      --accent-glow-bright: rgba(0, 229, 255, 0.9);
+      --accent-glow: rgba(0, 229, 255, 0.35);
+      --accent-glow-bright: rgba(0, 229, 255, 0.95);
     }
 
     *, *::before, *::after {
@@ -59,6 +59,8 @@
       color: var(--text-primary);
       font-family: var(--font-body);
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
       overflow-x: hidden;
       scroll-behavior: auto;
     }
@@ -75,7 +77,7 @@
       width: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #0A0A0A;
+      background: #060709;
     }
     ::-webkit-scrollbar-thumb {
       background: rgba(var(--accent-rgb), 0.35);
@@ -83,18 +85,6 @@
     }
     ::-webkit-scrollbar-thumb:hover {
       background: var(--accent-color);
-    }
-
-    /* Film Grain Texture Overlay */
-    .film-grain {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 900;
-      opacity: 0.04;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     }
 
     .tabular-nums {
@@ -143,9 +133,8 @@
       width: clamp(340px, 60vw, 840px);
       height: clamp(260px, 45vh, 560px);
       border-radius: 50%;
-      background: radial-gradient(ellipse at center, var(--accent-glow) 0%, rgba(var(--accent-rgb), 0.04) 52%, transparent 72%);
-      filter: blur(70px);
-      opacity: 0.22;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(var(--accent-rgb), 0.10) 0%, rgba(var(--accent-rgb), 0.02) 42%, transparent 70%);
+      opacity: 0.8;
       transition: background 0.4s ease;
     }
 
@@ -271,30 +260,67 @@
       justify-content: center;
       align-items: center;
       opacity: 0;
+      perspective: 900px;
+      perspective-origin: 50% 34%;
+      overflow: hidden;
       will-change: opacity;
     }
 
+    /* Infinite Road Surface (extends 200vh with seamless vanishing horizon) */
     .hero-track-surface {
       position: relative;
-      width: clamp(340px, 55vw, 760px);
-      height: 100vh;
-      height: 100svh;
-      background: linear-gradient(180deg, #07080C 0%, #10121C 50%, #07080C 100%);
-      box-shadow: 0 0 90px rgba(0, 0, 0, 0.95), inset 0 0 60px rgba(0, 0, 0, 0.85);
-      border-left: 2px solid rgba(255, 255, 255, 0.12);
-      border-right: 2px solid rgba(255, 255, 255, 0.12);
-      overflow: hidden;
+      width: clamp(340px, 50vw, 680px);
+      height: 200vh;
+      top: -50vh;
+      background: linear-gradient(
+        180deg,
+        rgba(6, 7, 9, 0) 0%,
+        rgba(8, 10, 16, 0.4) 8%,
+        #080A10 18%,
+        #0B0E17 55%,
+        #050608 100%
+      );
+      box-shadow: 0 0 100px rgba(0, 0, 0, 0.98), inset 0 0 70px rgba(0, 0, 0, 0.9);
+      border-left: 2px solid rgba(255, 255, 255, 0.16);
+      border-right: 2px solid rgba(255, 255, 255, 0.16);
+      overflow: visible;
+      transform-origin: 50% 68%;
+      transform-style: preserve-3d;
+      will-change: transform;
     }
 
-    .track-asphalt-grain {
+    /* Paved Sidewalk Promenades flanking the road curbs */
+    .track-sidewalk {
       position: absolute;
-      inset: 0;
-      background-image: 
-        radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-        linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, transparent 16%, transparent 84%, rgba(0, 0, 0, 0.8) 100%);
-      background-size: 20px 20px, 100% 100%;
-      opacity: 0.85;
+      top: 0;
+      bottom: 0;
+      width: 50px;
+      z-index: 1;
       pointer-events: none;
+    }
+    .track-sidewalk-left {
+      right: 100%;
+      background: repeating-linear-gradient(
+        180deg,
+        #12151E 0px,
+        #12151E 32px,
+        #0A0C12 32px,
+        #0A0C12 34px
+      );
+      border-right: 2px solid rgba(var(--accent-rgb), 0.4);
+      box-shadow: inset -6px 0 15px rgba(0, 0, 0, 0.85);
+    }
+    .track-sidewalk-right {
+      left: 100%;
+      background: repeating-linear-gradient(
+        180deg,
+        #12151E 0px,
+        #12151E 32px,
+        #0A0C12 32px,
+        #0A0C12 34px
+      );
+      border-left: 2px solid rgba(var(--accent-rgb), 0.4);
+      box-shadow: inset 6px 0 15px rgba(0, 0, 0, 0.85);
     }
 
     /* Animated Track Curbs / Rumble Strips */
@@ -303,7 +329,7 @@
       top: 0;
       bottom: 0;
       width: 14px;
-      z-index: 2;
+      z-index: 3;
       box-shadow: 0 0 16px var(--accent-glow);
     }
     .track-curb-left {
@@ -386,6 +412,529 @@
     }
 
     /* =========================================================================
+       HORIZON BACKDROP & ATMOSPHERE (STARS, SKYLINE & GRAND ILLUMINATED ARCH)
+       ========================================================================= */
+    /* =========================================================================
+       ROADSIDE SCENERY & HORIZON (SIDEWAYS PERSPECTIVE MATCHING ROAD CORRIDOR)
+       ========================================================================= */
+    .roadside-scenery {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 8;
+      overflow: hidden;
+      opacity: 0;
+      will-change: opacity;
+    }
+
+    /* Distant Celestial Horizon (Anchored at true vanishing point Y ≈ 14% - 24%) */
+    .city-horizon-backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 24vh;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+      background: radial-gradient(ellipse 95% 75% at 50% 100%, #101628 0%, #080B14 65%, transparent 100%);
+    }
+
+    .sky-stars-group {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .sky-star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 0 5px #FFFFFF, 0 0 10px rgba(255, 255, 255, 0.85);
+      animation: twinkleStar 3s ease-in-out infinite alternate;
+    }
+    .sky-star.s1 { top: 18%; left: 15%; animation-delay: 0.2s; }
+    .sky-star.s2 { top: 28%; left: 28%; animation-delay: 0.8s; width: 3px; height: 3px; }
+    .sky-star.s3 { top: 12%; left: 45%; animation-delay: 1.5s; }
+    .sky-star.s4 { top: 22%; left: 65%; animation-delay: 0.4s; }
+    .sky-star.s5 { top: 16%; left: 82%; animation-delay: 1.1s; width: 3px; height: 3px; }
+    .sky-star.s6 { top: 32%; left: 88%; animation-delay: 1.9s; }
+
+    @keyframes twinkleStar {
+      0%, 100% { opacity: 0.35; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+
+    .sky-crescent-moon {
+      position: absolute;
+      top: 18%;
+      right: 24%;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      box-shadow: -4px 3px 0 0 #FFEAA7, 0 0 14px rgba(255, 234, 167, 0.45);
+    }
+
+    .horizon-radiant-glow {
+      position: absolute;
+      bottom: 0px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(260px, 45vw, 600px);
+      height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(255, 185, 50, 0.35) 0%,
+        rgba(198, 255, 61, 0.15) 45%,
+        transparent 75%
+      );
+      filter: blur(10px);
+    }
+
+    /* Central Majestic Backlit Gateway (sitting at apex of the road) */
+    .horizon-grand-arch {
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 72px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 2;
+    }
+
+    .arch-sunburst-glow {
+      position: absolute;
+      bottom: 6px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 215, 80, 0.85) 0%, rgba(255, 165, 0, 0.35) 50%, transparent 80%);
+      filter: blur(6px);
+    }
+
+    .arch-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 10px rgba(255, 215, 80, 0.65));
+    }
+
+    /* =========================================================================
+       ROADSIDE PERSPECTIVE CORRIDORS (LINING THE ROADWAYS SIDEWAYS, FACING OPPOSITE)
+       ========================================================================= */
+    .roadside-tier {
+      position: absolute;
+      pointer-events: auto;
+      cursor: pointer;
+      z-index: 2;
+      will-change: transform;
+      transition: filter 0.25s ease;
+    }
+
+    .roadside-bldg-wrap {
+      position: relative;
+      width: 100%;
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* Left Side Perspective Alignment (Safely Flanking Left Sidewalk Outside Road) */
+    .roadside-left-tier1 {
+      bottom: 6vh;
+      right: calc(50% + clamp(590px, 42vw, 840px));
+      width: clamp(230px, 20vw, 320px);
+      z-index: 4;
+    }
+    .roadside-left-tier1 .roadside-bldg-wrap {
+      transform: perspective(650px) rotateY(56deg);
+      transform-origin: right center;
+    }
+
+    .roadside-left-tier2 {
+      bottom: 40vh;
+      right: calc(50% + clamp(380px, 30vw, 540px));
+      width: clamp(180px, 16vw, 250px);
+      z-index: 3;
+    }
+    .roadside-left-tier2 .roadside-bldg-wrap {
+      transform: perspective(650px) rotateY(52deg) scale(0.76);
+      transform-origin: right center;
+    }
+
+    .roadside-left-tier3 {
+      bottom: 64vh;
+      right: calc(50% + clamp(245px, 20vw, 360px));
+      width: clamp(130px, 12vw, 170px);
+      z-index: 2;
+    }
+    .roadside-left-tier3 .roadside-bldg-wrap {
+      transform: perspective(650px) rotateY(48deg) scale(0.52);
+      transform-origin: right center;
+    }
+
+    /* Right Side Perspective Alignment (Safely Flanking Right Sidewalk Outside Road) */
+    .roadside-right-tier1 {
+      bottom: 6vh;
+      left: calc(50% + clamp(590px, 42vw, 840px));
+      width: clamp(230px, 20vw, 320px);
+      z-index: 4;
+    }
+    .roadside-right-tier1 .roadside-bldg-wrap {
+      transform: perspective(650px) rotateY(-56deg);
+      transform-origin: left center;
+    }
+
+    .roadside-right-tier2 {
+      bottom: 40vh;
+      left: calc(50% + clamp(380px, 30vw, 540px));
+      width: clamp(180px, 16vw, 250px);
+      z-index: 3;
+    }
+    .roadside-right-tier2 .roadside-bldg-wrap {
+      transform: perspective(650px) rotateY(-52deg) scale(0.76);
+      transform-origin: left center;
+    }
+
+    .roadside-right-tier3 {
+      bottom: 64vh;
+      left: calc(50% + clamp(245px, 20vw, 360px));
+      width: clamp(130px, 12vw, 170px);
+      z-index: 2;
+    }
+    .roadside-right-tier3 .roadside-bldg-wrap {
+      transform: perspective(650px) rotateY(-48deg) scale(0.52);
+      transform-origin: left center;
+    }
+
+    /* Responsive Sidewalk Clamping on Narrower Viewports */
+    @media (max-width: 1150px) {
+      .roadside-left-tier1 {
+        right: auto;
+        left: 8px;
+        width: clamp(190px, 22vw, 260px);
+      }
+      .roadside-left-tier1 .roadside-bldg-wrap {
+        transform: perspective(550px) rotateY(42deg) scale(0.72);
+        transform-origin: left center;
+      }
+      .roadside-right-tier1 {
+        left: auto;
+        right: 8px;
+        width: clamp(190px, 22vw, 260px);
+      }
+      .roadside-right-tier1 .roadside-bldg-wrap {
+        transform: perspective(550px) rotateY(-42deg) scale(0.72);
+        transform-origin: right center;
+      }
+
+      .roadside-left-tier2 {
+        right: auto;
+        left: 6px;
+        bottom: 44vh;
+        width: clamp(160px, 18vw, 210px);
+      }
+      .roadside-left-tier2 .roadside-bldg-wrap {
+        transform: perspective(550px) rotateY(38deg) scale(0.58);
+        transform-origin: left center;
+      }
+      .roadside-right-tier2 {
+        left: auto;
+        right: 6px;
+        bottom: 44vh;
+        width: clamp(160px, 18vw, 210px);
+      }
+      .roadside-right-tier2 .roadside-bldg-wrap {
+        transform: perspective(550px) rotateY(-38deg) scale(0.58);
+        transform-origin: right center;
+      }
+
+      .roadside-left-tier3,
+      .roadside-right-tier3 {
+        display: none;
+      }
+    }
+
+    /* Architectural Corner Bevels & Interactive Roadside Hover */
+    .roadside-left-tier1 .bldg-card,
+    .roadside-left-tier2 .bldg-card,
+    .roadside-left-tier3 .bldg-card {
+      border-right: 2px solid var(--accent-color, #C6FF3D);
+    }
+    .roadside-right-tier1 .bldg-card,
+    .roadside-right-tier2 .bldg-card,
+    .roadside-right-tier3 .bldg-card {
+      border-left: 2px solid var(--accent-color, #C6FF3D);
+    }
+
+    .roadside-tier:hover {
+      z-index: 20;
+    }
+    .roadside-tier:hover .bldg-card {
+      border-color: var(--accent-color, #C6FF3D);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.98), 0 0 26px var(--accent-glow, rgba(198, 255, 61, 0.5));
+    }
+    .roadside-tier:hover .marquee-title {
+      color: var(--accent-color, #C6FF3D);
+      text-shadow: 0 0 8px var(--accent-glow);
+    }
+    .roadside-left-tier1:hover .roadside-bldg-wrap {
+      transform: perspective(650px) rotateY(48deg) scale(1.05);
+    }
+    .roadside-right-tier1:hover .roadside-bldg-wrap {
+      transform: perspective(650px) rotateY(-48deg) scale(1.05);
+    }
+    .roadside-left-tier2:hover .roadside-bldg-wrap {
+      transform: perspective(650px) rotateY(44deg) scale(0.82);
+    }
+    .roadside-right-tier2:hover .roadside-bldg-wrap {
+      transform: perspective(650px) rotateY(-44deg) scale(0.82);
+    }
+    .roadside-left-tier3:hover .roadside-bldg-wrap {
+      transform: perspective(650px) rotateY(40deg) scale(0.58);
+    }
+    .roadside-right-tier3:hover .roadside-bldg-wrap {
+      transform: perspective(650px) rotateY(-40deg) scale(0.58);
+    }
+
+    /* Granite Sidewalk Base Foundation */
+    .bldg-sidewalk-base {
+      width: calc(100% + 20px);
+      height: 10px;
+      margin-top: -2px;
+      margin-left: -10px;
+      border-radius: 2px;
+      background: repeating-linear-gradient(90deg, #1A1F2C 0px, #1A1F2C 22px, #10141E 22px, #10141E 24px);
+      border-top: 1px solid rgba(255, 255, 255, 0.28);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.98);
+    }
+
+    /* High-End Architectural Glass & Carbon Pavilions */
+    .bldg-card {
+      background: linear-gradient(180deg, rgba(14, 18, 28, 0.97) 0%, rgba(18, 24, 36, 0.95) 55%, rgba(10, 13, 20, 0.98) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 6px;
+      padding: 10px 12px 12px;
+      position: relative;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.92), inset 0 0 24px rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+    }
+
+    /* Architectural Roofline with Perimeter LED Trim */
+    .pavilion-roof {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 2px;
+      margin-bottom: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pavilion-roof::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    /* Mezzanine Level with Architectural Glazing */
+    .pavilion-upper {
+      height: 32px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.04) 0px,
+        rgba(255, 255, 255, 0.04) 12px,
+        rgba(255, 255, 255, 0.12) 12px,
+        rgba(255, 255, 255, 0.12) 13px
+      );
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 3px;
+      margin-bottom: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pavilion-upper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 120%, rgba(255, 215, 120, 0.22) 0%, transparent 75%);
+    }
+
+    /* Illuminated Marquee Fascia */
+    .pavilion-marquee {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      padding: 3px 6px;
+      background: rgba(8, 10, 16, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 3px;
+      box-shadow: 0 0 14px rgba(0, 0, 0, 0.7);
+    }
+    .marquee-title {
+      font-family: var(--font-heading);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      white-space: nowrap;
+    }
+    .marquee-tag {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      padding: 1px 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--accent-color);
+      white-space: nowrap;
+    }
+
+    /* Panoramic Showroom Exhibition Gallery */
+    .pavilion-showroom {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 4px;
+      padding: 8px;
+      position: relative;
+      box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.6);
+    }
+
+    .showroom-pedestal {
+      width: 100%;
+      height: 28px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(8, 11, 18, 0.92);
+      border-radius: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.85);
+    }
+
+    .pedestal-glow {
+      position: absolute;
+      inset: 0;
+      opacity: 0.38;
+      filter: blur(5px);
+    }
+
+    .pedestal-label {
+      position: relative;
+      z-index: 2;
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      opacity: 0.95;
+    }
+
+    /* Modern Boulevard Light Masts (Sleek Minimalist LED Luminaire with Soft Feathered Ambient Spill) */
+    .boulevard-light-mast {
+      position: absolute;
+      bottom: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .roadside-left-tier1 .boulevard-light-mast { right: -18px; }
+    .roadside-left-tier2 .boulevard-light-mast { right: -14px; }
+    .roadside-left-tier3 .boulevard-light-mast { right: -10px; }
+    .roadside-right-tier1 .boulevard-light-mast { left: -18px; }
+    .roadside-right-tier2 .boulevard-light-mast { left: -14px; }
+    .roadside-right-tier3 .boulevard-light-mast { left: -10px; }
+
+    .mast-pole {
+      width: 3px;
+      height: 75px;
+      background: linear-gradient(180deg, #444E66 0%, #151822 100%);
+      border-radius: 2px;
+      position: relative;
+    }
+    .mast-arm {
+      position: absolute;
+      top: 0;
+      width: 14px;
+      height: 3px;
+      background: #444E66;
+      border-radius: 2px;
+    }
+    .roadside-left-tier1 .mast-arm,
+    .roadside-left-tier2 .mast-arm,
+    .roadside-left-tier3 .mast-arm {
+      right: 0;
+    }
+    .roadside-right-tier1 .mast-arm,
+    .roadside-right-tier2 .mast-arm,
+    .roadside-right-tier3 .mast-arm {
+      left: 0;
+    }
+
+    .mast-luminaire {
+      position: absolute;
+      top: 2px;
+      width: 8px;
+      height: 4px;
+      border-radius: 2px;
+      background: #FFF2C6;
+      box-shadow: 0 0 10px #FFD166, 0 0 20px rgba(255, 209, 102, 0.7);
+    }
+    .roadside-left-tier1 .mast-luminaire,
+    .roadside-left-tier2 .mast-luminaire,
+    .roadside-left-tier3 .mast-luminaire {
+      right: 4px;
+    }
+    .roadside-right-tier1 .mast-luminaire,
+    .roadside-right-tier2 .mast-luminaire,
+    .roadside-right-tier3 .mast-luminaire {
+      left: 4px;
+    }
+
+    /* Soft Feathered Boulevard Pavement Light Spill (Zero Harsh Clipped Edges) */
+    .mast-ground-glow {
+      position: absolute;
+      top: 15px;
+      width: 90px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(
+        ellipse at 50% 20%,
+        rgba(255, 215, 100, 0.32) 0%,
+        rgba(255, 180, 50, 0.12) 45%,
+        rgba(255, 140, 30, 0.03) 70%,
+        transparent 90%
+      );
+      filter: blur(14px);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    .roadside-left-tier1 .mast-ground-glow,
+    .roadside-left-tier2 .mast-ground-glow,
+    .roadside-left-tier3 .mast-ground-glow {
+      right: -25px;
+    }
+    .roadside-right-tier1 .mast-ground-glow,
+    .roadside-right-tier2 .mast-ground-glow,
+    .roadside-right-tier3 .mast-ground-glow {
+      left: -25px;
+    }
+
+    /* =========================================================================
        DYNAMIC RACE GATES (STARTING FROM 0, PASSING IN SEQUENCE)
        ========================================================================= */
     .track-gate {
@@ -395,28 +944,28 @@
       display: flex;
       align-items: center;
       pointer-events: none;
-      z-index: 6;
-      will-change: transform, opacity, filter;
+      z-index: 7;
+      will-change: transform, opacity;
       opacity: 0;
     }
 
     /* 0. START LINE (At front of car when race begins at 0) */
     .track-gate-start {
-      top: 33%;
+      top: 39%;
       height: 12px;
       justify-content: center;
       opacity: 1;
     }
 
-    /* Checkpoints (Positioned just above track, enter & dissolve smoothly when passed) */
+    /* Checkpoints (Positioned in deep road horizon, fly down along 3D track) */
     .track-gate-sector {
-      top: -20vh;
+      top: 10%;
       height: 3px;
     }
     #gateSector1 { justify-content: flex-end; padding-right: 1.5rem; }
     #gateSector2 { justify-content: flex-start; padding-left: 1.5rem; }
     #gateSector3 { justify-content: center; }
-    #gateFinish  { top: -20vh; justify-content: center; height: 12px; }
+    #gateFinish  { top: 10%; justify-content: center; height: 12px; }
 
     .gate-beam-glow {
       position: absolute;
@@ -485,6 +1034,412 @@
       box-shadow: 0 0 20px rgba(0, 229, 255, 0.7);
     }
 
+    /* =========================================================================
+       DYNAMIC SECTOR CHECKPOINT STOPS & INTERACTIVE TELEMETRY STATION
+       ========================================================================= */
+    .track-gate-sector {
+      pointer-events: auto !important;
+      cursor: pointer;
+    }
+    .track-gate-sector .gate-tag-badge {
+      pointer-events: auto;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .track-gate-sector:hover .gate-tag-badge {
+      transform: scale(1.08);
+      background: rgba(14, 18, 28, 0.98);
+      box-shadow: 0 0 22px var(--accent-glow-bright), 0 6px 18px rgba(0, 0, 0, 0.9);
+      border-color: #FFFFFF;
+    }
+    .badge-click-hint {
+      display: inline-block;
+      font-size: 0.52rem;
+      letter-spacing: 0.1em;
+      padding: 1px 4px;
+      border-radius: 3px;
+      background: rgba(var(--accent-rgb), 0.25);
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    /* Floating Checkpoint Stop Station (Prompts the user to click & read as they scroll) */
+    .sector-checkpoint-station {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%) translateY(35px);
+      width: min(92%, 560px);
+      background: linear-gradient(180deg, rgba(14, 18, 28, 0.96) 0%, rgba(8, 11, 18, 0.98) 100%);
+      border: 1.5px solid var(--station-color, #C6FF3D);
+      border-radius: 12px;
+      padding: 12px 18px;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.95), 0 0 30px var(--station-glow, rgba(198, 255, 61, 0.35));
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      z-index: 35;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, visibility 0.3s;
+      cursor: pointer;
+    }
+    .sector-checkpoint-station.is-visible {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .sector-checkpoint-station:hover {
+      box-shadow: 0 24px 55px rgba(0, 0, 0, 0.98), 0 0 45px var(--station-glow, rgba(198, 255, 61, 0.55));
+      transform: translateX(-50%) translateY(-2px);
+    }
+
+    .station-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+    .station-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--station-color, #C6FF3D);
+      box-shadow: 0 0 10px var(--station-color, #C6FF3D);
+      animation: stationPulse 1.6s ease-in-out infinite;
+    }
+    @keyframes stationPulse {
+      0%, 100% { transform: scale(0.9); opacity: 0.6; }
+      50% { transform: scale(1.35); opacity: 1; }
+    }
+    .station-badge {
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--station-color, #C6FF3D);
+    }
+    .station-tag {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      padding: 1px 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      margin-left: auto;
+    }
+
+    .station-body {
+      margin-bottom: 8px;
+    }
+    .station-title {
+      font-family: var(--font-heading);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #FFFFFF;
+      margin: 0 0 3px;
+      text-transform: uppercase;
+    }
+    .station-desc {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+      line-height: 1.35;
+    }
+
+    .station-inspect-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(var(--accent-rgb), 0.16);
+      border: 1px solid var(--station-color, #C6FF3D);
+      color: #FFFFFF;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .sector-checkpoint-station:hover .station-inspect-btn,
+    .station-inspect-btn:hover {
+      background: var(--station-color, #C6FF3D);
+      color: #080B12;
+      box-shadow: 0 0 16px var(--station-color, #C6FF3D);
+    }
+
+    /* Fullscreen High-Tech Sector Telemetry Briefing Modal */
+    .sector-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 12, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s;
+    }
+    .sector-modal-backdrop.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .sector-modal-card {
+      width: min(96%, 680px);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: linear-gradient(180deg, #101524 0%, #0A0D16 100%);
+      border: 1.5px solid var(--sector-modal-color, #C6FF3D);
+      border-radius: 14px;
+      padding: 22px 24px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.98), 0 0 45px var(--sector-modal-glow, rgba(198, 255, 61, 0.4));
+      position: relative;
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sector-modal-backdrop.is-open .sector-modal-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .modal-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .modal-tab-btn {
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.65);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .modal-tab-btn:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .modal-tab-btn.is-active {
+      color: #0A0D16;
+      background: var(--sector-modal-color, #C6FF3D);
+      border-color: var(--sector-modal-color, #C6FF3D);
+      box-shadow: 0 0 14px var(--sector-modal-glow, rgba(198, 255, 61, 0.5));
+    }
+
+    .modal-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.06);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .modal-close-btn:hover {
+      background: rgba(255, 60, 60, 0.85);
+      border-color: #FF5555;
+      transform: rotate(90deg);
+    }
+
+    .modal-header-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .modal-sector-indicator {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sector-modal-color, #C6FF3D);
+    }
+    .modal-status-badge {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      padding: 2px 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+    }
+
+    .modal-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #FFFFFF;
+      margin: 0 0 16px;
+      text-transform: uppercase;
+    }
+
+    /* 4-KPI Grid */
+    .modal-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    @media (min-width: 600px) {
+      .modal-kpi-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .modal-kpi-card {
+      background: rgba(16, 22, 34, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .kpi-label {
+      font-family: var(--font-mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+      color: rgba(255, 255, 255, 0.55);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .kpi-value {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--sector-modal-color, #C6FF3D);
+      letter-spacing: 0.04em;
+    }
+    .kpi-sub {
+      font-size: 0.56rem;
+      color: rgba(255, 255, 255, 0.45);
+      margin-top: 2px;
+    }
+
+    /* Engineering Dossier Narrative */
+    .modal-dossier {
+      background: rgba(14, 18, 28, 0.7);
+      border-left: 3px solid var(--sector-modal-color, #C6FF3D);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+    }
+    .dossier-heading {
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .dossier-text {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ITZFIZZ Bespoke Integration Callout */
+    .modal-materials-box {
+      background: rgba(8, 12, 20, 0.9);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 20px;
+    }
+    .materials-title {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .materials-text {
+      font-size: 0.74rem;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .modal-nav-btn {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 7px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.05);
+      color: #FFFFFF;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .modal-nav-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+    .modal-resume-btn {
+      font-family: var(--font-heading);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 6px;
+      border: 1px solid var(--sector-modal-color, #C6FF3D);
+      background: var(--sector-modal-color, #C6FF3D);
+      color: #080B12;
+      box-shadow: 0 0 16px var(--sector-modal-glow, rgba(198, 255, 61, 0.45));
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .modal-resume-btn:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
+
     /* Edge Vignettes */
     .track-surface-vignette {
       position: absolute;
@@ -492,14 +1447,16 @@
       background: linear-gradient(
         180deg,
         rgba(10, 10, 10, 0.96) 0%,
-        rgba(10, 10, 10, 0.08) 18%,
+        rgba(10, 10, 10, 0.04) 18%,
         transparent 50%,
-        rgba(10, 10, 10, 0.08) 82%,
+        rgba(10, 10, 10, 0.04) 82%,
         rgba(10, 10, 10, 0.96) 100%
       );
       pointer-events: none;
-      z-index: 5;
+      z-index: 6;
     }
+
+
 
     /* =========================================================================
        5. HEADLINE AREA (WELCOME ITZFIZZ)
@@ -594,7 +1551,7 @@
        ========================================================================= */
     .object-outer {
       position: absolute;
-      top: 50%;
+      top: 42%;
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 15;
@@ -604,7 +1561,8 @@
       align-items: center;
       justify-content: center;
       pointer-events: none;
-      will-change: transform;
+      opacity: 1;
+      will-change: transform, opacity;
     }
 
     .object-inner {
@@ -613,67 +1571,55 @@
       align-items: center;
       justify-content: center;
       will-change: transform;
-      transform-origin: center center;
+      transform-origin: center bottom;
+      transform-style: preserve-3d;
+      perspective: 900px;
     }
 
+    /* Top-Down McLaren P1 Supercar (Clean Transparent) */
     .hero-object-img {
-      max-height: clamp(145px, 25vh, 255px);
-      width: clamp(230px, 44vw, 640px);
+      max-height: clamp(180px, 32vh, 300px);
+      width: auto;
       object-fit: contain;
-      filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.95));
+      filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.95));
       position: relative;
       z-index: 2;
       user-select: none;
+      transform-origin: 50% 88%;
+      will-change: transform, opacity;
     }
 
-    /* Volumetric Laser Headlights */
-    .car-headlights-rig {
+    /* Rear 3D Chase McLaren P1 Supercar (Clean Transparent) */
+    .hero-chase-rear-img {
       position: absolute;
-      bottom: 52%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-height: clamp(170px, 30vh, 280px);
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
+      z-index: 3;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      user-select: none;
+      transform-origin: 50% 90%;
+      will-change: transform, opacity, visibility;
+    }
+
+    /* Crisp Dynamic Shadow under car */
+    .car-chassis-shadow {
+      position: absolute;
+      bottom: 8%;
       left: 50%;
       transform: translateX(-50%);
-      width: 320px;
-      height: 300px;
+      width: 65%;
+      height: 25px;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.75) 0%, transparent 70%);
+      filter: blur(8px);
       pointer-events: none;
       z-index: 1;
-      opacity: 0;
-      will-change: opacity;
-    }
-
-    .headlight-beam {
-      position: absolute;
-      bottom: 0;
-      width: 100px;
-      height: 280px;
-      background: linear-gradient(0deg, rgba(200, 245, 255, 0.65) 0%, rgba(100, 220, 255, 0.25) 45%, transparent 85%);
-      mask-image: radial-gradient(ellipse 60% 100% at 50% 100%, black 20%, transparent 85%);
-      -webkit-mask-image: radial-gradient(ellipse 60% 100% at 50% 100%, black 20%, transparent 85%);
-      filter: blur(5px);
-    }
-    .headlight-beam.beam-l { left: 45px; transform: rotate(-5deg); transform-origin: bottom center; }
-    .headlight-beam.beam-r { right: 45px; transform: rotate(5deg); transform-origin: bottom center; }
-
-    .headlight-ambient-flare {
-      position: absolute;
-      bottom: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 180px;
-      height: 40px;
-      background: radial-gradient(ellipse at center, rgba(220, 250, 255, 0.9) 0%, var(--accent-glow) 40%, transparent 80%);
-      filter: blur(4px);
-    }
-
-    /* Car Underglow Aura */
-    .car-underglow-aura {
-      position: absolute;
-      inset: 8%;
-      background: radial-gradient(ellipse at center, rgba(255, 94, 20, 0.65) 0%, var(--accent-glow) 50%, transparent 80%);
-      filter: blur(16px);
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0;
-      will-change: opacity;
     }
 
     /* Speed Trails behind car */
@@ -700,6 +1646,165 @@
     }
 
     /* =========================================================================
+       SUPERCAR HEADLIGHT SYSTEM & VOLUMETRIC ROAD LIGHTING (MATCHING REFERENCE)
+       ========================================================================= */
+    .car-headlight-beams {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      mix-blend-mode: screen;
+      will-change: transform, opacity;
+      transform-origin: 50% 88%;
+    }
+
+    .car-headlight-flares {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 4;
+      mix-blend-mode: screen;
+      will-change: transform, opacity;
+      transform-origin: 50% 88%;
+    }
+
+    /* Volumetric High-Beam Cones Projecting Up Ahead of Car (Feathered, No Sharp Edges) */
+    .headlight-beam {
+      position: absolute;
+      bottom: 88%;
+      width: 44%;
+      height: 195%;
+      pointer-events: none;
+      filter: blur(14px);
+      background: radial-gradient(
+        ellipse 50% 90% at 50% 100%,
+        rgba(240, 252, 255, 0.75) 0%,
+        rgba(180, 230, 255, 0.42) 24%,
+        rgba(125, 205, 245, 0.20) 50%,
+        rgba(75, 170, 225, 0.08) 72%,
+        rgba(45, 135, 195, 0.02) 88%,
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 14%, black 28%, black 100%);
+      mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 14%, black 28%, black 100%);
+      will-change: transform, opacity;
+    }
+
+    /* Bright Luminous Inner Core of High Beam */
+    .headlight-beam::after {
+      content: '';
+      position: absolute;
+      inset: 0 18%;
+      filter: blur(8px);
+      background: radial-gradient(
+        ellipse 34% 86% at 50% 100%,
+        rgba(255, 255, 255, 0.85) 0%,
+        rgba(215, 245, 255, 0.42) 28%,
+        rgba(155, 225, 255, 0.16) 55%,
+        transparent 80%
+      );
+    }
+
+    /* Left Headlight: Anchored at X = 35.2%, soft outward beam fan (-2.8deg) */
+    .headlight-beam-left {
+      left: 35.2%;
+      transform: translateX(-50%) rotate(-2.8deg);
+      transform-origin: center bottom;
+    }
+
+    /* Right Headlight: Anchored at X = 64.8%, soft outward beam fan (+2.8deg) */
+    .headlight-beam-right {
+      left: 64.8%;
+      transform: translateX(-50%) rotate(2.8deg);
+      transform-origin: center bottom;
+    }
+
+    /* Asphalt Front Reflection Pool (Directly in front of bumper, Smooth Blended) */
+    .headlight-ground-pool {
+      position: absolute;
+      bottom: 80%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      height: 55%;
+      border-radius: 50%;
+      background: radial-gradient(
+        ellipse at 50% 85%,
+        rgba(255, 225, 140, 0.38) 0%,
+        rgba(180, 235, 255, 0.24) 35%,
+        rgba(90, 185, 240, 0.08) 62%,
+        transparent 82%
+      );
+      filter: blur(18px);
+      pointer-events: none;
+    }
+
+    /* Lateral / Side Ambient Light Pools (Amber on Right, Lime-Olive on Left) */
+    .side-ambient-wash {
+      position: absolute;
+      pointer-events: none;
+      border-radius: 50%;
+    }
+
+    /* Left Flank Ambient Light (Olive-Lime Glow spreading leftwards, Feathered) */
+    .side-ambient-left {
+      top: 10%;
+      right: 46%;
+      width: 155%;
+      height: 85%;
+      background: radial-gradient(
+        ellipse at 76% 50%,
+        rgba(198, 255, 61, 0.28) 0%,
+        rgba(215, 205, 75, 0.16) 35%,
+        rgba(160, 180, 50, 0.06) 65%,
+        transparent 80%
+      );
+      filter: blur(24px);
+    }
+
+    /* Right Flank Ambient Light (Warm Amber-Saffron Glow spreading rightwards, Feathered) */
+    .side-ambient-right {
+      top: 10%;
+      left: 46%;
+      width: 155%;
+      height: 85%;
+      background: radial-gradient(
+        ellipse at 24% 50%,
+        rgba(255, 159, 28, 0.32) 0%,
+        rgba(255, 190, 65, 0.18) 35%,
+        rgba(255, 135, 45, 0.06) 65%,
+        transparent 80%
+      );
+      filter: blur(24px);
+    }
+
+    /* Front Lens Bulbs / Sleek Aerodynamic Flares (0.5px Feathered, Seamlessly Blended) */
+    .headlight-bulb-flare {
+      position: absolute;
+      width: 11px;
+      height: 16px;
+      border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%;
+      background: radial-gradient(ellipse at center, #FFFFFF 0%, #D4F4FF 45%, rgba(120, 220, 255, 0.65) 75%, transparent 100%);
+      box-shadow: 0 0 10px #FFFFFF, 0 0 20px rgba(120, 220, 255, 0.8), 0 0 35px rgba(0, 229, 255, 0.5);
+      filter: blur(0.5px);
+      z-index: 4;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+
+    .flare-left {
+      top: 11.2%;
+      left: 35.2%;
+      transform: translate(-50%, -50%) rotate(-14deg);
+    }
+
+    .flare-right {
+      top: 11.2%;
+      left: 64.8%;
+      transform: translate(-50%, -50%) rotate(14deg);
+    }
+
+    /* =========================================================================
        7. IMPACT METRICS (STATS CARDS AT BOTTOM)
        ========================================================================= */
     .stats-outer {
@@ -708,6 +1813,7 @@
       width: 100%;
       max-width: 1024px;
       margin-top: auto;
+      will-change: transform, opacity, filter;
     }
 
     .stats-row {
@@ -819,9 +1925,6 @@
 </head>
 <body>
 
-  <!-- Film Grain Texture Overlay -->
-  <div class="film-grain" aria-hidden="true"></div>
-
   <!-- SCROLL RUNWAY WRAPPER (Pinned in place, no lower sections) -->
   <div id="heroScrollWrapper" class="hero-scroll-wrapper">
 
@@ -833,11 +1936,13 @@
         <div id="glowInner" class="glow-inner"></div>
       </div>
 
-      <!-- THE RACING TRACK (Starts at 0 with START LINE) -->
+      <!-- THE RACING TRACK (Pure 3D Roadway) -->
       <div id="heroTrackContainer" class="hero-track-container" aria-hidden="true">
         <div class="hero-track-surface">
-          <!-- Asphalt Grain & Gradient -->
-          <div class="track-asphalt-grain"></div>
+
+          <!-- Paved Sidewalk Promenades -->
+          <div class="track-sidewalk track-sidewalk-left"></div>
+          <div class="track-sidewalk track-sidewalk-right"></div>
 
           <!-- Animated Curbs -->
           <div class="track-curb track-curb-left"></div>
@@ -858,21 +1963,21 @@
           </div>
 
           <!-- 1. SECTOR 01 -->
-          <div id="gateSector1" class="track-gate track-gate-sector">
+          <div id="gateSector1" class="track-gate track-gate-sector" role="button" tabindex="0" title="Click to inspect Sector 01 telemetry">
             <div class="gate-beam-glow"></div>
-            <div class="gate-tag-badge">SECTOR 01 // VELOCITY · 58%</div>
+            <div class="gate-tag-badge">SECTOR 01 // VELOCITY · 58% <span class="badge-click-hint">🔍 CLICK</span></div>
           </div>
 
           <!-- 2. SECTOR 02 -->
-          <div id="gateSector2" class="track-gate track-gate-sector">
+          <div id="gateSector2" class="track-gate track-gate-sector" role="button" tabindex="0" title="Click to inspect Sector 02 telemetry">
             <div class="gate-beam-glow"></div>
-            <div class="gate-tag-badge">SECTOR 02 // INERTIA · 23%</div>
+            <div class="gate-tag-badge">SECTOR 02 // INERTIA · 23% <span class="badge-click-hint">🔍 CLICK</span></div>
           </div>
 
           <!-- 3. SECTOR 03 -->
-          <div id="gateSector3" class="track-gate track-gate-sector">
+          <div id="gateSector3" class="track-gate track-gate-sector" role="button" tabindex="0" title="Click to inspect Sector 03 telemetry">
             <div class="gate-beam-glow"></div>
-            <div class="gate-tag-badge">SECTOR 03 // APEX INTEGRITY · 27% & 40%</div>
+            <div class="gate-tag-badge">SECTOR 03 // APEX INTEGRITY · 27% &amp; 40% <span class="badge-click-hint">🔍 CLICK</span></div>
           </div>
 
           <!-- 4. FINISH LINE -->
@@ -886,6 +1991,204 @@
           <div class="track-surface-vignette"></div>
         </div>
       </div>
+
+      <!-- ROADSIDE SCENERY & HORIZON (SIDEWAYS PERSPECTIVE LINING THE ROAD) -->
+      <div id="roadsideScenery" class="roadside-scenery" aria-hidden="true">
+
+        <!-- Distant Celestial Horizon: Vanishing Point Grand Arch, Twilight Sky & Distant Towers -->
+        <div id="cityHorizonBackdrop" class="city-horizon-backdrop">
+          <div class="sky-stars-group">
+            <span class="sky-star s1"></span>
+            <span class="sky-star s2"></span>
+            <span class="sky-star s3"></span>
+            <span class="sky-star s4"></span>
+            <span class="sky-star s5"></span>
+            <span class="sky-star s6"></span>
+            <div class="sky-crescent-moon"></div>
+          </div>
+          <div class="horizon-radiant-glow"></div>
+
+          <!-- Central Grand Arch at the Road Horizon -->
+          <div class="horizon-grand-arch">
+            <div class="arch-sunburst-glow"></div>
+            <svg class="arch-svg" viewBox="0 0 100 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 72 V28 Q50 4 88 28 V72" stroke="#FFD166" stroke-width="2.5" fill="none" opacity="0.95"/>
+              <path d="M26 72 V36 Q50 18 74 36 V72" stroke="#FFB703" stroke-width="2" fill="rgba(255, 183, 3, 0.22)"/>
+              <path d="M38 15 Q50 2 62 15 Z" fill="rgba(255, 209, 102, 0.5)" stroke="#FFD166" stroke-width="1.5"/>
+              <line x1="50" y1="4" x2="50" y2="0" stroke="#FFD166" stroke-width="2"/>
+              <line x1="8" y1="30" x2="92" y2="30" stroke="#C6FF3D" stroke-width="1.5" opacity="0.85"/>
+              <circle cx="50" cy="40" r="11" fill="rgba(255, 220, 100, 0.4)"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- LEFT ROADSIDE AVENUE (Tiered Sideways along Road Edge) -->
+        <div id="roadsideLeft" class="roadside-corridor-side">
+
+          <!-- Left Tier 1: Flagship Architectural Pavilion alongside Car (Sector 01) -->
+          <div class="roadside-tier roadside-left-tier1" data-sector="1" role="button" tabindex="0" title="Click to inspect Sector 01 Telemetry Briefing">
+            <div class="roadside-bldg-wrap">
+              <div class="boulevard-light-mast">
+                <div class="mast-pole">
+                  <div class="mast-arm"></div>
+                  <div class="mast-luminaire"></div>
+                  <div class="mast-ground-glow"></div>
+                </div>
+              </div>
+              <div class="bldg-card">
+                <div class="pavilion-roof" style="--accent-color: #C6FF3D; --accent-glow: rgba(198, 255, 61, 0.6);"></div>
+                <div class="pavilion-upper"></div>
+                <div class="pavilion-marquee">
+                  <span class="marquee-title">ITZ // MSO ATELIER</span>
+                  <span class="marquee-tag" style="color: #C6FF3D;">AERO LAB</span>
+                </div>
+                <div class="pavilion-showroom">
+                  <div class="showroom-pedestal">
+                    <div class="pedestal-glow" style="background: radial-gradient(circle, #C6FF3D, transparent);"></div>
+                    <span class="pedestal-label">CHASSIS · 720S AERO</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bldg-sidewalk-base"></div>
+            </div>
+          </div>
+
+          <!-- Left Tier 2: Mid-distance Engineering Hub (Sector 02) -->
+          <div class="roadside-tier roadside-left-tier2" data-sector="2" role="button" tabindex="0" title="Click to inspect Sector 02 Telemetry Briefing">
+            <div class="roadside-bldg-wrap">
+              <div class="boulevard-light-mast">
+                <div class="mast-pole">
+                  <div class="mast-arm"></div>
+                  <div class="mast-luminaire"></div>
+                  <div class="mast-ground-glow"></div>
+                </div>
+              </div>
+              <div class="bldg-card">
+                <div class="pavilion-roof" style="--accent-color: #FF9F1C; --accent-glow: rgba(255, 159, 28, 0.6);"></div>
+                <div class="pavilion-upper"></div>
+                <div class="pavilion-marquee">
+                  <span class="marquee-title">APEX // MOTORS</span>
+                  <span class="marquee-tag" style="color: #FF9F1C;">V8 TWIN</span>
+                </div>
+                <div class="pavilion-showroom">
+                  <div class="showroom-pedestal">
+                    <div class="pedestal-glow" style="background: radial-gradient(circle, #FF9F1C, transparent);"></div>
+                    <span class="pedestal-label">KINETIC · ATELIER</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bldg-sidewalk-base"></div>
+            </div>
+          </div>
+
+          <!-- Left Tier 3: Distant Skyline Pavilion (Sector 03) -->
+          <div class="roadside-tier roadside-left-tier3" data-sector="3" role="button" tabindex="0" title="Click to inspect Sector 03 Telemetry Briefing">
+            <div class="roadside-bldg-wrap">
+              <div class="boulevard-light-mast">
+                <div class="mast-pole">
+                  <div class="mast-arm"></div>
+                  <div class="mast-luminaire"></div>
+                  <div class="mast-ground-glow"></div>
+                </div>
+              </div>
+              <div class="bldg-card">
+                <div class="pavilion-roof" style="--accent-color: #FFD166; --accent-glow: rgba(255, 209, 102, 0.6);"></div>
+                <div class="pavilion-upper" style="height: 20px;"></div>
+                <div class="pavilion-marquee">
+                  <span class="marquee-title" style="font-size: 0.58rem;">KINETIC // TOWER</span>
+                </div>
+              </div>
+              <div class="bldg-sidewalk-base"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT ROADSIDE AVENUE (Tiered Sideways along Road Edge) -->
+        <div id="roadsideRight" class="roadside-corridor-side">
+
+          <!-- Right Tier 1: Luxury Haute Couture Textile Maison (Sector 01) -->
+          <div class="roadside-tier roadside-right-tier1" data-sector="1" role="button" tabindex="0" title="Click to inspect Sector 01 Telemetry Briefing">
+            <div class="roadside-bldg-wrap">
+              <div class="boulevard-light-mast">
+                <div class="mast-pole">
+                  <div class="mast-arm"></div>
+                  <div class="mast-luminaire"></div>
+                  <div class="mast-ground-glow"></div>
+                </div>
+              </div>
+              <div class="bldg-card">
+                <div class="pavilion-roof" style="--accent-color: #00E5FF; --accent-glow: rgba(0, 229, 255, 0.6);"></div>
+                <div class="pavilion-upper"></div>
+                <div class="pavilion-marquee">
+                  <span class="marquee-title">KAPDA // BESPOKE</span>
+                  <span class="marquee-tag" style="color: #00E5FF;">SILK LAB</span>
+                </div>
+                <div class="pavilion-showroom">
+                  <div class="showroom-pedestal">
+                    <div class="pedestal-glow" style="background: radial-gradient(circle, #00E5FF, transparent);"></div>
+                    <span class="pedestal-label">COUTURE · WEAVE 01</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bldg-sidewalk-base"></div>
+            </div>
+          </div>
+
+          <!-- Right Tier 2: Advanced Composites Lab (Sector 02) -->
+          <div class="roadside-tier roadside-right-tier2" data-sector="2" role="button" tabindex="0" title="Click to inspect Sector 02 Telemetry Briefing">
+            <div class="roadside-bldg-wrap">
+              <div class="boulevard-light-mast">
+                <div class="mast-pole">
+                  <div class="mast-arm"></div>
+                  <div class="mast-luminaire"></div>
+                  <div class="mast-ground-glow"></div>
+                </div>
+              </div>
+              <div class="bldg-card">
+                <div class="pavilion-roof" style="--accent-color: #C6FF3D; --accent-glow: rgba(198, 255, 61, 0.6);"></div>
+                <div class="pavilion-upper"></div>
+                <div class="pavilion-marquee">
+                  <span class="marquee-title">ITZ // TEXTILES</span>
+                  <span class="marquee-tag" style="color: #C6FF3D;">CARBON WEAVE</span>
+                </div>
+                <div class="pavilion-showroom">
+                  <div class="showroom-pedestal">
+                    <div class="pedestal-glow" style="background: radial-gradient(circle, #C6FF3D, transparent);"></div>
+                    <span class="pedestal-label">COMPOSITES LAB</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bldg-sidewalk-base"></div>
+            </div>
+          </div>
+
+          <!-- Right Tier 3: Distant Silk Haus Tower (Sector 03) -->
+          <div class="roadside-tier roadside-right-tier3" data-sector="3" role="button" tabindex="0" title="Click to inspect Sector 03 Telemetry Briefing">
+            <div class="roadside-bldg-wrap">
+              <div class="boulevard-light-mast">
+                <div class="mast-pole">
+                  <div class="mast-arm"></div>
+                  <div class="mast-luminaire"></div>
+                  <div class="mast-ground-glow"></div>
+                </div>
+              </div>
+              <div class="bldg-card">
+                <div class="pavilion-roof" style="--accent-color: #FFD166; --accent-glow: rgba(255, 209, 102, 0.6);"></div>
+                <div class="pavilion-upper" style="height: 20px;"></div>
+                <div class="pavilion-marquee">
+                  <span class="marquee-title" style="font-size: 0.58rem;">ROYAL // SILK HAUS</span>
+                </div>
+              </div>
+              <div class="bldg-sidewalk-base"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
 
       <!-- Top Header / Controls -->
       <header class="hero-top-bar">
@@ -945,25 +2248,48 @@
       <!-- The Supercar Entity -->
       <div id="objectOuter" class="object-outer">
         <div id="objectInner" class="object-inner">
-          <!-- Volumetric Headlight Beams projecting onto road -->
-          <div id="carHeadlights" class="car-headlights-rig">
-            <div class="headlight-beam beam-l"></div>
-            <div class="headlight-beam beam-r"></div>
-            <div class="headlight-ambient-flare"></div>
+          <!-- Hyper-Realistic Headlight & Ambient Lighting System (Matching Reference Image) -->
+          <div id="carHeadlightBeams" class="car-headlight-beams" aria-hidden="true">
+            <!-- Forward Volumetric Projection High Beams -->
+            <div class="headlight-beam headlight-beam-left"></div>
+            <div class="headlight-beam headlight-beam-right"></div>
+
+            <!-- Front Asphalt Reflection Pool -->
+            <div class="headlight-ground-pool"></div>
+
+            <!-- Lateral Ambient Ground Light (Olive-Lime Left, Saffron-Amber Right) -->
+            <div class="side-ambient-wash side-ambient-left"></div>
+            <div class="side-ambient-wash side-ambient-right"></div>
           </div>
 
-          <!-- Ground Underglow Aura -->
-          <div id="carUnderglow" class="car-underglow-aura"></div>
-
-          <!-- Top-Down McLaren Supercar -->
+          <!-- Top-Down McLaren Supercar (Clean Transparent) -->
           <img
+            id="carTopImg"
             src="assets/car-transparent.png"
-            alt="ITZFIZZ Hypercar"
+            alt="ITZFIZZ Hypercar Top View"
             class="hero-object-img"
-            width="800"
-            height="400"
-            aria-hidden="true"
+            width="1024"
+            height="1024"
           />
+
+          <!-- Front Headlight Lens Flare Bulbs (Anchored over Headlight Clusters) -->
+          <div id="carHeadlightFlares" class="car-headlight-flares" aria-hidden="true">
+            <div class="headlight-bulb-flare flare-left"></div>
+            <div class="headlight-bulb-flare flare-right"></div>
+          </div>
+
+          <!-- Rear-View Chase McLaren Supercar (Clean Transparent) -->
+          <img
+            id="carRearImg"
+            src="assets/car-rear-orange-transparent.png"
+            alt="ITZFIZZ Hypercar Rear View"
+            class="hero-chase-rear-img"
+            width="1069"
+            height="695"
+          />
+
+          <!-- Crisp Dynamic Shadow under car -->
+          <div class="car-chassis-shadow"></div>
 
           <!-- Speed Trails -->
           <div id="carSpeedTrails" class="car-speed-trails">
@@ -1020,6 +2346,95 @@
         <span id="scrollHintText">SCROLL TO ENGAGE</span> <span>↓</span>
       </div>
 
+      <!-- Interactive Sector Checkpoint Station Prompt (Slides in as user scrolls through Sectors) -->
+      <div id="sectorCheckpointStation" class="sector-checkpoint-station" role="button" tabindex="0" aria-label="Inspect sector telemetry">
+        <div class="station-header">
+          <span class="station-pulse"></span>
+          <span id="stationSectorBadge" class="station-badge">SECTOR 01 // CHECKPOINT STOP</span>
+          <span id="stationTelemetryTag" class="station-tag">VELOCITY · 58%</span>
+        </div>
+        <div class="station-body">
+          <h4 id="stationSectorTitle" class="station-title">AERODYNAMIC DRAG REDUCTION SYSTEM</h4>
+          <p id="stationSectorDesc" class="station-desc">Telemetry active. Checkpoint stop reached — inspect telemetry &amp; engineering intel.</p>
+        </div>
+        <button id="stationInspectBtn" class="station-inspect-btn" type="button">
+          <span>⚡</span>
+          <span id="stationInspectBtnText">CLICK TO READ SECTOR 01 INTEL</span>
+          <span>→</span>
+        </button>
+      </div>
+
+      <!-- High-Tech Sector Telemetry Briefing Modal -->
+      <div id="sectorModal" class="sector-modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalSectorTitle">
+        <div class="sector-modal-card">
+          <!-- Top Bar: Tabs & Close -->
+          <div class="modal-top-bar">
+            <div class="modal-tabs">
+              <button class="modal-tab-btn is-active" data-sector="1" type="button">01 // VELOCITY · 58%</button>
+              <button class="modal-tab-btn" data-sector="2" type="button">02 // INERTIA · 23%</button>
+              <button class="modal-tab-btn" data-sector="3" type="button">03 // APEX · 27% &amp; 40%</button>
+            </div>
+            <button id="modalCloseBtn" class="modal-close-btn" type="button" aria-label="Close sector briefing">✕</button>
+          </div>
+
+          <!-- Sector Header Meta -->
+          <div class="modal-header-meta">
+            <span id="modalSectorIndicator" class="modal-sector-indicator">SECTOR 01 // CHECKPOINT STOP</span>
+            <span id="modalStatusBadge" class="modal-status-badge">HIGH-SPEED ZONE CLEARED</span>
+          </div>
+
+          <!-- Sector Title -->
+          <h3 id="modalSectorTitle" class="modal-title">AERODYNAMIC DRAG REDUCTION &amp; HYBRID LAUNCH</h3>
+
+          <!-- 4-KPI Grid -->
+          <div class="modal-kpi-grid">
+            <div class="modal-kpi-card">
+              <div id="kpiLabel1" class="kpi-label">TOP VELOCITY</div>
+              <div id="kpiValue1" class="kpi-value">350 KM/H</div>
+              <div id="kpiSub1" class="kpi-sub">217.5 MPH TELEMETRY</div>
+            </div>
+            <div class="modal-kpi-card">
+              <div id="kpiLabel2" class="kpi-label">0-100 SPRINT</div>
+              <div id="kpiValue2" class="kpi-value">2.8 SEC</div>
+              <div id="kpiSub2" class="kpi-sub">INSTANT E-TORQUE FILL</div>
+            </div>
+            <div class="modal-kpi-card">
+              <div id="kpiLabel3" class="kpi-label">AERO DOWNFORCE</div>
+              <div id="kpiValue3" class="kpi-value">600 KG</div>
+              <div id="kpiSub3" class="kpi-sub">AT 250 KM/H CRUISE</div>
+            </div>
+            <div class="modal-kpi-card">
+              <div id="kpiLabel4" class="kpi-label">DRS WING PITCH</div>
+              <div id="kpiValue4" class="kpi-value">-29° ACTIVE</div>
+              <div id="kpiSub4" class="kpi-sub">HYDRAULIC ACTUATION</div>
+            </div>
+          </div>
+
+          <!-- Engineering Dossier -->
+          <div class="modal-dossier">
+            <div class="dossier-heading">ENGINEERING TELEMETRY DOSSIER</div>
+            <p id="modalDossierText" class="dossier-text">
+              Sector 01 validates aerodynamic penetration and pure launch torque. As the McLaren P1 breaches the starting gate, active hydraulic actuators deploy the carbon-fiber rear wing to stabilize vortex shedding while underbody flaps trim aerodynamic balance automatically.
+            </p>
+          </div>
+
+          <!-- ITZFIZZ Bespoke Materials Integration -->
+          <div class="modal-materials-box">
+            <div class="materials-title">⚡ ITZFIZZ BESPOKE TEXTILE &amp; COMPOSITE SYNERGY</div>
+            <p id="modalMaterialsText" class="materials-text">
+              Engineered with ITZFIZZ proprietary multi-axial high-tensile carbon-silk weaving. This hybrid composite lines the vehicle's monocoque, providing extreme torsional rigidity with zero structural deflection under 600kg aerodynamic load.
+            </p>
+          </div>
+
+          <!-- Modal Navigation & Action -->
+          <div class="modal-actions">
+            <button id="modalPrevBtn" class="modal-nav-btn" type="button">← PREV SECTOR</button>
+            <button id="modalResumeBtn" class="modal-resume-btn" type="button">🏁 RESUME RACE / CLOSE</button>
+            <button id="modalNextBtn" class="modal-nav-btn" type="button">NEXT SECTOR →</button>
+          </div>
+        </div>
+      </div>
+
     </section>
 
   </div>
@@ -1046,9 +2461,12 @@
       const accentLine = document.getElementById('accentLine');
       const objectOuter = document.getElementById('objectOuter');
       const objectInner = document.getElementById('objectInner');
+      const carTopImg = document.getElementById('carTopImg');
+      const carRearImg = document.getElementById('carRearImg');
+      const carHeadlightBeams = document.getElementById('carHeadlightBeams');
+      const carHeadlightFlares = document.getElementById('carHeadlightFlares');
       const heroTrackContainer = document.getElementById('heroTrackContainer');
-      const carHeadlights = document.getElementById('carHeadlights');
-      const carUnderglow = document.getElementById('carUnderglow');
+      const heroTrackSurface = document.querySelector('.hero-track-surface');
       const carSpeedTrails = document.getElementById('carSpeedTrails');
       const scrollHint = document.getElementById('scrollHint');
       const scrollHintText = document.getElementById('scrollHintText');
@@ -1057,6 +2475,9 @@
       const glowOuter = document.getElementById('glowOuter');
       const chars = document.querySelectorAll('.char');
       const statBlocks = document.querySelectorAll('.stat-block');
+      const statsOuter = document.getElementById('statsOuter');
+      const roadsideScenery = document.getElementById('roadsideScenery');
+      const cityHorizonBackdrop = document.getElementById('cityHorizonBackdrop');
 
       // Checkpoint Gates
       const gateStart = document.getElementById('gateStart');
@@ -1072,13 +2493,164 @@
 
       const STATS = [58, 23, 27, 40];
       const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
-      const initialX = isDesktop ? '-26vw' : '-18vw';
+
+      // Sector Interactive Checkpoint & Telemetry Modal Elements
+      const sectorCheckpointStation = document.getElementById('sectorCheckpointStation');
+      const stationSectorBadge = document.getElementById('stationSectorBadge');
+      const stationTelemetryTag = document.getElementById('stationTelemetryTag');
+      const stationSectorTitle = document.getElementById('stationSectorTitle');
+      const stationSectorDesc = document.getElementById('stationSectorDesc');
+      const stationInspectBtnText = document.getElementById('stationInspectBtnText');
+      const stationInspectBtn = document.getElementById('stationInspectBtn');
+
+      const sectorModal = document.getElementById('sectorModal');
+      const modalCloseBtn = document.getElementById('modalCloseBtn');
+      const modalResumeBtn = document.getElementById('modalResumeBtn');
+      const modalPrevBtn = document.getElementById('modalPrevBtn');
+      const modalNextBtn = document.getElementById('modalNextBtn');
+      const modalTabBtns = document.querySelectorAll('.modal-tab-btn');
+      const telemetryStatus = document.getElementById('telemetryStatus');
+
+      const SECTOR_DATA = {
+        1: {
+          color: '#C6FF3D',
+          glow: 'rgba(198, 255, 61, 0.45)',
+          badge: 'SECTOR 01 // CHECKPOINT STOP',
+          status: 'HIGH-SPEED ZONE · 58% VELOCITY',
+          title: 'AERODYNAMIC DRAG REDUCTION & HYBRID LAUNCH',
+          tag: 'VELOCITY · 58%',
+          desc: 'Aerodynamic Drag Reduction System (DRS) engaged. Inspect high-velocity telemetry & downforce.',
+          btnText: 'CLICK TO READ SECTOR 01 INTEL',
+          kpi: [
+            { label: 'TOP VELOCITY', val: '350 KM/H', sub: '217.5 MPH TELEMETRY' },
+            { label: '0-100 SPRINT', val: '2.8 SEC', sub: 'INSTANT E-TORQUE FILL' },
+            { label: 'AERO DOWNFORCE', val: '600 KG', sub: 'AT 250 KM/H CRUISE' },
+            { label: 'DRS WING PITCH', val: '-29° ACTIVE', sub: 'HYDRAULIC ACTUATION' }
+          ],
+          dossier: 'Sector 01 validates pure aerodynamic penetration and dual-powertrain torque fill. As the McLaren P1 accelerates past the start line, active underbody flaps pitch to balance front-to-rear center of pressure while the active rear wing deploys to generate 600 kg of ground-hugging downforce.',
+          materials: 'Crafted with ITZFIZZ proprietary multi-axial high-tensile carbon-silk weaving. This hybrid weave lines the passenger monocoque and active front splitter, ensuring zero structural deflection under extreme supersonic aerodynamic shear.'
+        },
+        2: {
+          color: '#FF9F1C',
+          glow: 'rgba(255, 159, 28, 0.45)',
+          badge: 'SECTOR 02 // CHECKPOINT STOP',
+          status: 'CHICANE CORNERING · 23% INERTIA',
+          title: 'LATERAL G-FORCE & ACTIVE SUSPENSION SYNERGY',
+          tag: 'INERTIA · 23%',
+          desc: 'Inertia reduction and RaceActive Chassis Control active. Inspect lateral cornering metrics.',
+          btnText: 'CLICK TO READ SECTOR 02 INTEL',
+          kpi: [
+            { label: 'LATERAL G-FORCE', val: '1.54 G', sub: 'APEX CORNERING LOAD' },
+            { label: 'INERTIA REDUCTION', val: '23%', sub: 'ROTATIONAL MASS DAMPING' },
+            { label: 'CHASSIS STIFFNESS', val: '+300%', sub: 'RACE MODE HYDRAULIC LINK' },
+            { label: 'TORQUE VECTORING', val: '0.002 SEC', sub: 'MILLI-SEC BRAKE APEX BIAS' }
+          ],
+          dossier: 'Sector 02 navigates high-speed lateral chicanes. The RaceActive Chassis Control (RCC) hydraulically interconnects all four dampers, eliminating body roll entirely without conventional heavy anti-roll bars. Millisecond torque vectoring selectively pivots the chassis effortlessly through the apex.',
+          materials: 'Incorporates ITZFIZZ bespoke technical elastomeric weave into the carbon monocoque suspension pick-up points. This absorbs high-frequency vibrations while preserving razor-sharp telemetry steering feedback for the driver.'
+        },
+        3: {
+          color: '#00E5FF',
+          glow: 'rgba(0, 229, 255, 0.45)',
+          badge: 'SECTOR 03 // CHECKPOINT STOP',
+          status: 'APEX CLEARED · 27% & 40% INTEGRITY',
+          title: 'HYBRID POWERTRAIN SYNERGY & KERS HARVEST',
+          tag: 'APEX · 27% & 40%',
+          desc: 'Apex integrity verified. Inspect twin-turbo V8 energy recovery & carbon MonoCage telemetry.',
+          btnText: 'CLICK TO READ SECTOR 03 INTEL',
+          kpi: [
+            { label: 'TOTAL POWERTRAIN', val: '903 HP', sub: '727 HP V8 + 176 HP E-MOTOR' },
+            { label: 'PEAK TORQUE', val: '900 NM', sub: 'INSTANT BATTERY BOOST' },
+            { label: 'CARBON MONOCAGE', val: '90 KG', sub: 'AEROSPACE MONOCOQUE WEIGHT' },
+            { label: '100-0 BRAKING', val: '30.2 M', sub: 'CARBON CERAMIC DISCS' }
+          ],
+          dossier: 'Sector 03 delivers apex exit acceleration and maximum kinetic energy regeneration. The 3.8-litre twin-turbo V8 synchronizes instantaneously with the electric motor, eliminating turbo lag while recovering kinetic energy during threshold braking into the final straight.',
+          materials: 'Featuring ITZFIZZ aerospace-grade thermal-shielded textiles surrounding the high-density battery pack and exhaust manifold, insulating vital components against temperatures exceeding 900°C under maximum sustained boost.'
+        }
+      };
+
+      let activeStationSector = 0;
+      let currentModalSector = 1;
+
+      function updateStationPrompt(sectorNum) {
+        if (activeStationSector === sectorNum) return;
+        activeStationSector = sectorNum;
+        const data = SECTOR_DATA[sectorNum];
+        if (!data || !sectorCheckpointStation) return;
+
+        sectorCheckpointStation.style.setProperty('--station-color', data.color);
+        sectorCheckpointStation.style.setProperty('--station-glow', data.glow);
+
+        if (stationSectorBadge) stationSectorBadge.textContent = data.badge;
+        if (stationTelemetryTag) stationTelemetryTag.textContent = data.tag;
+        if (stationSectorTitle) stationSectorTitle.textContent = data.title;
+        if (stationSectorDesc) stationSectorDesc.textContent = data.desc;
+        if (stationInspectBtnText) stationInspectBtnText.textContent = data.btnText;
+
+        sectorCheckpointStation.classList.add('is-visible');
+      }
+
+      function openSectorModal(sectorNum) {
+        currentModalSector = sectorNum || activeStationSector || 1;
+        const data = SECTOR_DATA[currentModalSector];
+        if (!data || !sectorModal) return;
+
+        sectorModal.style.setProperty('--sector-modal-color', data.color);
+        sectorModal.style.setProperty('--sector-modal-glow', data.glow);
+
+        // Update Tabs
+        modalTabBtns.forEach(btn => {
+          const s = parseInt(btn.dataset.sector, 10);
+          btn.classList.toggle('is-active', s === currentModalSector);
+        });
+
+        // Update Texts
+        const modalSectorIndicator = document.getElementById('modalSectorIndicator');
+        const modalStatusBadge = document.getElementById('modalStatusBadge');
+        const modalSectorTitle = document.getElementById('modalSectorTitle');
+        const modalDossierText = document.getElementById('modalDossierText');
+        const modalMaterialsText = document.getElementById('modalMaterialsText');
+
+        if (modalSectorIndicator) modalSectorIndicator.textContent = data.badge;
+        if (modalStatusBadge) modalStatusBadge.textContent = data.status;
+        if (modalSectorTitle) modalSectorTitle.textContent = data.title;
+        if (modalDossierText) modalDossierText.textContent = data.dossier;
+        if (modalMaterialsText) modalMaterialsText.textContent = data.materials;
+
+        // Update KPIs
+        data.kpi.forEach((kpi, idx) => {
+          const lEl = document.getElementById(`kpiLabel${idx + 1}`);
+          const vEl = document.getElementById(`kpiValue${idx + 1}`);
+          const sEl = document.getElementById(`kpiSub${idx + 1}`);
+          if (lEl) lEl.textContent = kpi.label;
+          if (vEl) vEl.textContent = kpi.val;
+          if (sEl) sEl.textContent = kpi.sub;
+        });
+
+        sectorModal.classList.add('is-open');
+        sectorModal.setAttribute('aria-hidden', 'false');
+      }
+
+      function closeSectorModal() {
+        if (!sectorModal) return;
+        sectorModal.classList.remove('is-open');
+        sectorModal.setAttribute('aria-hidden', 'true');
+      }
 
       // Ambient Radial Glow Pulse
       gsap.to(glowInner, {
         opacity: 0.28,
         scale: 1.05,
         duration: 3.5,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut'
+      });
+
+      // Idling Headlight Lens Flare Pulse
+      gsap.to(['.flare-left', '.flare-right'], {
+        scale: 1.18,
+        opacity: 0.88,
+        duration: 2.2,
         yoyo: true,
         repeat: -1,
         ease: 'sine.inOut'
@@ -1100,10 +2672,12 @@
       if (prefersReducedMotion) {
         gsap.to(stage, { opacity: 1, duration: 0.3 });
         gsap.set(heroTrackContainer, { opacity: 1 });
+        gsap.set(roadsideScenery, { opacity: 1 });
         gsap.set(headlineInner, { opacity: 0 });
-        gsap.set(objectOuter, { opacity: 1 });
-        gsap.set(objectInner, { x: 0, y: 0, scale: 1.15, rotate: 0 });
-        gsap.set([carHeadlights, carUnderglow], { opacity: 1 });
+        gsap.set(objectOuter, { opacity: 1, y: 0 });
+        gsap.set(objectInner, { x: 0, y: 0, scale: 1, rotate: 0 });
+        gsap.set(carTopImg, { opacity: 1 });
+        gsap.set([carHeadlightBeams, carHeadlightFlares], { opacity: 1 });
         gsap.set(statBlocks, { opacity: 1, y: 0 });
         gsap.set(scrollHint, { opacity: 0 });
         if (telemetryStatusText) telemetryStatusText.textContent = 'TRACK ACTIVE // 60 FPS';
@@ -1125,21 +2699,38 @@
         // Reset elements to initial State
         gsap.set(stage, { opacity: 0 });
         gsap.set(heroTrackContainer, { opacity: 0 });
-        gsap.set(headlineInner, { opacity: 1, y: 0, filter: 'blur(0px)' });
-        gsap.set(chars, { opacity: 0, yPercent: 100, filter: isDesktop ? 'blur(6px)' : 'none' });
+        gsap.set(heroTrackSurface, { rotateX: 0, scaleX: 1, scaleY: 1, y: 0 });
+        gsap.set(roadsideScenery, { opacity: 0 });
+        gsap.set(['.roadside-left-tier1', '.roadside-right-tier1'], { y: 0 });
+        gsap.set(['.roadside-left-tier2', '.roadside-right-tier2'], { y: 0 });
+        gsap.set(['.roadside-left-tier3', '.roadside-right-tier3'], { y: 0 });
+        gsap.set(cityHorizonBackdrop, { y: 0 });
+        gsap.set(headlineInner, { opacity: 1, y: 0 });
+        gsap.set(chars, { opacity: 0, yPercent: 100 });
         gsap.set(headline, { letterSpacing: '0.2em' });
         gsap.set(accentLine, { scaleX: 0, transformOrigin: 'left center' });
-        gsap.set(statBlocks, { opacity: 0, y: 32, filter: isDesktop ? 'blur(8px)' : 'none' });
+        gsap.set(statBlocks, { opacity: 0, y: 28 });
         gsap.set('.stat-divider', { scaleY: 0, transformOrigin: 'top center' });
-        gsap.set(objectOuter, { opacity: 0 });
-        gsap.set(objectInner, { x: initialX, y: '3vh', scale: 0.92, rotate: -3 });
-        gsap.set([carHeadlights, carUnderglow, carSpeedTrails], { opacity: 0 });
+
+        // Car elements: ALWAYS visible and centered on home page!
+        gsap.set(objectOuter, { opacity: 1, y: 0 });
+        gsap.set(objectInner, { x: 0, y: 0, scale: 1, rotate: 0 });
+        gsap.set(carTopImg, { autoAlpha: 1, scale: 1, scaleX: 1, scaleY: 1, rotateX: 0, y: 0 });
+        gsap.set([carHeadlightBeams, carHeadlightFlares], { autoAlpha: 1, scale: 1, scaleX: 1, scaleY: 1, rotateX: 0, y: 0 });
+        gsap.set(carRearImg, { autoAlpha: 0, rotateX: 0, scale: 1, scaleX: 1, scaleY: 1, y: 0 });
+        gsap.set(carSpeedTrails, { opacity: 0 });
+
         gsap.set(scrollHint, { opacity: 1 });
         if (scrollHintText) scrollHintText.textContent = 'SCROLL TO ENGAGE';
+        gsap.set(statsOuter, { opacity: 1, y: 0, pointerEvents: 'auto' });
 
         // Reset gate positions & opacities
-        gsap.set(gateStart, { y: 0, opacity: 1, filter: 'blur(0px)' });
-        gsap.set([gateSector1, gateSector2, gateSector3, gateFinish], { y: 0, opacity: 0, filter: 'blur(0px)' });
+        gsap.set(gateStart, { y: 0, opacity: 1 });
+        gsap.set([gateSector1, gateSector2, gateSector3, gateFinish], { y: 0, opacity: 0 });
+
+        if (sectorCheckpointStation) sectorCheckpointStation.classList.remove('is-visible');
+        if (sectorModal) sectorModal.classList.remove('is-open');
+        activeStationSector = 0;
 
         statBlocks.forEach(b => b.classList.remove('is-cleared'));
 
@@ -1161,11 +2752,10 @@
 
         introTl
           .to(stage, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0)
-          .to(objectOuter, { opacity: 1, duration: 0.7, ease: 'power2.out' }, 0.2)
+          .fromTo(objectOuter, { opacity: 0, scale: 0.88, y: 22 }, { opacity: 1, scale: 1, y: 0, duration: 0.75, ease: 'power2.out' }, 0.15)
           .to(chars, {
             opacity: 1,
             yPercent: 0,
-            filter: 'blur(0px)',
             duration: 0.85,
             stagger: { each: 0.04, from: 'center' },
             ease: 'expo.out'
@@ -1187,7 +2777,6 @@
           introTl.to(block, {
             opacity: 1,
             y: 0,
-            filter: 'blur(0px)',
             duration: 0.75,
             ease: 'expo.out'
           }, startTime);
@@ -1219,15 +2808,15 @@
             onUpdate: (self) => {
               const p = self.progress;
               if (telemetryStatusText) {
-                if (p < 0.18) {
+                if (p < 0.12) {
                   telemetryStatusText.textContent = 'READY // SCROLL DOWN';
-                } else if (p < 0.38) {
+                } else if (p < 0.40) {
                   telemetryStatusText.textContent = '🏁 START // BEGIN THE RACE';
-                } else if (p < 0.58) {
+                } else if (p < 0.70) {
                   telemetryStatusText.textContent = 'SECTOR 01 // VELOCITY · 58%';
-                } else if (p < 0.78) {
+                } else if (p < 0.85) {
                   telemetryStatusText.textContent = 'SECTOR 02 // INERTIA · 23%';
-                } else if (p < 0.94) {
+                } else if (p < 0.95) {
                   telemetryStatusText.textContent = 'SECTOR 03 // APEX INTEGRITY';
                 } else {
                   telemetryStatusText.textContent = '🏆 RACE COMPLETE // APEX CLEARED';
@@ -1239,6 +2828,22 @@
               if (statBlock1) statBlock1.classList.toggle('is-cleared', p >= 0.70);
               if (statBlock2) statBlock2.classList.toggle('is-cleared', p >= 0.88);
               if (statBlock3) statBlock3.classList.toggle('is-cleared', p >= 0.88);
+
+              // Interactive Checkpoint Station prompts during scroll
+              if (sectorCheckpointStation) {
+                if (p >= 0.48 && p < 0.68) {
+                  updateStationPrompt(1);
+                } else if (p >= 0.68 && p < 0.84) {
+                  updateStationPrompt(2);
+                } else if (p >= 0.84 && p < 0.98) {
+                  updateStationPrompt(3);
+                } else {
+                  if (activeStationSector !== 0) {
+                    activeStationSector = 0;
+                    sectorCheckpointStation.classList.remove('is-visible');
+                  }
+                }
+              }
             }
           }
         });
@@ -1246,161 +2851,242 @@
         // 0.00 -> 0.08: Top hold buffer
         scrollTl.to({}, { duration: 0.08 });
 
-        // 0.08 -> 0.32: The words "WELCOME ITZFIZZ" disappear
+        // 0.08 -> 0.28: The words "WELCOME ITZFIZZ" disappear & Track emerges
         scrollTl.to(headlineInner, {
           opacity: 0,
           y: -48,
-          filter: 'blur(10px)',
-          duration: 0.24,
+          duration: 0.20,
           ease: 'power2.inOut'
         }, 0.08);
 
         scrollTl.to(accentLine, {
           scaleX: 0,
-          duration: 0.18,
+          duration: 0.16,
           ease: 'power2.in'
         }, 0.08);
 
         scrollTl.to(scrollHint, {
           opacity: 0,
-          duration: 0.16
+          duration: 0.14
         }, 0.08);
 
-        // 0.18 -> 0.38: THE TRACK EMERGES AT 0 (START LINE // BEGIN THE RACE)
+        // 0.10 -> 0.28: THE ORIGINAL TRACK EMERGES AT 0 (START LINE // BEGIN THE RACE)
         scrollTl.to(heroTrackContainer, {
           opacity: 1,
-          duration: 0.20,
+          duration: 0.18,
           ease: 'power2.out'
-        }, 0.18);
+        }, 0.10);
 
-        // Car glides smoothly from left to center stage DIRECTLY AT THE START LINE!
-        scrollTl.fromTo(objectInner,
-          { x: initialX, y: '3vh', rotate: -3, scale: 0.92 },
-          { x: 0, y: 0, rotate: 0, scale: 1.15, duration: 0.22, ease: 'power2.out' },
-          0.18
-        );
-
-        // Headlights flare and illuminate the Start Line
-        scrollTl.to(carHeadlights, {
-          opacity: 1,
-          duration: 0.20,
+        // Car settles firmly into starting position directly behind the start gate
+        scrollTl.to(objectInner, {
+          scale: 1.08,
+          duration: 0.18,
           ease: 'power2.out'
-        }, 0.22);
-
-        // Chassis underglow shines
-        scrollTl.to(carUnderglow, {
-          opacity: 1,
-          duration: 0.20,
-          ease: 'power2.out'
-        }, 0.22);
+        }, 0.10);
 
         // Speed trails activate
         scrollTl.to(carSpeedTrails, {
           opacity: 0.8,
-          duration: 0.20
-        }, 0.24);
+          duration: 0.16
+        }, 0.20);
 
         // -------------------------------------------------------------
-        // 3. THE RACE PROGRESSION (LINES DISSOLVE SMOOTHLY ONCE CROSSED)
+        // 3. THE RACE PROGRESSION & CAMERA ANGLE TRANSITION
         // -------------------------------------------------------------
-        // 0.36 -> 0.50: Car launches across START LINE -> Start Line dissolves smoothly!
+        // 0.28 -> 0.44: Car launches across START LINE -> Start Line rolls past the car
         scrollTl.to(gateStart, {
-          y: '26vh',
+          y: '85vh',
+          duration: 0.16,
+          ease: 'power1.inOut'
+        }, 0.28);
+
+        scrollTl.to(gateStart, {
+          opacity: 0,
+          duration: 0.06,
+          ease: 'power2.out'
+        }, 0.38);
+
+        // When the car crosses the Start Line (0.28 -> 0.42), the bottom stats card dissolves smoothly!
+        scrollTl.to(statsOuter, {
+          opacity: 0,
+          y: 45,
           duration: 0.14,
-          ease: 'power1.inOut'
-        }, 0.36);
+          ease: 'power2.inOut',
+          pointerEvents: 'none'
+        }, 0.28);
 
-        // When the car crosses the Start Line (0.41 -> 0.49), it dissolves smoothly:
-        scrollTl.to(gateStart, {
-          opacity: 0,
-          filter: 'blur(8px)',
+        // Headlight flares intensify as car launches
+        scrollTl.to(carHeadlightFlares, {
+          scale: 1.25,
+          duration: 0.08,
+          yoyo: true,
+          repeat: 1
+        }, 0.28);
+
+        // -------------------------------------------------------------
+        // 4. CRYSTAL-CLEAR SMOOTH 3D CAMERA SWOOP & ENVIRONMENT REVEAL
+        // -------------------------------------------------------------
+        // Reveal the infinite horizon, twilight sky & roadside pavilions
+        // ONLY reveals when swooping into the 3D chase camera view (progress 0.44+)
+        scrollTl.to(roadsideScenery, {
+          opacity: 1,
           duration: 0.08,
           ease: 'power2.out'
-        }, 0.41);
+        }, 0.44);
 
-        // 0.45 -> 0.68: SECTOR 01 enters from top -> Car crosses it -> Dissolves smoothly!
+        // Parallax motion: Roadside pavilions glide naturally along the perspective diagonals
+        scrollTl.to('.roadside-left-tier1', {
+          x: '-3vw',
+          y: '6vh',
+          duration: 0.55,
+          ease: 'none'
+        }, 0.45);
+        scrollTl.to('.roadside-right-tier1', {
+          x: '3vw',
+          y: '6vh',
+          duration: 0.55,
+          ease: 'none'
+        }, 0.45);
+
+        scrollTl.to('.roadside-left-tier2', {
+          x: '-2vw',
+          y: '4vh',
+          duration: 0.55,
+          ease: 'none'
+        }, 0.45);
+        scrollTl.to('.roadside-right-tier2', {
+          x: '2vw',
+          y: '4vh',
+          duration: 0.55,
+          ease: 'none'
+        }, 0.45);
+
+        scrollTl.to(['.roadside-left-tier3', '.roadside-right-tier3'], {
+          y: '2vh',
+          duration: 0.55,
+          ease: 'none'
+        }, 0.45);
+
+        // Distant celestial horizon subtle depth parallax
+        scrollTl.to(cityHorizonBackdrop, {
+          y: '2vh',
+          duration: 0.55,
+          ease: 'none'
+        }, 0.45);
+
+        // Road tilts seamlessly into deep 3D perspective towards vanishing horizon
+        scrollTl.to(heroTrackSurface, {
+          rotateX: 63,
+          scaleY: 1.45,
+          scaleX: 1.35,
+          y: '-6vh',
+          duration: 0.16,
+          ease: 'power2.inOut'
+        }, 0.38);
+
+        // Top-down car pitches forward in 3D perspective matching camera dive
+        scrollTl.to([carTopImg, carHeadlightBeams, carHeadlightFlares], {
+          rotateX: 72,
+          scaleY: 0.64,
+          scaleX: 1.06,
+          y: 6,
+          duration: 0.08,
+          ease: 'power1.in'
+        }, 0.38);
+
+        // At progress 0.455 -> 0.475: Silky-smooth, seamless perspective handoff!
+        // No jumping scale, no displacement pop, zero ghosting
+        scrollTl.to([carTopImg, carHeadlightBeams, carHeadlightFlares], {
+          autoAlpha: 0,
+          duration: 0.015,
+          ease: 'power1.out'
+        }, 0.455);
+
+        scrollTl.fromTo(carRearImg,
+          { autoAlpha: 0, rotateX: -8, scale: 0.98, scaleY: 0.92, y: 6 },
+          { autoAlpha: 1, rotateX: 0, scale: 1.0, scaleY: 1.0, y: 0, duration: 0.035, ease: 'power2.out', immediateRender: false },
+          0.455
+        );
+
+        // Nitro speed trails flare during acceleration gear-shift
+        scrollTl.to(carSpeedTrails, {
+          scaleY: 1.8,
+          opacity: 1,
+          duration: 0.03,
+          yoyo: true,
+          repeat: 1
+        }, 0.455);
+
+        // -------------------------------------------------------------
+        // 5. HIGH-SPEED 3D PERSPECTIVE CHECKPOINTS FLY OVERHEAD ALONG THE TRACK
+        // -------------------------------------------------------------
+        // 0.58 -> 0.72: SECTOR 01 (VELOCITY · 58%) moves down the 3D track
         scrollTl.to(gateSector1, {
           opacity: 1,
-          duration: 0.06,
+          duration: 0.05,
           ease: 'power1.out'
-        }, 0.45);
-
-        scrollTl.to(gateSector1, {
-          y: '78vh',
-          duration: 0.23,
-          ease: 'power1.inOut'
-        }, 0.45);
-
-        // When the car crosses Sector 01 (0.58 -> 0.66), it dissolves smoothly:
-        scrollTl.to(gateSector1, {
-          opacity: 0,
-          filter: 'blur(8px)',
-          duration: 0.08,
-          ease: 'power2.out'
         }, 0.58);
+        scrollTl.to(gateSector1, {
+          y: '85vh',
+          duration: 0.16,
+          ease: 'power1.inOut'
+        }, 0.58);
+        scrollTl.to(gateSector1, {
+          opacity: 0,
+          duration: 0.05,
+          ease: 'power2.out'
+        }, 0.69);
 
-        // 0.63 -> 0.84: SECTOR 02 enters from top -> Car crosses it -> Dissolves smoothly!
+        // 0.72 -> 0.86: SECTOR 02 (INERTIA · 23%) moves down the 3D track
         scrollTl.to(gateSector2, {
           opacity: 1,
-          duration: 0.06,
+          duration: 0.05,
           ease: 'power1.out'
-        }, 0.63);
-
+        }, 0.72);
         scrollTl.to(gateSector2, {
-          y: '78vh',
-          duration: 0.20,
+          y: '85vh',
+          duration: 0.16,
           ease: 'power1.inOut'
-        }, 0.63);
-
-        // When the car crosses Sector 02 (0.74 -> 0.82), it dissolves smoothly:
+        }, 0.72);
         scrollTl.to(gateSector2, {
           opacity: 0,
-          filter: 'blur(8px)',
-          duration: 0.08,
+          duration: 0.05,
           ease: 'power2.out'
-        }, 0.74);
+        }, 0.83);
 
-        // 0.78 -> 0.95: SECTOR 03 enters from top -> Car crosses it -> Dissolves smoothly!
+        // 0.85 -> 0.95: SECTOR 03 (APEX INTEGRITY) moves down the 3D track
         scrollTl.to(gateSector3, {
           opacity: 1,
           duration: 0.05,
           ease: 'power1.out'
-        }, 0.78);
-
+        }, 0.85);
         scrollTl.to(gateSector3, {
-          y: '78vh',
-          duration: 0.16,
+          y: '85vh',
+          duration: 0.14,
           ease: 'power1.inOut'
-        }, 0.78);
-
-        // When the car crosses Sector 03 (0.87 -> 0.93), it dissolves smoothly:
+        }, 0.85);
         scrollTl.to(gateSector3, {
           opacity: 0,
-          filter: 'blur(8px)',
-          duration: 0.06,
+          duration: 0.05,
           ease: 'power2.out'
-        }, 0.87);
+        }, 0.94);
 
-        // 0.90 -> 1.00: FINISH LINE enters from top -> Car crosses it -> Dissolves smoothly!
+        // 0.95 -> 1.00: FINISH LINE (APEX CLEARED) moves down the 3D track
         scrollTl.to(gateFinish, {
           opacity: 1,
           duration: 0.04,
           ease: 'power1.out'
-        }, 0.90);
-
+        }, 0.95);
         scrollTl.to(gateFinish, {
-          y: '78vh',
-          duration: 0.10,
+          y: '85vh',
+          duration: 0.08,
           ease: 'power1.inOut'
-        }, 0.90);
-
-        // When the car crosses the Finish Line (0.96 -> 1.00), it dissolves smoothly:
+        }, 0.95);
         scrollTl.to(gateFinish, {
           opacity: 0,
-          filter: 'blur(8px)',
-          duration: 0.04,
+          duration: 0.03,
           ease: 'power2.out'
-        }, 0.96);
+        }, 0.99);
       }
 
       // Font ready check before starting
@@ -1440,6 +3126,86 @@
           if (themeLbl) themeLbl.textContent = isBlue ? 'LIME' : 'BLUE';
         });
       }
+
+      // Sector Interactive Checkpoint & Telemetry Modal Listeners
+      if (sectorCheckpointStation) {
+        sectorCheckpointStation.addEventListener('click', () => {
+          openSectorModal(activeStationSector || 1);
+        });
+      }
+      if (stationInspectBtn) {
+        stationInspectBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openSectorModal(activeStationSector || 1);
+        });
+      }
+
+      // Track Checkpoint Gate click handlers
+      if (gateSector1) gateSector1.addEventListener('click', () => openSectorModal(1));
+      if (gateSector2) gateSector2.addEventListener('click', () => openSectorModal(2));
+      if (gateSector3) gateSector3.addEventListener('click', () => openSectorModal(3));
+
+      // Roadside Shop click handlers (clicking any shop opens its sector briefing)
+      document.querySelectorAll('.roadside-tier[data-sector]').forEach(shopEl => {
+        shopEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const s = parseInt(shopEl.dataset.sector, 10);
+          if (s) openSectorModal(s);
+        });
+        shopEl.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const s = parseInt(shopEl.dataset.sector, 10);
+            if (s) openSectorModal(s);
+          }
+        });
+      });
+
+      // Telemetry HUD Pill click handler
+      if (telemetryStatus) {
+        telemetryStatus.style.cursor = 'pointer';
+        telemetryStatus.setAttribute('title', 'Click to inspect active sector telemetry');
+        telemetryStatus.addEventListener('click', () => {
+          openSectorModal(activeStationSector || 1);
+        });
+      }
+
+      // Modal Controls
+      if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeSectorModal);
+      if (modalResumeBtn) modalResumeBtn.addEventListener('click', closeSectorModal);
+
+      if (modalPrevBtn) {
+        modalPrevBtn.addEventListener('click', () => {
+          const prev = currentModalSector > 1 ? currentModalSector - 1 : 3;
+          openSectorModal(prev);
+        });
+      }
+
+      if (modalNextBtn) {
+        modalNextBtn.addEventListener('click', () => {
+          const next = currentModalSector < 3 ? currentModalSector + 1 : 1;
+          openSectorModal(next);
+        });
+      }
+
+      modalTabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const s = parseInt(btn.dataset.sector, 10);
+          openSectorModal(s);
+        });
+      });
+
+      // Close modal on backdrop click or Escape key
+      if (sectorModal) {
+        sectorModal.addEventListener('click', (e) => {
+          if (e.target === sectorModal) closeSectorModal();
+        });
+      }
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sectorModal && sectorModal.classList.contains('is-open')) {
+          closeSectorModal();
+        }
+      });
     })();
   </script>
 </body>

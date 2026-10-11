@@ -58,9 +58,6 @@ $stats = array(
             <div id="glowInner" class="itz-glow-inner"></div>
         </div>
 
-        <!-- Film Grain Texture Overlay (4% Opacity) -->
-        <div class="itz-film-grain" aria-hidden="true"></div>
-
         <!-- Top Header & Brand Bar -->
         <header class="itz-hero-header container-fluid px-3 px-md-5 pt-3 pt-md-4">
             <div class="d-flex justify-content-between align-items-center">
