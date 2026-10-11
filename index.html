@@ -494,511 +494,224 @@
       filter: blur(10px);
     }
 
-    /* Central Majestic Backlit Torii Gateway (sitting at vanishing point of road) */
-    .horizon-torii-gate {
-      position: absolute;
-      bottom: 2px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 140px;
-      height: 105px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .torii-radiant-glow {
-      position: absolute;
-      bottom: 12px;
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 71, 87, 0.75) 0%, rgba(255, 107, 129, 0.3) 40%, rgba(255, 215, 102, 0.15) 60%, transparent 80%);
-      filter: blur(12px);
-      animation: toriiSunPulse 3.5s infinite ease-in-out alternate;
-    }
-
-    @keyframes toriiSunPulse {
-      0% { transform: scale(0.92); opacity: 0.75; }
-      100% { transform: scale(1.08); opacity: 1; }
-    }
-
-    .torii-svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 0 14px rgba(255, 59, 48, 0.85));
-    }
-
     /* =========================================================================
-       3D ONE-POINT PERSPECTIVE STREET CORRIDOR
+       3D ONE-POINT PERSPECTIVE STREET CORRIDOR (MATCHING REFERENCE VISUAL)
        ========================================================================= */
     .street-3d-world {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      z-index: 8;
+      z-index: 6;
       overflow: hidden;
       opacity: 0;
-      perspective: 1200px;
-      perspective-origin: 50% 36%;
-      transform-style: preserve-3d;
+      background: #080A12 url('assets/street-environment-reference.jpg') center 44% / cover no-repeat;
       will-change: opacity;
     }
 
-    .street-moving-corridor {
+    /* Ambient Twilight Sky & Lantern Radial Glow Shimmer */
+    .street-lantern-ambient-glow {
+      position: absolute;
+      top: 4%;
+      left: 15%;
+      right: 15%;
+      height: 28%;
+      background: radial-gradient(
+        ellipse at 50% 30%,
+        rgba(255, 120, 30, 0.25) 0%,
+        rgba(255, 60, 0, 0.12) 45%,
+        transparent 75%
+      );
+      filter: blur(25px);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      animation: lanternSkyPulse 3.5s infinite ease-in-out alternate;
+    }
+
+    @keyframes lanternSkyPulse {
+      0% { opacity: 0.65; transform: scale(0.96); }
+      100% { opacity: 1; transform: scale(1.04); }
+    }
+
+    /* Vanishing Point Torii Sunburst Glow Pulse */
+    .horizon-torii-point-glow {
+      position: absolute;
+      top: 36%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(255, 65, 54, 0.55) 0%,
+        rgba(255, 133, 27, 0.25) 40%,
+        transparent 75%
+      );
+      filter: blur(16px);
+      pointer-events: none;
+      animation: toriiPointPulse 3s infinite ease-in-out alternate;
+    }
+
+    @keyframes toriiPointPulse {
+      0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.65; }
+      100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.95; }
+    }
+
+    /* High-Speed Animated Lane Dashes Streaming Along the Road */
+    .street-road-dash-stream {
       position: absolute;
       left: 50%;
-      top: 36%;
-      width: 0;
-      height: 0;
-      transform-style: preserve-3d;
-      will-change: transform;
+      bottom: 0;
+      width: 70px;
+      height: 56%;
+      transform: translateX(-50%) perspective(400px) rotateX(66deg);
+      transform-origin: center bottom;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0px,
+        rgba(255, 255, 255, 0.95) 45px,
+        transparent 45px,
+        transparent 110px
+      );
+      animation: streetDashRush 0.38s linear infinite;
+      mix-blend-mode: screen;
+      opacity: 0.85;
+      mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 25%, #000000 100%);
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 25%, #000000 100%);
     }
 
-    .street-depth-station {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 0;
-      height: 0;
-      transform-style: preserve-3d;
-      will-change: transform, opacity, filter;
-      transition: opacity 0.3s ease, filter 0.3s ease;
+    @keyframes streetDashRush {
+      0% { background-position-y: 0px; }
+      100% { background-position-y: 110px; }
     }
 
-    /* Symmetrical Shop Row Layout (Fixed X distance, Aligned Ground Line) */
-    .street-shop {
+    /* Interactive Storefront Hotspots Layer */
+    .street-hotspots-layer {
       position: absolute;
-      top: 0;
-      width: 250px;
-      height: 165px;
-      pointer-events: auto;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .street-hotspot {
+      position: absolute;
+      border-radius: 8px;
       cursor: pointer;
-      transform-style: preserve-3d;
-      will-change: transform, filter;
-      transition: filter 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      pointer-events: auto;
+      transition: all 0.28s ease;
+      border: 1px solid transparent;
     }
 
-    .street-shop-left {
-      left: -480px;
-      transform: translate3d(0, 35px, 0) rotateY(24deg);
-      transform-origin: right center;
+    .street-hotspot:hover,
+    .street-hotspot.is-sector-active {
+      border: 1.5px solid var(--station-color, #C6FF3D);
+      box-shadow: 0 0 25px var(--station-glow, rgba(198, 255, 61, 0.55)), inset 0 0 16px var(--station-glow, rgba(198, 255, 61, 0.18));
+      background: rgba(var(--accent-rgb), 0.05);
     }
 
-    .street-shop-right {
-      left: 230px;
-      transform: translate3d(0, 35px, 0) rotateY(-24deg);
-      transform-origin: left center;
-    }
-
-    /* Pagoda Eaves with Corner Lanterns */
-    .shop-pagoda-roof {
-      position: relative;
-      width: calc(100% + 20px);
-      margin-left: -10px;
-      height: 18px;
-      margin-bottom: 2px;
-    }
-
-    .roof-eaves-beam {
-      width: 100%;
-      height: 6px;
-      border-radius: 3px;
-      background: linear-gradient(90deg, #1A1F2C 0%, #2A3346 50%, #1A1F2C 100%);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-bottom: 2px solid var(--accent-color, #C6FF3D);
-      box-shadow: 0 0 10px var(--accent-color, #C6FF3D);
-    }
-
-    .roof-corner-lantern {
+    .street-hotspot .hotspot-badge {
       position: absolute;
-      top: 8px;
-      width: 8px;
-      height: 11px;
-      border-radius: 4px / 6px;
-      background: radial-gradient(circle, #FFEAA7, #FF5500);
-      box-shadow: 0 0 8px rgba(255, 120, 0, 0.9);
-      animation: lanternSway 2.5s infinite ease-in-out alternate;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      background: rgba(8, 11, 18, 0.96);
+      border: 1px solid var(--station-color, #C6FF3D);
+      border-radius: 4px;
+      padding: 3px 8px;
+      white-space: nowrap;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #FFFFFF;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.9), 0 0 12px var(--station-glow);
     }
-    .roof-corner-lantern.left-lantern { left: 4px; }
-    .roof-corner-lantern.right-lantern { right: 4px; }
 
-    /* Soft Neon Puddle Glow on Ground in front of Shop */
-    .shop-ground-puddle {
+    .street-hotspot .hotspot-badge small {
+      color: var(--station-color, #C6FF3D);
+      margin-left: 5px;
+      font-weight: 700;
+    }
+
+    .street-hotspot:hover .hotspot-badge,
+    .street-hotspot.is-sector-active .hotspot-badge {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Hotspot Precise Spatial Coordinates (Matching Reference Image) */
+    /* Left side storefronts */
+    #hotspotApexMotors {
+      left: 1.5%;
+      top: 22%;
+      width: 14%;
+      height: 42%;
+      --station-color: #C6FF3D;
+      --station-glow: rgba(198, 255, 61, 0.6);
+    }
+    #hotspotKineticAtelier {
+      left: 19%;
+      top: 27%;
+      width: 8.5%;
+      height: 32%;
+      --station-color: #FF9F1C;
+      --station-glow: rgba(255, 159, 28, 0.6);
+    }
+    #hotspotAeroLab {
+      left: 30%;
+      top: 31%;
+      width: 5.5%;
+      height: 22%;
+      --station-color: #00E5FF;
+      --station-glow: rgba(0, 229, 255, 0.6);
+    }
+
+    /* Right side storefronts */
+    #hotspotItzTextiles {
+      right: 1.5%;
+      top: 22%;
+      width: 14%;
+      height: 42%;
+      --station-color: #C6FF3D;
+      --station-glow: rgba(198, 255, 61, 0.6);
+    }
+    #hotspotCarbonWeave {
+      right: 19%;
+      top: 27%;
+      width: 8.5%;
+      height: 32%;
+      --station-color: #FF9F1C;
+      --station-glow: rgba(255, 159, 28, 0.6);
+    }
+    #hotspotCompositesLab {
+      right: 30%;
+      top: 31%;
+      width: 5.5%;
+      height: 22%;
+      --station-color: #00E5FF;
+      --station-glow: rgba(0, 229, 255, 0.6);
+    }
+
+    /* Taillight Wet Road Reflection Glow */
+    .car-rear-road-reflection {
       position: absolute;
-      bottom: -15px;
-      left: 10%;
-      width: 80%;
-      height: 30px;
+      top: 72%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 250px;
+      height: 38px;
       border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(255, 30, 20, 0.65) 0%, rgba(255, 80, 0, 0.28) 45%, transparent 75%);
       filter: blur(10px);
       mix-blend-mode: screen;
       pointer-events: none;
-      opacity: 0.45;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    /* Overhead Catenary Lantern Garlands across the Road */
-    .catenary-garland-wrap {
-      position: absolute;
-      left: -380px;
-      top: 0;
-      width: 760px;
-      height: 90px;
-      transform: translate3d(0, -15px, 0);
-      pointer-events: none;
-      transform-style: preserve-3d;
-    }
-
-    .garland-wire-svg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      overflow: visible;
-    }
-
-    .garland-cord {
-      filter: drop-shadow(0 0 4px rgba(255, 215, 100, 0.5));
-    }
-
-    .lantern-string-row {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 0 40px;
-    }
-
-    .garland-lantern {
-      position: relative;
-      width: 18px;
-      height: 24px;
-      border-radius: 9px / 12px;
-      background: radial-gradient(circle at 45% 40%, #FFF2A0 0%, #FF851B 45%, #D63031 90%);
-      border-top: 2px solid #5A1010;
-      border-bottom: 2px solid #5A1010;
-      box-shadow: 0 0 12px var(--lantern-glow, rgba(255, 120, 30, 0.85)), 0 0 25px rgba(255, 60, 0, 0.4);
-      animation: lanternSway 3s infinite ease-in-out alternate;
-    }
-    .garland-lantern::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 2px;
-      height: 6px;
-      background: #D63031;
-    }
-    .garland-lantern.g-1 { top: 12px; animation-delay: 0.1s; }
-    .garland-lantern.g-2 { top: 32px; animation-delay: 0.4s; }
-    .garland-lantern.g-3 { top: 48px; animation-delay: 0.7s; }
-    .garland-lantern.g-4 { top: 56px; animation-delay: 0.2s; }
-    .garland-lantern.g-5 { top: 48px; animation-delay: 0.8s; }
-    .garland-lantern.g-6 { top: 32px; animation-delay: 0.5s; }
-    .garland-lantern.g-7 { top: 12px; animation-delay: 0.3s; }
-
-    @keyframes lanternSway {
-      0% { transform: rotate(-5deg); }
-      100% { transform: rotate(5deg); }
-    }
-
-    /* Active Checkpoint Highlight */
-    .street-depth-station.is-checkpoint-active .bldg-card {
-      border-color: var(--station-color, #C6FF3D);
-      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.98), 0 0 35px var(--station-glow, rgba(198, 255, 61, 0.6));
-    }
-    .street-depth-station.is-checkpoint-active .marquee-title {
-      color: var(--station-color, #C6FF3D);
-      text-shadow: 0 0 10px var(--station-glow, rgba(198, 255, 61, 0.6));
-    }
-    .street-depth-station.is-checkpoint-active .shop-ground-puddle {
-      opacity: 0.85;
-      transform: scale(1.2);
-    }
-    .street-depth-station.is-checkpoint-active .garland-lantern {
-      filter: brightness(1.25);
-    }
-
-    /* Shop Interactive Hover */
-    .street-shop:hover {
-      z-index: 20;
-    }
-    .street-shop:hover .bldg-card {
-      border-color: var(--accent-color, #C6FF3D);
-      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.98), 0 0 28px var(--accent-glow, rgba(198, 255, 61, 0.5));
-    }
-    .street-shop:hover .marquee-title {
-      color: var(--accent-color, #C6FF3D);
-      text-shadow: 0 0 8px var(--accent-glow);
-    }
-    .street-shop:hover .shop-ground-puddle {
-      opacity: 0.85;
-      transform: scale(1.15);
-    }
-
-    /* Responsive Viewports */
-    @media (max-width: 1150px) {
-      .street-shop-left {
-        left: -380px;
-      }
-      .street-shop-right {
-        left: 180px;
-      }
-      .catenary-garland-wrap {
-        left: -300px;
-        width: 600px;
-      }
-    }
-    @media (max-width: 768px) {
-      .street-shop-left {
-        left: -290px;
-        width: 190px;
-      }
-      .street-shop-right {
-        left: 100px;
-        width: 190px;
-      }
-      .catenary-garland-wrap {
-        left: -220px;
-        width: 440px;
-      }
-    }
-
-    /* Granite Sidewalk Base Foundation */
-    .bldg-sidewalk-base {
-      width: calc(100% + 20px);
-      height: 10px;
-      margin-top: -2px;
-      margin-left: -10px;
-      border-radius: 2px;
-      background: repeating-linear-gradient(90deg, #1A1F2C 0px, #1A1F2C 22px, #10141E 22px, #10141E 24px);
-      border-top: 1px solid rgba(255, 255, 255, 0.28);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.98);
-    }
-
-    /* High-End Architectural Glass & Carbon Pavilions */
-    .bldg-card {
-      background: linear-gradient(180deg, rgba(14, 18, 28, 0.97) 0%, rgba(18, 24, 36, 0.95) 55%, rgba(10, 13, 20, 0.98) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 6px;
-      padding: 10px 12px 12px;
-      position: relative;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.92), inset 0 0 24px rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(8px);
-      overflow: hidden;
-    }
-
-    /* Architectural Roofline with Perimeter LED Trim */
-    .pavilion-roof {
-      height: 4px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 2px;
-      margin-bottom: 8px;
-      position: relative;
-      overflow: hidden;
-    }
-    .pavilion-roof::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-      box-shadow: 0 0 8px var(--accent-glow);
-    }
-
-    /* Mezzanine Level with Architectural Glazing */
-    .pavilion-upper {
-      height: 32px;
-      background: repeating-linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.04) 0px,
-        rgba(255, 255, 255, 0.04) 12px,
-        rgba(255, 255, 255, 0.12) 12px,
-        rgba(255, 255, 255, 0.12) 13px
-      );
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 3px;
-      margin-bottom: 8px;
-      position: relative;
-      overflow: hidden;
-    }
-    .pavilion-upper::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 120%, rgba(255, 215, 120, 0.22) 0%, transparent 75%);
-    }
-
-    /* Illuminated Marquee Fascia */
-    .pavilion-marquee {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      padding: 3px 6px;
-      background: rgba(8, 10, 16, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 3px;
-      box-shadow: 0 0 14px rgba(0, 0, 0, 0.7);
-    }
-    .marquee-title {
-      font-family: var(--font-heading);
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #FFFFFF;
-      white-space: nowrap;
-    }
-    .marquee-tag {
-      font-family: var(--font-mono);
-      font-size: 0.52rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      padding: 1px 4px;
-      border-radius: 2px;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--accent-color);
-      white-space: nowrap;
-    }
-
-    /* Panoramic Showroom Exhibition Gallery */
-    .pavilion-showroom {
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 4px;
-      padding: 8px;
-      position: relative;
-      box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.6);
-    }
-
-    .showroom-pedestal {
-      width: 100%;
-      height: 28px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(8, 11, 18, 0.92);
-      border-radius: 3px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.85);
-    }
-
-    .pedestal-glow {
-      position: absolute;
-      inset: 0;
-      opacity: 0.38;
-      filter: blur(5px);
-    }
-
-    .pedestal-label {
-      position: relative;
-      z-index: 2;
-      font-family: var(--font-mono);
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      color: #FFFFFF;
-      text-transform: uppercase;
-      opacity: 0.95;
-    }
-
-    /* Modern Boulevard Light Masts (Sleek Minimalist LED Luminaire with Soft Feathered Ambient Spill) */
-    .boulevard-light-mast {
-      position: absolute;
-      bottom: 0;
-      z-index: 5;
-      pointer-events: none;
-    }
-    .roadside-left-tier1 .boulevard-light-mast { right: -18px; }
-    .roadside-left-tier2 .boulevard-light-mast { right: -14px; }
-    .roadside-left-tier3 .boulevard-light-mast { right: -10px; }
-    .roadside-right-tier1 .boulevard-light-mast { left: -18px; }
-    .roadside-right-tier2 .boulevard-light-mast { left: -14px; }
-    .roadside-right-tier3 .boulevard-light-mast { left: -10px; }
-
-    .mast-pole {
-      width: 3px;
-      height: 75px;
-      background: linear-gradient(180deg, #444E66 0%, #151822 100%);
-      border-radius: 2px;
-      position: relative;
-    }
-    .mast-arm {
-      position: absolute;
-      top: 0;
-      width: 14px;
-      height: 3px;
-      background: #444E66;
-      border-radius: 2px;
-    }
-    .roadside-left-tier1 .mast-arm,
-    .roadside-left-tier2 .mast-arm,
-    .roadside-left-tier3 .mast-arm {
-      right: 0;
-    }
-    .roadside-right-tier1 .mast-arm,
-    .roadside-right-tier2 .mast-arm,
-    .roadside-right-tier3 .mast-arm {
-      left: 0;
-    }
-
-    .mast-luminaire {
-      position: absolute;
-      top: 2px;
-      width: 8px;
-      height: 4px;
-      border-radius: 2px;
-      background: #FFF2C6;
-      box-shadow: 0 0 10px #FFD166, 0 0 20px rgba(255, 209, 102, 0.7);
-    }
-    .roadside-left-tier1 .mast-luminaire,
-    .roadside-left-tier2 .mast-luminaire,
-    .roadside-left-tier3 .mast-luminaire {
-      right: 4px;
-    }
-    .roadside-right-tier1 .mast-luminaire,
-    .roadside-right-tier2 .mast-luminaire,
-    .roadside-right-tier3 .mast-luminaire {
-      left: 4px;
-    }
-
-    /* Soft Feathered Boulevard Pavement Light Spill (Zero Harsh Clipped Edges) */
-    .mast-ground-glow {
-      position: absolute;
-      top: 15px;
-      width: 90px;
-      height: 120px;
-      border-radius: 50%;
-      background: radial-gradient(
-        ellipse at 50% 20%,
-        rgba(255, 215, 100, 0.32) 0%,
-        rgba(255, 180, 50, 0.12) 45%,
-        rgba(255, 140, 30, 0.03) 70%,
-        transparent 90%
-      );
-      filter: blur(14px);
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
-    .roadside-left-tier1 .mast-ground-glow,
-    .roadside-left-tier2 .mast-ground-glow,
-    .roadside-left-tier3 .mast-ground-glow {
-      right: -25px;
-    }
-    .roadside-right-tier1 .mast-ground-glow,
-    .roadside-right-tier2 .mast-ground-glow,
-    .roadside-right-tier3 .mast-ground-glow {
-      left: -25px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1;
     }
 
     /* =========================================================================
@@ -2059,562 +1772,49 @@
         </div>
       </div>
 
-      <!-- 3D ONE-POINT PERSPECTIVE STREET CORRIDOR & HORIZON -->
+      <!-- 3D STREET CORRIDOR (TRADITIONAL TORII GATEWAY & HIGH-TECH SHOPS) -->
       <div id="street3DWorld" class="street-3d-world" aria-hidden="true">
 
-        <!-- Distant Celestial Horizon: Vanishing Point Torii Gateway, Twilight Sky & Stars -->
-        <div id="cityHorizonBackdrop" class="city-horizon-backdrop">
-          <div class="sky-stars-group">
-            <span class="sky-star s1"></span>
-            <span class="sky-star s2"></span>
-            <span class="sky-star s3"></span>
-            <span class="sky-star s4"></span>
-            <span class="sky-star s5"></span>
-            <span class="sky-star s6"></span>
-            <div class="sky-crescent-moon"></div>
-          </div>
-          <div class="horizon-radiant-glow"></div>
+        <!-- Animated Center Lane Dashes Overlay for Speed Rush -->
+        <div class="street-road-dash-stream"></div>
 
-          <!-- Central Majestic Backlit Torii Gateway (sitting at vanishing point of road) -->
-          <div id="horizonToriiGate" class="horizon-torii-gate">
-            <div class="torii-radiant-glow"></div>
-            <svg class="torii-svg" viewBox="0 0 140 105" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Torii Gate Pillars -->
-              <rect x="24" y="24" width="9" height="81" rx="2" fill="#D63031" stroke="#FF7675" stroke-width="1.2"/>
-              <rect x="107" y="24" width="9" height="81" rx="2" fill="#D63031" stroke="#FF7675" stroke-width="1.2"/>
-              <!-- Base Footings -->
-              <rect x="20" y="98" width="17" height="7" rx="1.5" fill="#2D3436" stroke="#636E72" stroke-width="1"/>
-              <rect x="103" y="98" width="17" height="7" rx="1.5" fill="#2D3436" stroke="#636E72" stroke-width="1"/>
-              <!-- Lower Crossbeam (Nuki) -->
-              <rect x="16" y="42" width="108" height="7" rx="2" fill="#D63031" stroke="#FF7675" stroke-width="1.2"/>
-              <!-- Center Strut (Gakuzuka) -->
-              <rect x="67" y="24" width="6" height="18" fill="#D63031" stroke="#FF7675" stroke-width="1"/>
-              <rect x="65" y="27" width="10" height="12" rx="1" fill="#FFD166" stroke="#FFEAA7" stroke-width="0.8"/>
-              <!-- Upper Curved Main Lintels (Kasagi & Shimaki) -->
-              <path d="M6 24 C 40 21, 100 21, 134 24 L 132 17 C 98 14, 42 14, 8 17 Z" fill="#2D3436" stroke="#636E72" stroke-width="1"/>
-              <path d="M2 17 C 40 10, 100 10, 138 17 L 140 10 C 98 3, 42 3, 0 10 Z" fill="#E17055" stroke="#FFEAA7" stroke-width="1.5"/>
-              <!-- Central Shrine Lantern Glow -->
-              <circle cx="70" cy="58" r="9" fill="rgba(255, 230, 120, 0.9)"/>
-            </svg>
-          </div>
-        </div>
+        <!-- Overhead Ambient Lantern Light Shimmer -->
+        <div class="street-lantern-ambient-glow"></div>
 
-        <!-- 3D Moving Corridor Container (Scroll-driven along Z axis) -->
-        <div id="streetMovingCorridor" class="street-moving-corridor">
+        <!-- Vanishing Point Torii Sunburst Glow Pulse -->
+        <div class="horizon-torii-point-glow"></div>
 
-          <!-- Depth Station 0 (Base Z: 0px, Sector 01) -->
-          <div class="street-depth-station" data-station-index="0" data-sector="1" style="--station-color: #C6FF3D; --station-glow: rgba(198, 255, 61, 0.6);">
-            <!-- Overhead Catenary Lantern Garland spanning across the Road -->
-            <div class="catenary-garland-wrap">
-              <svg class="garland-wire-svg" viewBox="0 0 760 90" fill="none" preserveAspectRatio="none">
-                <path class="garland-cord" d="M10 12 Q 380 72 750 12" stroke="rgba(255, 215, 100, 0.6)" stroke-width="2" stroke-dasharray="6 3"/>
-              </svg>
-              <div class="lantern-string-row">
-                <div class="garland-lantern g-1"></div>
-                <div class="garland-lantern g-2"></div>
-                <div class="garland-lantern g-3"></div>
-                <div class="garland-lantern g-4"></div>
-                <div class="garland-lantern g-5"></div>
-                <div class="garland-lantern g-6"></div>
-                <div class="garland-lantern g-7"></div>
-              </div>
-            </div>
-
-            <!-- Left Shop: ITZ MSO Atelier (Faces road, rotateY: +24deg, fixed X: -480px) -->
-            <div class="street-shop street-shop-left" data-sector="1" role="button" tabindex="0" title="Click to inspect Sector 01 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #C6FF3D;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">ITZ // MSO ATELIER</span>
-                  <span class="marquee-tag" style="color: #C6FF3D;">AERO LAB</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #C6FF3D, transparent);"></div>
-                    <span class="pedestal-label">CHASSIS · 720S AERO</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(198, 255, 61, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
-
-            <!-- Right Shop: KAPDA Bespoke Silk (Faces road, rotateY: -24deg, fixed X: +230px) -->
-            <div class="street-shop street-shop-right" data-sector="1" role="button" tabindex="0" title="Click to inspect Sector 01 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #00E5FF;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">KAPDA // BESPOKE</span>
-                  <span class="marquee-tag" style="color: #00E5FF;">SILK LAB</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #00E5FF, transparent);"></div>
-                    <span class="pedestal-label">COUTURE · WEAVE 01</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(0, 229, 255, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
+        <!-- Interactive Storefront Hotspots (matching reference scene) -->
+        <div class="street-hotspots-layer">
+          <!-- Left: Sector 01 // APEX MOTORS -->
+          <div id="hotspotApexMotors" class="street-hotspot hotspot-left hotspot-sector1" data-sector="1" role="button" tabindex="0" title="Click to inspect Sector 01 Telemetry: APEX MOTORS">
+            <div class="hotspot-badge"><span>APEX // MOTORS</span> <small>⚡ CLICK INTEL</small></div>
           </div>
 
-          <!-- Depth Station 1 (Base Z: -450px, Sector 01) -->
-          <div class="street-depth-station" data-station-index="1" data-sector="1" style="--station-color: #C6FF3D; --station-glow: rgba(198, 255, 61, 0.6);">
-            <div class="catenary-garland-wrap">
-              <svg class="garland-wire-svg" viewBox="0 0 760 90" fill="none" preserveAspectRatio="none">
-                <path class="garland-cord" d="M10 12 Q 380 72 750 12" stroke="rgba(255, 215, 100, 0.6)" stroke-width="2" stroke-dasharray="6 3"/>
-              </svg>
-              <div class="lantern-string-row">
-                <div class="garland-lantern g-1"></div>
-                <div class="garland-lantern g-2"></div>
-                <div class="garland-lantern g-3"></div>
-                <div class="garland-lantern g-4"></div>
-                <div class="garland-lantern g-5"></div>
-                <div class="garland-lantern g-6"></div>
-                <div class="garland-lantern g-7"></div>
-              </div>
-            </div>
-
-            <!-- Left Shop: APEX Dynamics -->
-            <div class="street-shop street-shop-left" data-sector="1" role="button" tabindex="0" title="Click to inspect Sector 01 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #C6FF3D;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">APEX // DYNAMICS</span>
-                  <span class="marquee-tag" style="color: #C6FF3D;">WIND TUNNEL</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #C6FF3D, transparent);"></div>
-                    <span class="pedestal-label">AERO · VORTEX 01</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(198, 255, 61, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
-
-            <!-- Right Shop: VELOX Carbon Monocoque -->
-            <div class="street-shop street-shop-right" data-sector="1" role="button" tabindex="0" title="Click to inspect Sector 01 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #00E5FF;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">VELOX // CARBON</span>
-                  <span class="marquee-tag" style="color: #00E5FF;">MONOCOQUE</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #00E5FF, transparent);"></div>
-                    <span class="pedestal-label">TITANIUM · CELL</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(0, 229, 255, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
+          <!-- Left: Sector 02 // KINETIC ATELIER -->
+          <div id="hotspotKineticAtelier" class="street-hotspot hotspot-left hotspot-sector2" data-sector="2" role="button" tabindex="0" title="Click to inspect Sector 02 Telemetry: KINETIC ATELIER">
+            <div class="hotspot-badge"><span>KINETIC · ATELIER</span> <small>⚡ CLICK INTEL</small></div>
           </div>
 
-          <!-- Depth Station 2 (Base Z: -900px, Sector 02) -->
-          <div class="street-depth-station" data-station-index="2" data-sector="2" style="--station-color: #FF9F1C; --station-glow: rgba(255, 159, 28, 0.6);">
-            <div class="catenary-garland-wrap">
-              <svg class="garland-wire-svg" viewBox="0 0 760 90" fill="none" preserveAspectRatio="none">
-                <path class="garland-cord" d="M10 12 Q 380 72 750 12" stroke="rgba(255, 215, 100, 0.6)" stroke-width="2" stroke-dasharray="6 3"/>
-              </svg>
-              <div class="lantern-string-row">
-                <div class="garland-lantern g-1"></div>
-                <div class="garland-lantern g-2"></div>
-                <div class="garland-lantern g-3"></div>
-                <div class="garland-lantern g-4"></div>
-                <div class="garland-lantern g-5"></div>
-                <div class="garland-lantern g-6"></div>
-                <div class="garland-lantern g-7"></div>
-              </div>
-            </div>
-
-            <!-- Left Shop: APEX Motors -->
-            <div class="street-shop street-shop-left" data-sector="2" role="button" tabindex="0" title="Click to inspect Sector 02 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #FF9F1C;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">APEX // MOTORS</span>
-                  <span class="marquee-tag" style="color: #FF9F1C;">V8 TWIN</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #FF9F1C, transparent);"></div>
-                    <span class="pedestal-label">KINETIC · ATELIER</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(255, 159, 28, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
-
-            <!-- Right Shop: ITZ Textiles -->
-            <div class="street-shop street-shop-right" data-sector="2" role="button" tabindex="0" title="Click to inspect Sector 02 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #C6FF3D;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">ITZ // TEXTILES</span>
-                  <span class="marquee-tag" style="color: #C6FF3D;">CARBON WEAVE</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #C6FF3D, transparent);"></div>
-                    <span class="pedestal-label">COMPOSITES LAB</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(198, 255, 61, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
+          <!-- Left: Sector 03 // AERO LAB -->
+          <div id="hotspotAeroLab" class="street-hotspot hotspot-left hotspot-sector3" data-sector="3" role="button" tabindex="0" title="Click to inspect Sector 03 Telemetry: AERO LAB">
+            <div class="hotspot-badge"><span>AERO LAB</span> <small>⚡ CLICK INTEL</small></div>
           </div>
 
-          <!-- Depth Station 3 (Base Z: -1350px, Sector 02) -->
-          <div class="street-depth-station" data-station-index="3" data-sector="2" style="--station-color: #FF9F1C; --station-glow: rgba(255, 159, 28, 0.6);">
-            <div class="catenary-garland-wrap">
-              <svg class="garland-wire-svg" viewBox="0 0 760 90" fill="none" preserveAspectRatio="none">
-                <path class="garland-cord" d="M10 12 Q 380 72 750 12" stroke="rgba(255, 215, 100, 0.6)" stroke-width="2" stroke-dasharray="6 3"/>
-              </svg>
-              <div class="lantern-string-row">
-                <div class="garland-lantern g-1"></div>
-                <div class="garland-lantern g-2"></div>
-                <div class="garland-lantern g-3"></div>
-                <div class="garland-lantern g-4"></div>
-                <div class="garland-lantern g-5"></div>
-                <div class="garland-lantern g-6"></div>
-                <div class="garland-lantern g-7"></div>
-              </div>
-            </div>
-
-            <!-- Left Shop: Chassis Lab -->
-            <div class="street-shop street-shop-left" data-sector="2" role="button" tabindex="0" title="Click to inspect Sector 02 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #FF9F1C;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">CHASSIS // LAB</span>
-                  <span class="marquee-tag" style="color: #FF9F1C;">ACTIVE RCC</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #FF9F1C, transparent);"></div>
-                    <span class="pedestal-label">HYDRAULIC · LINK</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(255, 159, 28, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
-
-            <!-- Right Shop: Vector Apex -->
-            <div class="street-shop street-shop-right" data-sector="2" role="button" tabindex="0" title="Click to inspect Sector 02 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #FFD166;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">VECTOR // APEX</span>
-                  <span class="marquee-tag" style="color: #FFD166;">TORQUE BIAS</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #FFD166, transparent);"></div>
-                    <span class="pedestal-label">LATERAL · 1.54G</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(255, 209, 102, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
+          <!-- Right: Sector 01 // ITZ TEXTILES -->
+          <div id="hotspotItzTextiles" class="street-hotspot hotspot-right hotspot-sector1" data-sector="1" role="button" tabindex="0" title="Click to inspect Sector 01 Telemetry: ITZ TEXTILES">
+            <div class="hotspot-badge"><span>ITZ // TEXTILES</span> <small>⚡ CLICK INTEL</small></div>
           </div>
 
-          <!-- Depth Station 4 (Base Z: -1800px, Sector 03) -->
-          <div class="street-depth-station" data-station-index="4" data-sector="3" style="--station-color: #00E5FF; --station-glow: rgba(0, 229, 255, 0.6);">
-            <div class="catenary-garland-wrap">
-              <svg class="garland-wire-svg" viewBox="0 0 760 90" fill="none" preserveAspectRatio="none">
-                <path class="garland-cord" d="M10 12 Q 380 72 750 12" stroke="rgba(255, 215, 100, 0.6)" stroke-width="2" stroke-dasharray="6 3"/>
-              </svg>
-              <div class="lantern-string-row">
-                <div class="garland-lantern g-1"></div>
-                <div class="garland-lantern g-2"></div>
-                <div class="garland-lantern g-3"></div>
-                <div class="garland-lantern g-4"></div>
-                <div class="garland-lantern g-5"></div>
-                <div class="garland-lantern g-6"></div>
-                <div class="garland-lantern g-7"></div>
-              </div>
-            </div>
-
-            <!-- Left Shop: Kinetic Hybrid -->
-            <div class="street-shop street-shop-left" data-sector="3" role="button" tabindex="0" title="Click to inspect Sector 03 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #00E5FF;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">KINETIC // HYBRID</span>
-                  <span class="marquee-tag" style="color: #00E5FF;">KERS RECOVERY</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #00E5FF, transparent);"></div>
-                    <span class="pedestal-label">E-TORQUE · 903HP</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(0, 229, 255, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
-
-            <!-- Right Shop: Royal Silk Haus -->
-            <div class="street-shop street-shop-right" data-sector="3" role="button" tabindex="0" title="Click to inspect Sector 03 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #FFD166;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">ROYAL // SILK HAUS</span>
-                  <span class="marquee-tag" style="color: #FFD166;">THERMAL WEAVE</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #FFD166, transparent);"></div>
-                    <span class="pedestal-label">AEROSPACE · SHIELD</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(255, 209, 102, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
+          <!-- Right: Sector 02 // CARBON WEAVE -->
+          <div id="hotspotCarbonWeave" class="street-hotspot hotspot-right hotspot-sector2" data-sector="2" role="button" tabindex="0" title="Click to inspect Sector 02 Telemetry: CARBON WEAVE">
+            <div class="hotspot-badge"><span>CARBON WEAVE</span> <small>⚡ CLICK INTEL</small></div>
           </div>
 
-          <!-- Depth Station 5 (Base Z: -2250px, Sector 03) -->
-          <div class="street-depth-station" data-station-index="5" data-sector="3" style="--station-color: #00E5FF; --station-glow: rgba(0, 229, 255, 0.6);">
-            <div class="catenary-garland-wrap">
-              <svg class="garland-wire-svg" viewBox="0 0 760 90" fill="none" preserveAspectRatio="none">
-                <path class="garland-cord" d="M10 12 Q 380 72 750 12" stroke="rgba(255, 215, 100, 0.6)" stroke-width="2" stroke-dasharray="6 3"/>
-              </svg>
-              <div class="lantern-string-row">
-                <div class="garland-lantern g-1"></div>
-                <div class="garland-lantern g-2"></div>
-                <div class="garland-lantern g-3"></div>
-                <div class="garland-lantern g-4"></div>
-                <div class="garland-lantern g-5"></div>
-                <div class="garland-lantern g-6"></div>
-                <div class="garland-lantern g-7"></div>
-              </div>
-            </div>
-
-            <!-- Left Shop: Monocage Cell -->
-            <div class="street-shop street-shop-left" data-sector="3" role="button" tabindex="0" title="Click to inspect Sector 03 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #00E5FF;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">MONOCAGE // CELL</span>
-                  <span class="marquee-tag" style="color: #00E5FF;">CARBON FIBER</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #00E5FF, transparent);"></div>
-                    <span class="pedestal-label">MONOCOQUE · 90KG</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(0, 229, 255, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
-
-            <!-- Right Shop: Ceramic Braking -->
-            <div class="street-shop street-shop-right" data-sector="3" role="button" tabindex="0" title="Click to inspect Sector 03 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #FF9F1C;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">CERAMIC // BRAKING</span>
-                  <span class="marquee-tag" style="color: #FF9F1C;">CARBON DISC</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #FF9F1C, transparent);"></div>
-                    <span class="pedestal-label">DECEL · 30.2M</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(255, 159, 28, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
+          <!-- Right: Sector 03 // COMPOSITES LAB -->
+          <div id="hotspotCompositesLab" class="street-hotspot hotspot-right hotspot-sector3" data-sector="3" role="button" tabindex="0" title="Click to inspect Sector 03 Telemetry: COMPOSITES LAB">
+            <div class="hotspot-badge"><span>COMPOSITES LAB</span> <small>⚡ CLICK INTEL</small></div>
           </div>
-
-          <!-- Depth Station 6 (Base Z: -2700px, Sector 01) -->
-          <div class="street-depth-station" data-station-index="6" data-sector="1" style="--station-color: #C6FF3D; --station-glow: rgba(198, 255, 61, 0.6);">
-            <div class="catenary-garland-wrap">
-              <svg class="garland-wire-svg" viewBox="0 0 760 90" fill="none" preserveAspectRatio="none">
-                <path class="garland-cord" d="M10 12 Q 380 72 750 12" stroke="rgba(255, 215, 100, 0.6)" stroke-width="2" stroke-dasharray="6 3"/>
-              </svg>
-              <div class="lantern-string-row">
-                <div class="garland-lantern g-1"></div>
-                <div class="garland-lantern g-2"></div>
-                <div class="garland-lantern g-3"></div>
-                <div class="garland-lantern g-4"></div>
-                <div class="garland-lantern g-5"></div>
-                <div class="garland-lantern g-6"></div>
-                <div class="garland-lantern g-7"></div>
-              </div>
-            </div>
-
-            <!-- Left Shop: ITZ Velocity -->
-            <div class="street-shop street-shop-left" data-sector="1" role="button" tabindex="0" title="Click to inspect Sector 01 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #C6FF3D;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">ITZ // VELOCITY</span>
-                  <span class="marquee-tag" style="color: #C6FF3D;">DRS SPRINT</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #C6FF3D, transparent);"></div>
-                    <span class="pedestal-label">TOP · 350 KM/H</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(198, 255, 61, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
-
-            <!-- Right Shop: Lumen Optics -->
-            <div class="street-shop street-shop-right" data-sector="1" role="button" tabindex="0" title="Click to inspect Sector 01 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #00E5FF;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">LUMEN // OPTICS</span>
-                  <span class="marquee-tag" style="color: #00E5FF;">CYBER BEAMS</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #00E5FF, transparent);"></div>
-                    <span class="pedestal-label">PHOTON · MATRIX</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(0, 229, 255, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
-          </div>
-
-          <!-- Depth Station 7 (Base Z: -3150px, Sector 02) -->
-          <div class="street-depth-station" data-station-index="7" data-sector="2" style="--station-color: #FF9F1C; --station-glow: rgba(255, 159, 28, 0.6);">
-            <div class="catenary-garland-wrap">
-              <svg class="garland-wire-svg" viewBox="0 0 760 90" fill="none" preserveAspectRatio="none">
-                <path class="garland-cord" d="M10 12 Q 380 72 750 12" stroke="rgba(255, 215, 100, 0.6)" stroke-width="2" stroke-dasharray="6 3"/>
-              </svg>
-              <div class="lantern-string-row">
-                <div class="garland-lantern g-1"></div>
-                <div class="garland-lantern g-2"></div>
-                <div class="garland-lantern g-3"></div>
-                <div class="garland-lantern g-4"></div>
-                <div class="garland-lantern g-5"></div>
-                <div class="garland-lantern g-6"></div>
-                <div class="garland-lantern g-7"></div>
-              </div>
-            </div>
-
-            <!-- Left Shop: Kinetic Maison -->
-            <div class="street-shop street-shop-left" data-sector="2" role="button" tabindex="0" title="Click to inspect Sector 02 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #FF9F1C;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">KINETIC // MAISON</span>
-                  <span class="marquee-tag" style="color: #FF9F1C;">POWERTRAIN</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #FF9F1C, transparent);"></div>
-                    <span class="pedestal-label">TURBO · V8 3.8L</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(255, 159, 28, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
-
-            <!-- Right Shop: Grand Shotengai -->
-            <div class="street-shop street-shop-right" data-sector="3" role="button" tabindex="0" title="Click to inspect Sector 03 Telemetry">
-              <div class="shop-pagoda-roof">
-                <div class="roof-eaves-beam" style="--accent-color: #FFD166;"></div>
-                <div class="roof-corner-lantern left-lantern"></div>
-                <div class="roof-corner-lantern right-lantern"></div>
-              </div>
-              <div class="bldg-card">
-                <div class="pavilion-marquee">
-                  <span class="marquee-title">GRAND // SHOTENGAI</span>
-                  <span class="marquee-tag" style="color: #FFD166;">APEX AVENUE</span>
-                </div>
-                <div class="pavilion-showroom">
-                  <div class="showroom-pedestal">
-                    <div class="pedestal-glow" style="background: radial-gradient(circle, #FFD166, transparent);"></div>
-                    <span class="pedestal-label">HERITAGE · CRAFT</span>
-                  </div>
-                </div>
-              </div>
-              <div class="shop-ground-puddle" style="background: radial-gradient(ellipse, rgba(255, 209, 102, 0.45) 0%, transparent 70%);"></div>
-              <div class="bldg-sidewalk-base"></div>
-            </div>
-          </div>
-
         </div>
 
       </div>
@@ -2718,6 +1918,9 @@
             width="1069"
             height="695"
           />
+
+          <!-- Taillight Wet Road Reflection Glow Pool -->
+          <div id="carRearRoadReflection" class="car-rear-road-reflection" aria-hidden="true"></div>
 
           <!-- Crisp Dynamic Shadow under car -->
           <div class="car-chassis-shadow"></div>
@@ -2908,9 +2111,8 @@
       const statBlocks = document.querySelectorAll('.stat-block');
       const statsOuter = document.getElementById('statsOuter');
       const street3DWorld = document.getElementById('street3DWorld');
-      const streetMovingCorridor = document.getElementById('streetMovingCorridor');
-      const depthStations = document.querySelectorAll('.street-depth-station');
-      const horizonToriiGate = document.getElementById('horizonToriiGate');
+      const streetHotspots = document.querySelectorAll('.street-hotspot');
+      const carRearRoadReflection = document.getElementById('carRearRoadReflection');
       const cityHorizonBackdrop = document.getElementById('cityHorizonBackdrop');
 
       // Checkpoint Gates
@@ -3070,6 +2272,13 @@
         sectorModal.setAttribute('aria-hidden', 'true');
       }
 
+      function highlightSectorHotspots(sectorNum) {
+        streetHotspots.forEach(hotspot => {
+          const sec = parseInt(hotspot.dataset.sector, 10);
+          hotspot.classList.toggle('is-sector-active', sec === sectorNum);
+        });
+      }
+
       // Ambient Radial Glow Pulse
       gsap.to(glowInner, {
         opacity: 0.28,
@@ -3102,99 +2311,41 @@
         }, { passive: true });
       }
 
-      // 3D Street Corridor Depth Engine
-      const SPACING_Z = 450;
-      const NUM_STATIONS = 8;
-      const TOTAL_DEPTH = NUM_STATIONS * SPACING_Z; // 3600px
+      // Sector Checkpoint Stops & Hotspots Sync Engine
+      function syncSectorExperience(progress) {
+        if (!sectorCheckpointStation) return;
 
-      function render3DStreetCorridor(progress) {
-        if (!streetMovingCorridor || !depthStations.length) return;
-
-        // Active race progression during 3D chase camera view (progress 0.44 to 1.0)
-        let raceP = 0;
-        if (progress > 0.44) {
-          raceP = (progress - 0.44) / 0.56;
-        }
-
-        // Street corridor travels smoothly toward the camera along Z
-        const totalTravel = 4500;
-        const currentTravel = raceP * totalTravel;
-
-        let activeCheckpointSector = 0;
-
-        depthStations.forEach((station, idx) => {
-          const baseZ = -idx * SPACING_Z;
-          let curZ = baseZ + currentTravel;
-
-          // Wrap stations continuously to maintain seamless corridor depth
-          while (curZ > 200) {
-            curZ -= TOTAL_DEPTH;
+        if (progress < 0.46) {
+          if (sectorCheckpointStation.classList.contains('is-visible')) {
+            sectorCheckpointStation.classList.remove('is-visible');
+            activeStationSector = 0;
           }
-          while (curZ < -TOTAL_DEPTH + 200) {
-            curZ += TOTAL_DEPTH;
-          }
-
-          // Depth perspective: Far shops fade (opacity & blur); near shops are sharp & fully lit
-          let opacity = 1;
-          let blur = 0;
-
-          if (curZ < -2400) {
-            // Far horizon vanishing fade
-            const dist = (-curZ - 2400) / 1000;
-            opacity = Math.max(0.12, 0.72 - dist * 0.6);
-            blur = Math.min(3.5, dist * 3.5);
-          } else if (curZ < -1400) {
-            const dist = (-curZ - 1400) / 1000;
-            opacity = 0.72 + (1 - dist) * 0.28;
-            blur = dist * 1.5;
-          } else if (curZ > 50) {
-            // Fade out smoothly as shop passes behind camera
-            opacity = Math.max(0, 1 - (curZ - 50) / 150);
-            blur = 0;
-          }
-
-          // Checkpoint position detection (-750px to -200px depth alongside car)
-          const isCheckpointZone = (curZ >= -750 && curZ <= -200 && progress >= 0.46);
-          if (isCheckpointZone) {
-            station.classList.add('is-checkpoint-active');
-            const sec = parseInt(station.dataset.sector, 10);
-            if (sec && !activeCheckpointSector) {
-              activeCheckpointSector = sec;
-            }
-          } else {
-            station.classList.remove('is-checkpoint-active');
-          }
-
-          station.style.transform = `translate3d(0, 0, ${curZ.toFixed(1)}px)`;
-          station.style.opacity = opacity.toFixed(2);
-          station.style.filter = blur > 0.2 ? `blur(${blur.toFixed(1)}px)` : 'none';
-          station.style.pointerEvents = (curZ > -1200 && curZ < 100) ? 'auto' : 'none';
-        });
-
-        // Update active checkpoint station info card at the bottom
-        if (sectorCheckpointStation) {
-          if (activeCheckpointSector) {
-            updateStationPrompt(activeCheckpointSector);
-          } else if (progress < 0.44 || progress > 0.98) {
-            if (activeStationSector !== 0) {
-              activeStationSector = 0;
-              sectorCheckpointStation.classList.remove('is-visible');
-            }
-          }
+          highlightSectorHotspots(0);
+        } else if (progress < 0.68) {
+          updateStationPrompt(1);
+          highlightSectorHotspots(1);
+        } else if (progress < 0.84) {
+          updateStationPrompt(2);
+          highlightSectorHotspots(2);
+        } else {
+          updateStationPrompt(3);
+          highlightSectorHotspots(3);
         }
       }
 
       // Reduced motion profile
       if (prefersReducedMotion) {
         gsap.to(stage, { opacity: 1, duration: 0.3 });
-        gsap.set(heroTrackContainer, { opacity: 1 });
+        gsap.set(heroTrackContainer, { opacity: 0 });
         gsap.set(street3DWorld, { opacity: 1 });
-        render3DStreetCorridor(0.5);
+        syncSectorExperience(0.5);
         gsap.set(headlineInner, { opacity: 0 });
-        gsap.set(objectOuter, { opacity: 1, y: 0 });
+        gsap.set(objectOuter, { opacity: 1, y: '22vh' });
         gsap.set(objectInner, { x: 0, y: 0, scale: 1, rotate: 0 });
-        gsap.set(carTopImg, { opacity: 1 });
-        gsap.set([carHeadlightBeams, carHeadlightFlares], { opacity: 1 });
+        gsap.set(carTopImg, { opacity: 0 });
+        gsap.set([carHeadlightBeams, carHeadlightFlares], { opacity: 0 });
+        gsap.set(carRearImg, { autoAlpha: 1 });
+        gsap.set(carRearRoadReflection, { opacity: 0.85 });
         gsap.set(statBlocks, { opacity: 1, y: 0 });
         gsap.set(scrollHint, { opacity: 0 });
         if (telemetryStatusText) telemetryStatusText.textContent = 'TRACK ACTIVE // 60 FPS';
@@ -3216,9 +2367,9 @@
         // Reset elements to initial State
         gsap.set(stage, { opacity: 0 });
         gsap.set(heroTrackContainer, { opacity: 0 });
-        gsap.set(heroTrackSurface, { rotateX: 0, scaleX: 1, scaleY: 1, y: 0 });
+        gsap.set(heroTrackSurface, { opacity: 1, rotateX: 0, scaleX: 1, scaleY: 1, y: 0 });
         gsap.set(street3DWorld, { opacity: 0 });
-        render3DStreetCorridor(0);
+        syncSectorExperience(0);
         gsap.set(cityHorizonBackdrop, { y: 0 });
         gsap.set(headlineInner, { opacity: 1, y: 0 });
         gsap.set(chars, { opacity: 0, yPercent: 100 });
@@ -3233,6 +2384,7 @@
         gsap.set(carTopImg, { autoAlpha: 1, scale: 1, scaleX: 1, scaleY: 1, rotateX: 0, y: 0 });
         gsap.set([carHeadlightBeams, carHeadlightFlares], { autoAlpha: 1, scale: 1, scaleX: 1, scaleY: 1, rotateX: 0, y: 0 });
         gsap.set(carRearImg, { autoAlpha: 0, rotateX: 0, scale: 1, scaleX: 1, scaleY: 1, y: 0 });
+        gsap.set(carRearRoadReflection, { opacity: 0 });
         gsap.set(carSpeedTrails, { opacity: 0 });
 
         gsap.set(scrollHint, { opacity: 1 });
@@ -3344,8 +2496,8 @@
               if (statBlock2) statBlock2.classList.toggle('is-cleared', p >= 0.88);
               if (statBlock3) statBlock3.classList.toggle('is-cleared', p >= 0.88);
 
-              // 3D Street Corridor moves along Z axis; active shop triggers checkpoint
-              render3DStreetCorridor(p);
+              // Sync Sector Checkpoints & Storefront Hotspots
+              syncSectorExperience(p);
             }
           }
         });
@@ -3428,13 +2580,12 @@
         // -------------------------------------------------------------
         // 4. CRYSTAL-CLEAR SMOOTH 3D CAMERA SWOOP & ENVIRONMENT REVEAL
         // -------------------------------------------------------------
-        // Reveal the 3D street corridor & vanishing point Torii Gateway
-        // ONLY reveals when swooping into the 3D chase camera view (progress 0.44+)
-        scrollTl.to(street3DWorld, {
-          opacity: 1,
-          duration: 0.08,
-          ease: 'power2.out'
-        }, 0.44);
+        // Car chassis moves down in perspective to sit directly on the wet asphalt in chase view
+        scrollTl.to(objectOuter, {
+          y: '22vh',
+          duration: 0.16,
+          ease: 'power2.inOut'
+        }, 0.38);
 
         // Distant celestial horizon subtle depth parallax
         scrollTl.to(cityHorizonBackdrop, {
@@ -3452,6 +2603,21 @@
           duration: 0.16,
           ease: 'power2.inOut'
         }, 0.38);
+
+        // Seamless crossfade: Original track fades out as photorealistic street world reveals
+        scrollTl.to(heroTrackSurface, {
+          opacity: 0,
+          duration: 0.08,
+          ease: 'power2.out'
+        }, 0.44);
+
+        // Reveal the 3D street corridor & vanishing point Torii Gateway
+        // ONLY reveals when swooping into the 3D chase camera view (progress 0.44+)
+        scrollTl.to(street3DWorld, {
+          opacity: 1,
+          duration: 0.08,
+          ease: 'power2.out'
+        }, 0.44);
 
         // Top-down car pitches forward in 3D perspective matching camera dive
         scrollTl.to([carTopImg, carHeadlightBeams, carHeadlightFlares], {
@@ -3476,6 +2642,13 @@
           { autoAlpha: 1, rotateX: 0, scale: 1.0, scaleY: 1.0, y: 0, duration: 0.035, ease: 'power2.out', immediateRender: false },
           0.455
         );
+
+        // Taillight wet road reflection glow fades in alongside rear car
+        scrollTl.to(carRearRoadReflection, {
+          opacity: 0.85,
+          duration: 0.035,
+          ease: 'power2.out'
+        }, 0.455);
 
         // Nitro speed trails flare during acceleration gear-shift
         scrollTl.to(carSpeedTrails, {
@@ -3614,17 +2787,17 @@
       if (gateSector2) gateSector2.addEventListener('click', () => openSectorModal(2));
       if (gateSector3) gateSector3.addEventListener('click', () => openSectorModal(3));
 
-      // Street Shop click handlers (clicking any shop opens its sector briefing)
-      document.querySelectorAll('.street-shop[data-sector]').forEach(shopEl => {
-        shopEl.addEventListener('click', (e) => {
+      // Storefront Hotspots click handlers (clicking any shop opens its sector briefing)
+      document.querySelectorAll('.street-hotspot[data-sector]').forEach(hotspotEl => {
+        hotspotEl.addEventListener('click', (e) => {
           e.stopPropagation();
-          const s = parseInt(shopEl.dataset.sector, 10);
+          const s = parseInt(hotspotEl.dataset.sector, 10);
           if (s) openSectorModal(s);
         });
-        shopEl.addEventListener('keydown', (e) => {
+        hotspotEl.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            const s = parseInt(shopEl.dataset.sector, 10);
+            const s = parseInt(hotspotEl.dataset.sector, 10);
             if (s) openSectorModal(s);
           }
         });
