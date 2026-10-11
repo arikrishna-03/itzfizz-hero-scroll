@@ -103,12 +103,12 @@
     }
 
     /* =========================================================================
-       2. SCROLL RUNWAY WRAPPER (Page stays in same place, no other sections)
+       2. SCROLL RUNWAY WRAPPER (Page stays pinned in place, no lower sections)
        ========================================================================= */
     .hero-scroll-wrapper {
       position: relative;
       width: 100vw;
-      height: 250vh;
+      height: 270vh;
       background-color: var(--bg-color);
     }
 
@@ -260,7 +260,7 @@
     }
 
     /* =========================================================================
-       4. THE RACING TRACK (Appears while scrolling after word disappears)
+       4. THE RACING TRACK & DYNAMIC CHECKPOINT GATES
        ========================================================================= */
     .hero-track-container {
       position: absolute;
@@ -385,44 +385,104 @@
       100% { background-position-y: 104px; }
     }
 
-    /* Laser Checkpoint Beams Across Track */
-    .track-laser-beam {
+    /* =========================================================================
+       DYNAMIC RACE GATES (STARTING FROM 0, PASSING IN SEQUENCE)
+       ========================================================================= */
+    .track-gate {
       position: absolute;
       left: 0;
       right: 0;
-      height: 2px;
       display: flex;
       align-items: center;
       pointer-events: none;
-      z-index: 3;
+      z-index: 6;
+      will-change: transform;
     }
-    .track-laser-beam .beam-glow {
+
+    /* 0. START LINE (At front of car when race begins at 0) */
+    .track-gate-start {
+      top: 33%;
+      height: 12px;
+      justify-content: center;
+    }
+
+    /* Checkpoints (Positioned above viewport initially, scroll down past car) */
+    .track-gate-sector {
+      height: 3px;
+    }
+    #gateSector1 { top: -45vh; justify-content: flex-end; padding-right: 1.5rem; }
+    #gateSector2 { top: -115vh; justify-content: flex-start; padding-left: 1.5rem; }
+    #gateSector3 { top: -185vh; justify-content: center; }
+    #gateFinish  { top: -250vh; justify-content: center; height: 12px; }
+
+    .gate-beam-glow {
       position: absolute;
       left: 0;
       right: 0;
       top: 0;
-      height: 2px;
+      bottom: 0;
       background: var(--accent-color);
-      box-shadow: 0 0 16px var(--accent-glow-bright), 0 0 32px var(--accent-glow);
+      box-shadow: 0 0 16px var(--accent-glow-bright), 0 0 35px var(--accent-glow);
     }
-    .track-laser-beam .beam-tag {
+
+    /* Checkered pattern for Start and Finish lines */
+    .gate-checkered-strip {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -6px;
+      bottom: -6px;
+      background: repeating-linear-gradient(
+        90deg,
+        #ffffff 0px,
+        #ffffff 12px,
+        #0b0c10 12px,
+        #0b0c10 24px,
+        var(--accent-color) 24px,
+        var(--accent-color) 36px,
+        #0b0c10 36px,
+        #0b0c10 48px
+      );
+      opacity: 0.9;
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .gate-tag-badge {
       position: relative;
       z-index: 2;
       font-family: var(--font-mono);
-      font-size: 0.6rem;
+      font-size: 0.65rem;
+      font-weight: 700;
       letter-spacing: 0.22em;
       color: var(--accent-color);
       text-transform: uppercase;
       background: rgba(10, 11, 15, 0.94);
-      padding: 2px 7px;
+      padding: 3px 9px;
       border-radius: 4px;
       border: 1px solid var(--accent-glow);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+      white-space: nowrap;
     }
-    .beam-1 { top: 22%; justify-content: flex-end; padding-right: 1.5rem; }
-    .beam-2 { top: 52%; justify-content: flex-start; padding-left: 1.5rem; }
-    .beam-3 { top: 82%; justify-content: center; }
 
-    /* Vignette gradient at top & bottom */
+    .track-gate-start .gate-tag-badge {
+      font-size: 0.72rem;
+      padding: 4px 12px;
+      border-color: var(--accent-color);
+      color: #FFFFFF;
+      background: rgba(10, 11, 15, 0.96);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .track-gate-finish .gate-tag-badge {
+      font-size: 0.72rem;
+      padding: 4px 12px;
+      border-color: #00E5FF;
+      color: #FFFFFF;
+      background: rgba(10, 11, 15, 0.96);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.7);
+    }
+
+    /* Edge Vignettes */
     .track-surface-vignette {
       position: absolute;
       inset: 0;
@@ -435,7 +495,7 @@
         rgba(10, 10, 10, 0.96) 100%
       );
       pointer-events: none;
-      z-index: 4;
+      z-index: 5;
     }
 
     /* =========================================================================
@@ -687,6 +747,11 @@
       justify-content: center;
       gap: 0.15rem;
       letter-spacing: -0.02em;
+      transition: text-shadow 0.3s ease;
+    }
+
+    .stat-block.is-cleared .stat-number-wrap {
+      text-shadow: 0 0 20px var(--accent-glow-bright);
     }
 
     .stat-suffix {
@@ -765,7 +830,7 @@
         <div id="glowInner" class="glow-inner"></div>
       </div>
 
-      <!-- THE RACING TRACK (Appears while scrolling after the word disappears) -->
+      <!-- THE RACING TRACK (Starts at 0 with START LINE) -->
       <div id="heroTrackContainer" class="hero-track-container" aria-hidden="true">
         <div class="hero-track-surface">
           <!-- Asphalt Grain & Gradient -->
@@ -782,18 +847,36 @@
           <!-- Fast Animated Center Dashed Lines -->
           <div class="track-center-strip"></div>
 
-          <!-- Laser Checkpoint Beams Across Track -->
-          <div class="track-laser-beam beam-1">
-            <span class="beam-glow"></span>
-            <span class="beam-tag">SECTOR 01 // VELOCITY</span>
+          <!-- 0. START LINE (At front of car when race begins at 0) -->
+          <div id="gateStart" class="track-gate track-gate-start">
+            <div class="gate-checkered-strip"></div>
+            <div class="gate-beam-glow"></div>
+            <div class="gate-tag-badge">🏁 START // BEGIN THE RACE</div>
           </div>
-          <div class="track-laser-beam beam-2">
-            <span class="beam-glow"></span>
-            <span class="beam-tag">SECTOR 02 // INERTIA</span>
+
+          <!-- 1. SECTOR 01 -->
+          <div id="gateSector1" class="track-gate track-gate-sector">
+            <div class="gate-beam-glow"></div>
+            <div class="gate-tag-badge">SECTOR 01 // VELOCITY · 58%</div>
           </div>
-          <div class="track-laser-beam beam-3">
-            <span class="beam-glow"></span>
-            <span class="beam-tag">SECTOR 03 // APEX INTEGRITY</span>
+
+          <!-- 2. SECTOR 02 -->
+          <div id="gateSector2" class="track-gate track-gate-sector">
+            <div class="gate-beam-glow"></div>
+            <div class="gate-tag-badge">SECTOR 02 // INERTIA · 23%</div>
+          </div>
+
+          <!-- 3. SECTOR 03 -->
+          <div id="gateSector3" class="track-gate track-gate-sector">
+            <div class="gate-beam-glow"></div>
+            <div class="gate-tag-badge">SECTOR 03 // APEX INTEGRITY · 27% & 40%</div>
+          </div>
+
+          <!-- 4. FINISH LINE -->
+          <div id="gateFinish" class="track-gate track-gate-finish">
+            <div class="gate-checkered-strip"></div>
+            <div class="gate-beam-glow"></div>
+            <div class="gate-tag-badge">🏆 FINISH // APEX CLEARED</div>
           </div>
 
           <!-- Edge Vignettes -->
@@ -891,7 +974,7 @@
       <div id="statsOuter" class="stats-outer">
         <div id="statsInner">
           <ul class="stats-row row g-0 list-unstyled mb-0" role="list" aria-label="Impact Metrics">
-            <li class="col-6 col-lg-3 stat-block p-3 p-md-4 text-center">
+            <li id="statBlock0" class="col-6 col-lg-3 stat-block p-3 p-md-4 text-center">
               <span class="stat-divider d-none d-lg-block" aria-hidden="true"></span>
               <div class="stat-number-wrap" aria-label="58 percent increase in user interaction">
                 <span id="stat-num-0" class="stat-num tabular-nums">0</span>
@@ -900,7 +983,7 @@
               <p class="stat-label">Increase in user interaction</p>
             </li>
 
-            <li class="col-6 col-lg-3 stat-block p-3 p-md-4 text-center">
+            <li id="statBlock1" class="col-6 col-lg-3 stat-block p-3 p-md-4 text-center">
               <span class="stat-divider d-none d-lg-block" aria-hidden="true"></span>
               <div class="stat-number-wrap" aria-label="23 percent increase in revenue">
                 <span id="stat-num-1" class="stat-num tabular-nums">0</span>
@@ -909,7 +992,7 @@
               <p class="stat-label">Increase in revenue</p>
             </li>
 
-            <li class="col-6 col-lg-3 stat-block p-3 p-md-4 text-center">
+            <li id="statBlock2" class="col-6 col-lg-3 stat-block p-3 p-md-4 text-center">
               <span class="stat-divider d-none d-lg-block" aria-hidden="true"></span>
               <div class="stat-number-wrap" aria-label="27 percent boost in engagement">
                 <span id="stat-num-2" class="stat-num tabular-nums">0</span>
@@ -918,7 +1001,7 @@
               <p class="stat-label">Boost in engagement</p>
             </li>
 
-            <li class="col-6 col-lg-3 stat-block p-3 p-md-4 text-center">
+            <li id="statBlock3" class="col-6 col-lg-3 stat-block p-3 p-md-4 text-center">
               <div class="stat-number-wrap" aria-label="40 percent decrease in bounce rate">
                 <span id="stat-num-3" class="stat-num tabular-nums">0</span>
                 <span class="stat-suffix">%</span>
@@ -931,7 +1014,7 @@
 
       <!-- Bottom Scroll Prompt -->
       <div id="scrollHint" class="scroll-hint">
-        <span>SCROLL TO ENGAGE</span> <span>↓</span>
+        <span id="scrollHintText">SCROLL TO ENGAGE</span> <span>↓</span>
       </div>
 
     </section>
@@ -939,7 +1022,7 @@
   </div>
 
   <!-- =========================================================================
-       JAVASCRIPT ORCHESTRATION ENGINE (Scroll-Driven Pinned Animation)
+       JAVASCRIPT ORCHESTRATION ENGINE (Scroll-Driven Race Starting at 0)
        ========================================================================= -->
   <script>
     (function () {
@@ -965,11 +1048,24 @@
       const carUnderglow = document.getElementById('carUnderglow');
       const carSpeedTrails = document.getElementById('carSpeedTrails');
       const scrollHint = document.getElementById('scrollHint');
+      const scrollHintText = document.getElementById('scrollHintText');
       const telemetryStatusText = document.getElementById('telemetryStatusText');
       const glowInner = document.getElementById('glowInner');
       const glowOuter = document.getElementById('glowOuter');
       const chars = document.querySelectorAll('.char');
       const statBlocks = document.querySelectorAll('.stat-block');
+
+      // Checkpoint Gates
+      const gateStart = document.getElementById('gateStart');
+      const gateSector1 = document.getElementById('gateSector1');
+      const gateSector2 = document.getElementById('gateSector2');
+      const gateSector3 = document.getElementById('gateSector3');
+      const gateFinish = document.getElementById('gateFinish');
+
+      const statBlock0 = document.getElementById('statBlock0');
+      const statBlock1 = document.getElementById('statBlock1');
+      const statBlock2 = document.getElementById('statBlock2');
+      const statBlock3 = document.getElementById('statBlock3');
 
       const STATS = [58, 23, 27, 40];
       const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
@@ -1023,7 +1119,7 @@
         if (scrollTl) scrollTl.kill();
         ScrollTrigger.getAll().forEach(t => t.kill());
 
-        // Set initial state (matching Screenshot 1)
+        // Reset elements to initial State
         gsap.set(stage, { opacity: 0 });
         gsap.set(heroTrackContainer, { opacity: 0 });
         gsap.set(headlineInner, { opacity: 1, y: 0, filter: 'blur(0px)' });
@@ -1036,6 +1132,16 @@
         gsap.set(objectInner, { x: initialX, y: '3vh', scale: 0.92, rotate: -3 });
         gsap.set([carHeadlights, carUnderglow, carSpeedTrails], { opacity: 0 });
         gsap.set(scrollHint, { opacity: 1 });
+        if (scrollHintText) scrollHintText.textContent = 'SCROLL TO ENGAGE';
+
+        // Reset gate positions
+        gsap.set(gateStart, { y: 0 });
+        gsap.set(gateSector1, { y: 0 });
+        gsap.set(gateSector2, { y: 0 });
+        gsap.set(gateSector3, { y: 0 });
+        gsap.set(gateFinish, { y: 0 });
+
+        statBlocks.forEach(b => b.classList.remove('is-cleared'));
 
         if (telemetryStatusText) telemetryStatusText.textContent = 'READY // SCROLL DOWN';
 
@@ -1045,7 +1151,7 @@
         });
 
         // -------------------------------------------------------------
-        // 1. ENTRANCE TIMELINE (Letter stagger & Stat counts on load)
+        // 1. ENTRANCE TIMELINE (Letters stagger & Stats count up)
         // -------------------------------------------------------------
         introTl = gsap.timeline({
           onComplete: () => {
@@ -1100,7 +1206,7 @@
         });
 
         // -------------------------------------------------------------
-        // 2. SCROLL-DRIVEN TIMELINE (PAGE PINNED IN SAME PLACE)
+        // 2. SCROLL-DRIVEN RACE (PINNED VIEWPORT, STARTS AT 0 / START LINE)
         // -------------------------------------------------------------
         scrollTl = gsap.timeline({
           scrollTrigger: {
@@ -1113,78 +1219,141 @@
             onUpdate: (self) => {
               const p = self.progress;
               if (telemetryStatusText) {
-                if (p < 0.2) {
+                if (p < 0.18) {
                   telemetryStatusText.textContent = 'READY // SCROLL DOWN';
-                } else if (p < 0.6) {
-                  telemetryStatusText.textContent = 'TRANSITION // TRACK ENGAGING';
+                } else if (p < 0.38) {
+                  telemetryStatusText.textContent = '🏁 START // BEGIN THE RACE';
+                } else if (p < 0.58) {
+                  telemetryStatusText.textContent = 'SECTOR 01 // VELOCITY · 58%';
+                } else if (p < 0.78) {
+                  telemetryStatusText.textContent = 'SECTOR 02 // INERTIA · 23%';
+                } else if (p < 0.94) {
+                  telemetryStatusText.textContent = 'SECTOR 03 // APEX INTEGRITY';
                 } else {
-                  telemetryStatusText.textContent = 'TRACK ACTIVE // VELOCITY ENGAGED';
+                  telemetryStatusText.textContent = '🏆 RACE COMPLETE // APEX CLEARED';
                 }
               }
+
+              // Highlight stat blocks as sectors pass
+              if (statBlock0) statBlock0.classList.toggle('is-cleared', p >= 0.50);
+              if (statBlock1) statBlock1.classList.toggle('is-cleared', p >= 0.70);
+              if (statBlock2) statBlock2.classList.toggle('is-cleared', p >= 0.88);
+              if (statBlock3) statBlock3.classList.toggle('is-cleared', p >= 0.88);
             }
           }
         });
 
-        // 0.00 -> 0.08: Small top buffer
+        // 0.00 -> 0.08: Top hold buffer
         scrollTl.to({}, { duration: 0.08 });
 
-        // 0.08 -> 0.40: The word "WELCOME ITZFIZZ" disappears!
+        // 0.08 -> 0.32: The words "WELCOME ITZFIZZ" disappear
         scrollTl.to(headlineInner, {
           opacity: 0,
           y: -48,
           filter: 'blur(10px)',
-          duration: 0.32,
+          duration: 0.24,
           ease: 'power2.inOut'
         }, 0.08);
 
         scrollTl.to(accentLine, {
           scaleX: 0,
-          duration: 0.25,
+          duration: 0.18,
           ease: 'power2.in'
         }, 0.08);
 
         scrollTl.to(scrollHint, {
           opacity: 0,
-          duration: 0.18
+          duration: 0.16
         }, 0.08);
 
-        // 0.18 -> 0.75: THE TRACK BECOMES VISIBLE & CAR CENTERS!
-        // Track powers on
+        // 0.18 -> 0.38: THE TRACK EMERGES AT 0 (START LINE // BEGIN THE RACE)
         scrollTl.to(heroTrackContainer, {
           opacity: 1,
-          duration: 0.48,
+          duration: 0.20,
           ease: 'power2.out'
         }, 0.18);
 
-        // Car glides from the left to center of the track
+        // Car glides smoothly from left to center stage DIRECTLY AT THE START LINE!
         scrollTl.fromTo(objectInner,
           { x: initialX, y: '3vh', rotate: -3, scale: 0.92 },
-          { x: 0, y: 0, rotate: 0, scale: 1.15, duration: 0.55, ease: 'power2.out' },
+          { x: 0, y: 0, rotate: 0, scale: 1.15, duration: 0.22, ease: 'power2.out' },
           0.18
         );
 
-        // Volumetric headlights flare onto track
+        // Headlights flare and illuminate the Start Line
         scrollTl.to(carHeadlights, {
           opacity: 1,
-          duration: 0.45,
+          duration: 0.20,
           ease: 'power2.out'
-        }, 0.28);
+        }, 0.22);
 
         // Chassis underglow shines
         scrollTl.to(carUnderglow, {
           opacity: 1,
-          duration: 0.45,
+          duration: 0.20,
           ease: 'power2.out'
-        }, 0.28);
+        }, 0.22);
 
         // Speed trails activate
         scrollTl.to(carSpeedTrails, {
           opacity: 0.8,
-          duration: 0.40
-        }, 0.32);
+          duration: 0.20
+        }, 0.24);
 
-        // 0.75 -> 1.00: Full track cruising hold (page stays right in place!)
-        scrollTl.to({}, { duration: 0.25 });
+        // -------------------------------------------------------------
+        // 3. THE RACE PROGRESSION (PASSING SECTORS FROM 0 TO FINISH)
+        // -------------------------------------------------------------
+        // 0.38 -> 0.58: Car launches across START LINE -> SECTOR 01 descends & clears
+        scrollTl.to(gateStart, {
+          y: '65vh',
+          duration: 0.20,
+          ease: 'power1.inOut'
+        }, 0.38);
+
+        scrollTl.to(gateSector1, {
+          y: '85vh',
+          duration: 0.20,
+          ease: 'power1.inOut'
+        }, 0.38);
+
+        // 0.58 -> 0.78: SECTOR 01 leaves -> SECTOR 02 descends & clears
+        scrollTl.to(gateSector1, {
+          y: '150vh',
+          duration: 0.20,
+          ease: 'power1.inOut'
+        }, 0.58);
+
+        scrollTl.to(gateSector2, {
+          y: '150vh',
+          duration: 0.20,
+          ease: 'power1.inOut'
+        }, 0.58);
+
+        // 0.78 -> 0.94: SECTOR 02 leaves -> SECTOR 03 descends & clears
+        scrollTl.to(gateSector2, {
+          y: '215vh',
+          duration: 0.16,
+          ease: 'power1.inOut'
+        }, 0.78);
+
+        scrollTl.to(gateSector3, {
+          y: '215vh',
+          duration: 0.16,
+          ease: 'power1.inOut'
+        }, 0.78);
+
+        // 0.94 -> 1.00: SECTOR 03 leaves -> FINISH LINE descends & clears
+        scrollTl.to(gateSector3, {
+          y: '270vh',
+          duration: 0.06,
+          ease: 'power1.inOut'
+        }, 0.94);
+
+        scrollTl.to(gateFinish, {
+          y: '278vh',
+          duration: 0.06,
+          ease: 'power1.inOut'
+        }, 0.94);
       }
 
       // Font ready check before starting
@@ -1205,7 +1374,7 @@
         start();
       }
 
-      // Replay button: Smoothly scrolls to top and replays entrance
+      // Replay button: Resets scroll and replays
       const replayBtn = document.getElementById('replayBtn');
       if (replayBtn) {
         replayBtn.addEventListener('click', () => {
