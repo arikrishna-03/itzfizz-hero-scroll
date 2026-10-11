@@ -396,7 +396,8 @@
       align-items: center;
       pointer-events: none;
       z-index: 6;
-      will-change: transform;
+      will-change: transform, opacity, filter;
+      opacity: 0;
     }
 
     /* 0. START LINE (At front of car when race begins at 0) */
@@ -404,16 +405,18 @@
       top: 33%;
       height: 12px;
       justify-content: center;
+      opacity: 1;
     }
 
-    /* Checkpoints (Positioned above viewport initially, scroll down past car) */
+    /* Checkpoints (Positioned just above track, enter & dissolve smoothly when passed) */
     .track-gate-sector {
+      top: -20vh;
       height: 3px;
     }
-    #gateSector1 { top: -45vh; justify-content: flex-end; padding-right: 1.5rem; }
-    #gateSector2 { top: -115vh; justify-content: flex-start; padding-left: 1.5rem; }
-    #gateSector3 { top: -185vh; justify-content: center; }
-    #gateFinish  { top: -250vh; justify-content: center; height: 12px; }
+    #gateSector1 { justify-content: flex-end; padding-right: 1.5rem; }
+    #gateSector2 { justify-content: flex-start; padding-left: 1.5rem; }
+    #gateSector3 { justify-content: center; }
+    #gateFinish  { top: -20vh; justify-content: center; height: 12px; }
 
     .gate-beam-glow {
       position: absolute;
@@ -1134,12 +1137,9 @@
         gsap.set(scrollHint, { opacity: 1 });
         if (scrollHintText) scrollHintText.textContent = 'SCROLL TO ENGAGE';
 
-        // Reset gate positions
-        gsap.set(gateStart, { y: 0 });
-        gsap.set(gateSector1, { y: 0 });
-        gsap.set(gateSector2, { y: 0 });
-        gsap.set(gateSector3, { y: 0 });
-        gsap.set(gateFinish, { y: 0 });
+        // Reset gate positions & opacities
+        gsap.set(gateStart, { y: 0, opacity: 1, filter: 'blur(0px)' });
+        gsap.set([gateSector1, gateSector2, gateSector3, gateFinish], { y: 0, opacity: 0, filter: 'blur(0px)' });
 
         statBlocks.forEach(b => b.classList.remove('is-cleared'));
 
@@ -1301,59 +1301,106 @@
         }, 0.24);
 
         // -------------------------------------------------------------
-        // 3. THE RACE PROGRESSION (PASSING SECTORS FROM 0 TO FINISH)
+        // 3. THE RACE PROGRESSION (LINES DISSOLVE SMOOTHLY ONCE CROSSED)
         // -------------------------------------------------------------
-        // 0.38 -> 0.58: Car launches across START LINE -> SECTOR 01 descends & clears
+        // 0.36 -> 0.50: Car launches across START LINE -> Start Line dissolves smoothly!
         scrollTl.to(gateStart, {
-          y: '65vh',
-          duration: 0.20,
+          y: '26vh',
+          duration: 0.14,
           ease: 'power1.inOut'
-        }, 0.38);
+        }, 0.36);
 
+        // When the car crosses the Start Line (0.41 -> 0.49), it dissolves smoothly:
+        scrollTl.to(gateStart, {
+          opacity: 0,
+          filter: 'blur(8px)',
+          duration: 0.08,
+          ease: 'power2.out'
+        }, 0.41);
+
+        // 0.45 -> 0.68: SECTOR 01 enters from top -> Car crosses it -> Dissolves smoothly!
         scrollTl.to(gateSector1, {
-          y: '85vh',
-          duration: 0.20,
-          ease: 'power1.inOut'
-        }, 0.38);
-
-        // 0.58 -> 0.78: SECTOR 01 leaves -> SECTOR 02 descends & clears
-        scrollTl.to(gateSector1, {
-          y: '150vh',
-          duration: 0.20,
-          ease: 'power1.inOut'
-        }, 0.58);
-
-        scrollTl.to(gateSector2, {
-          y: '150vh',
-          duration: 0.20,
-          ease: 'power1.inOut'
-        }, 0.58);
-
-        // 0.78 -> 0.94: SECTOR 02 leaves -> SECTOR 03 descends & clears
-        scrollTl.to(gateSector2, {
-          y: '215vh',
-          duration: 0.16,
-          ease: 'power1.inOut'
-        }, 0.78);
-
-        scrollTl.to(gateSector3, {
-          y: '215vh',
-          duration: 0.16,
-          ease: 'power1.inOut'
-        }, 0.78);
-
-        // 0.94 -> 1.00: SECTOR 03 leaves -> FINISH LINE descends & clears
-        scrollTl.to(gateSector3, {
-          y: '270vh',
+          opacity: 1,
           duration: 0.06,
+          ease: 'power1.out'
+        }, 0.45);
+
+        scrollTl.to(gateSector1, {
+          y: '78vh',
+          duration: 0.23,
           ease: 'power1.inOut'
-        }, 0.94);
+        }, 0.45);
+
+        // When the car crosses Sector 01 (0.58 -> 0.66), it dissolves smoothly:
+        scrollTl.to(gateSector1, {
+          opacity: 0,
+          filter: 'blur(8px)',
+          duration: 0.08,
+          ease: 'power2.out'
+        }, 0.58);
+
+        // 0.63 -> 0.84: SECTOR 02 enters from top -> Car crosses it -> Dissolves smoothly!
+        scrollTl.to(gateSector2, {
+          opacity: 1,
+          duration: 0.06,
+          ease: 'power1.out'
+        }, 0.63);
+
+        scrollTl.to(gateSector2, {
+          y: '78vh',
+          duration: 0.20,
+          ease: 'power1.inOut'
+        }, 0.63);
+
+        // When the car crosses Sector 02 (0.74 -> 0.82), it dissolves smoothly:
+        scrollTl.to(gateSector2, {
+          opacity: 0,
+          filter: 'blur(8px)',
+          duration: 0.08,
+          ease: 'power2.out'
+        }, 0.74);
+
+        // 0.78 -> 0.95: SECTOR 03 enters from top -> Car crosses it -> Dissolves smoothly!
+        scrollTl.to(gateSector3, {
+          opacity: 1,
+          duration: 0.05,
+          ease: 'power1.out'
+        }, 0.78);
+
+        scrollTl.to(gateSector3, {
+          y: '78vh',
+          duration: 0.16,
+          ease: 'power1.inOut'
+        }, 0.78);
+
+        // When the car crosses Sector 03 (0.87 -> 0.93), it dissolves smoothly:
+        scrollTl.to(gateSector3, {
+          opacity: 0,
+          filter: 'blur(8px)',
+          duration: 0.06,
+          ease: 'power2.out'
+        }, 0.87);
+
+        // 0.90 -> 1.00: FINISH LINE enters from top -> Car crosses it -> Dissolves smoothly!
+        scrollTl.to(gateFinish, {
+          opacity: 1,
+          duration: 0.04,
+          ease: 'power1.out'
+        }, 0.90);
 
         scrollTl.to(gateFinish, {
-          y: '278vh',
-          duration: 0.06,
+          y: '78vh',
+          duration: 0.10,
           ease: 'power1.inOut'
-        }, 0.94);
+        }, 0.90);
+
+        // When the car crosses the Finish Line (0.96 -> 1.00), it dissolves smoothly:
+        scrollTl.to(gateFinish, {
+          opacity: 0,
+          filter: 'blur(8px)',
+          duration: 0.04,
+          ease: 'power2.out'
+        }, 0.96);
       }
 
       // Font ready check before starting
