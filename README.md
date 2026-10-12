@@ -16,27 +16,6 @@ This project includes three production-ready implementations matching the identi
 
 ---
 
-## 2. Quick Start & Running Locally
-
-### Running the Next.js Production App
-```bash
-# Install dependencies (including GSAP and @gsap/react)
-npm install
-
-# Start Next.js development server
-npx next dev -p 3000
-
-# Run static production build & export
-npx next build
-```
-
-### Running the Plain HTML / Static Variant
-```bash
-# Run lightweight Node HTTP static server
-node server.js
-# Access at: http://localhost:3000
-```
-
 ---
 
 ## 3. Architecture & Choreography Specification
