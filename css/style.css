@@ -670,20 +670,6 @@
       will-change: transform, opacity, filter;
     }
 
-    .kicker {
-      font-family: var(--font-mono);
-      font-size: clamp(0.62rem, 0.85vw, 0.74rem);
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: var(--text-subtle);
-      margin-bottom: 0.3rem;
-    }
-
-    .kicker span {
-      color: var(--accent-color);
-      font-weight: 600;
-    }
-
     .hero-headline {
       font-family: var(--font-heading);
       font-weight: 800;
@@ -1112,8 +1098,5 @@
       }
       .stat-label {
         font-size: 0.7rem;
-      }
-      .kicker {
-        letter-spacing: 0.16em;
       }
     }
