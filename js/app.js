@@ -83,19 +83,9 @@
         }, { passive: true });
       }
 
-      // Sector Storefront Illumination Sync Engine
+      // Sector Experience Sync (Hotspots removed)
       function syncSectorExperience(progress) {
-        if (!streetHotspots || streetHotspots.length === 0) return;
-
-        if (progress < 0.46) {
-          highlightSectorHotspots(0);
-        } else if (progress < 0.68) {
-          highlightSectorHotspots(1);
-        } else if (progress < 0.84) {
-          highlightSectorHotspots(2);
-        } else {
-          highlightSectorHotspots(3);
-        }
+        // No-op: Storefront hotspots removed as requested
       }
 
       // Reduced motion profile
@@ -138,7 +128,7 @@
         gsap.set(cityHorizonBackdrop, { y: 0 });
         gsap.set(headlineInner, { opacity: 1, y: 0 });
         gsap.set(chars, { opacity: 0, yPercent: 100 });
-        gsap.set(headline, { letterSpacing: '0.2em' });
+        gsap.set(headline, { letterSpacing: '0.14em' });
         gsap.set(accentLine, { scaleX: 0, transformOrigin: 'left center' });
         gsap.set(statBlocks, { opacity: 0, y: 28 });
         gsap.set('.stat-divider', { scaleY: 0, transformOrigin: 'top center' });
@@ -189,7 +179,7 @@
             ease: 'expo.out'
           }, 0.25)
           .to(headline, {
-            letterSpacing: '0.5em',
+            letterSpacing: '0.22em',
             duration: 1.1,
             ease: 'expo.out'
           }, 0.25)
