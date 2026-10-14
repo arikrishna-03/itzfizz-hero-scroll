@@ -24,6 +24,10 @@ const server = http.createServer((req, res) => {
   if (reqPath === '/' || reqPath === '') {
     reqPath = '/index.html';
   }
+  // Normalize nested /css/assets/ or /js/assets/ requests directly to /assets/
+  if (reqPath.includes('/assets/')) {
+    reqPath = '/assets/' + reqPath.split('/assets/')[1];
+  }
 
   const safePath = path.normalize(reqPath).replace(/^(\.\.[\/\\])+/, '');
   const filePath = path.join(__dirname, safePath);
