@@ -32,7 +32,6 @@
       const statBlocks = document.querySelectorAll('.stat-block');
       const statsOuter = document.getElementById('statsOuter');
       const street3DWorld = document.getElementById('street3DWorld');
-      const streetHotspots = document.querySelectorAll('.street-hotspot');
       const carRearRoadReflection = document.getElementById('carRearRoadReflection');
       const cityHorizonBackdrop = document.getElementById('cityHorizonBackdrop');
 
@@ -51,13 +50,6 @@
       const STATS = [58, 23, 27, 40];
       const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
 
-      function highlightSectorHotspots(sectorNum) {
-        if (!streetHotspots) return;
-        streetHotspots.forEach(hotspot => {
-          const sec = parseInt(hotspot.dataset.sector, 10);
-          hotspot.classList.toggle('is-sector-active', sec === sectorNum);
-        });
-      }
 
       // Ambient Radial Glow Pulse
       gsap.to(glowInner, {
