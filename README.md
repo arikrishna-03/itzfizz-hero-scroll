@@ -2,29 +2,8 @@
 
 A production-grade, scroll-driven interactive hero section built for **ITZFIZZ**. Engineered with sub-millisecond motion choreography, GPU-accelerated compositing pipelines, and WCAG AA accessibility standards.
 
----
 
-## 1. Project Structure
-
-```
-Itzfizz INTERN/
-├── assets/
-│   ├── car-transparent.png               # Top-down McLaren P1 transparent asset
-│   ├── car-rear-orange-transparent.png    # Rear-view chase McLaren P1 asset
-│   └── modern-street-corridor.jpg        # 3D Street corridor perspective background plate
-├── css/
-│   └── style.css                         # Complete design system, animations & responsive styling
-├── js/
-│   └── app.js                            # GSAP 3 scroll animation & interactive orchestration
-├── index.html                            # Semantic HTML5 hero markup & head metadata
-├── server.js                             # Zero-dependency local Node.js HTTP dev server
-├── package.json                          # Project scripts & metadata
-└── README.md                             # Documentation & architecture guide
-```
-
----
-
-## 2. Quick Start & Running Locally
+## . Quick Start & Running Locally
 
 ### Development Server
 ```bash
