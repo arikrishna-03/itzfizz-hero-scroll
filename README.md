@@ -3,7 +3,7 @@
 A production-grade, scroll-driven interactive hero section built for **ITZFIZZ**. Engineered with sub-millisecond motion choreography, GPU-accelerated compositing pipelines, and WCAG AA accessibility standards.
 
 
-## . Quick Start & Running Locally
+## 1. Quick Start & Running Locally
 
 ### Development Server
 ```bash
@@ -18,7 +18,7 @@ Once running, navigate to `http://localhost:3000` in any modern web browser.
 
 ---
 
-## 3. Technology Stack
+## 2. Technology Stack
 
 - **Structure:** Semantic HTML5 with Bootstrap 5.3 Grid utilities
 - **Styling:** Vanilla CSS3 (Custom design tokens, CSS Grid, Flexbox, hardware-accelerated transforms)
@@ -28,7 +28,7 @@ Once running, navigate to `http://localhost:3000` in any modern web browser.
 
 ---
 
-## 4. Key Features & Choreography
+## 3. Key Features & Choreography
 
 - **Start Line Launch (0 to 1):** The car launches seamlessly from behind the Starting Line.
 - **Dynamic 3D Camera Swoop:** Top-down perspective transitions into a 3D street corridor with realistic road reflection and volumetric headlights.
